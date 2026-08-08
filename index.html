@@ -120,21 +120,10 @@
     section[data-screen-label="Philosophy"] { min-height: 100vh !important; min-height: 100svh !important; }
     [data-st="stage"], [data-w="stage"] { height: 100vh !important; height: 100svh !important; }
 
-    /* Hero: on tall narrow screens a full-bleed 16:9 video can only show a
-       ~26%-wide sliver of the scene. Confine it to a top band instead — the
-       visible window roughly doubles, so the whole subject fits, and the
-       band fades into the section background with the headline below it. */
-    section[data-screen-label="Hero"] > div:first-of-type {
-      height: 48vh; height: 48svh; bottom: auto;
-      -webkit-mask-image: linear-gradient(180deg, #000 82%, transparent 100%);
-      mask-image: linear-gradient(180deg, #000 82%, transparent 100%);
-    }
-    section[data-screen-label="Hero"] video { object-position: 84% center !important; }
-    section[data-screen-label="Hero"] > div:nth-child(4) > div:last-of-type {
-      align-items: flex-start !important;
-      padding-top: 0 !important;
-      margin-top: max(12px, calc(48svh - 64px));
-    }
+    /* Hero: phones play a dedicated vertical (9:16-ish) edit of the film,
+       cropped around her — full-bleed presence like desktop, no bands,
+       no stretching. The JS source picker swaps the file by width. */
+    section[data-screen-label="Hero"] video { object-position: 88% center !important; }
 
     /* Glass bar on phones: smaller logo + tighter nav so the centered
        nav truly centers with balanced sides and never collides */
@@ -1097,6 +1086,17 @@ class Component extends DCLogic {
     }
   }
   componentDidUpdate() { this.syncTabsPuck(); }
+  syncHeroVideo() {
+    const el = this.video;
+    if (!el) return;
+    const want = window.innerWidth < 760 ? "assets/hero-loop-mobile.mp4" : "assets/hero-loop.mp4";
+    if (el.getAttribute("src") !== want) {
+      el.setAttribute("src", want);
+      el.muted = true;
+      const p = el.play();
+      if (p && p.catch) p.catch(() => {});
+    }
+  }
   syncPhVideo() {
     const el = this.phVideo;
     if (!el) return;
@@ -1152,7 +1152,7 @@ class Component extends DCLogic {
       this.storyRaf = requestAnimationFrame(() => { this.storyRaf = 0; this.tickStory(); this.tickWords(); });
     };
     window.addEventListener("scroll", this.onScrollStory, { passive: true });
-    this.onResizeStory = () => { this.narrow = window.innerWidth < 760; this.syncPhVideo(); this.syncTabsPuck(); this.onScrollStory(); };
+    this.onResizeStory = () => { this.narrow = window.innerWidth < 760; this.syncHeroVideo(); this.syncPhVideo(); this.syncTabsPuck(); this.onScrollStory(); };
     window.addEventListener("resize", this.onResizeStory);
     setTimeout(() => { this.tickStory(); this.tickWords(); }, 120);
     this.onKeyWords = (e) => {
@@ -1374,7 +1374,7 @@ class Component extends DCLogic {
       contactRef: (el) => this.observeReveal(el),
       footRef: (el) => this.observeReveal(el),
       faqs: faqs,
-      videoRef: (el) => { this.video = el; },
+      videoRef: (el) => { this.video = el; if (el) this.syncHeroVideo(); },
       phRef: (el) => { this.observeReveal(el); },
       phVideoRef: (el) => {
         if (!el) return;
