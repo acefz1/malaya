@@ -1293,6 +1293,9 @@ class Component extends DCLogic {
       phRef: (el) => { this.observeReveal(el); },
       phVideoRef: (el) => {
         if (!el) return;
+        if (window.innerWidth >= 760 && el.getAttribute("src") !== "assets/philosophy-loop-wide.mp4") {
+          el.setAttribute("src", "assets/philosophy-loop-wide.mp4");
+        }
         el.muted = true;
         const p = el.play();
         if (p && p.catch) p.catch(() => {});
