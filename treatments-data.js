@@ -35,7 +35,7 @@ window.MALAYA_TREATMENTS = [
   ]
 },
 {
-  id: "treatment", label: "TREATMENT",
+  id: "treatment", label: "MICRONEEDLING",
   groups: [
     { items: [
       { n: "Microneedling", p: "Starting $80",
