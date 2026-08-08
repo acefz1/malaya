@@ -35,20 +35,6 @@ window.MALAYA_TREATMENTS = [
   ]
 },
 {
-  id: "treatment", label: "MICRONEEDLING",
-  groups: [
-    { items: [
-      { n: "Microneedling", p: "Starting $80",
-        opts: [["FACE", "Starting $80"], ["BODY", "Dependent on body-part size and issue targeted"]],
-        d: "Microneedling is a minimally invasive treatment that uses fine needles to create controlled micro-channels in the skin, stimulating collagen and elastin production for smoother, firmer and more radiant skin. The serum cocktail used during the treatment is customized based on the client\u2019s skin type and concerns, whether hydration, brightening, anti-aging or acne support is needed. A personalized serum blend can also be added to a Smart Peel to create a combination treatment targeting multiple skin concerns." },
-      { n: "Microneedling + Smart Peel", p: "Starting $150",
-        opts: [["FACE", "Starting $150"], ["BODY", "Dependent on body-part size and issue targeted"]] },
-      { n: "Microneedling + Hydrafacial", p: "Starting $150",
-        opts: [["FACE", "Starting $150"], ["BODY", "Dependent on body-part size and issue targeted"]] }
-    ]}
-  ]
-},
-{
   id: "glow", label: "THE GLOW MENU",
   groups: [
     { items: [
@@ -71,6 +57,20 @@ window.MALAYA_TREATMENTS = [
         opts: [["FACE", "$100"], ["BODY", "Starting $100"]],
         d: "A smart peel made for all skin types, accelerating skin turnover, whitening the skin and reducing pigmentation and acne scarring.",
         note: "Ideal for all skin types. Body pricing dependent on body-part size and issue targeted." }
+    ]}
+  ]
+},
+{
+  id: "treatment", label: "MICRONEEDLING",
+  groups: [
+    { items: [
+      { n: "Microneedling", p: "Starting $80",
+        opts: [["FACE", "Starting $80"], ["BODY", "Dependent on body-part size and issue targeted"]],
+        d: "Microneedling is a minimally invasive treatment that uses fine needles to create controlled micro-channels in the skin, stimulating collagen and elastin production for smoother, firmer and more radiant skin. The serum cocktail used during the treatment is customized based on the client\u2019s skin type and concerns, whether hydration, brightening, anti-aging or acne support is needed. A personalized serum blend can also be added to a Smart Peel to create a combination treatment targeting multiple skin concerns." },
+      { n: "Microneedling + Smart Peel", p: "Starting $150",
+        opts: [["FACE", "Starting $150"], ["BODY", "Dependent on body-part size and issue targeted"]] },
+      { n: "Microneedling + Hydrafacial", p: "Starting $150",
+        opts: [["FACE", "Starting $150"], ["BODY", "Dependent on body-part size and issue targeted"]] }
     ]}
   ]
 },
