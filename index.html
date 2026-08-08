@@ -44,6 +44,9 @@
     html { scroll-behavior: auto; }
   }
 
+  /* BOOK pill press feedback (tap squish; wins over inline hover styles) */
+  #treatments [role="button"][aria-controls^="det-"] > a:active { transform: scale(0.94) !important; }
+
   /* ============================================================
      Mobile layout optimization — same content, same animations.
      Every rule below is gated to small screens; desktop untouched.
@@ -271,9 +274,10 @@
     </h2>
     <p data-rv="3" style="margin: 22px 0 0; max-width: 560px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.6; color: rgba(42,38,32,0.75); text-wrap: pretty; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">Explore Malaya’s complete collection of advanced skincare, beauty and wellness services.</p>
 
-    <div data-rv="4" role="tablist" aria-label="Treatment categories" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(36px, 5vh, 56px); opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+    <div data-rv="4" role="tablist" aria-label="Treatment categories" ref="{{ tabsRef }}" style="position: relative; display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(36px, 5vh, 56px); opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+      <div data-tabs-puck aria-hidden="true" style="position: absolute; left: 0; top: 0; border-radius: 999px; background: #2F4938; z-index: 0; opacity: 0; will-change: transform;"></div>
       <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
-        <button type="button" role="tab" id="tab-{{ t.id }}" aria-selected="{{ t.sel }}" aria-controls="panel-treatments" onClick="{{ t.pick }}" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 12px 22px; border-radius: 999px; border: 1px solid {{ t.bc }}; background: {{ t.bg }}; color: {{ t.fg }}; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; cursor: pointer; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), border-color 300ms cubic-bezier(0.22,1,0.36,1), transform 300ms cubic-bezier(0.22,1,0.36,1);" style-hover="transform: translateY(-1px); background: {{ t.hbg }};" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">
+        <button type="button" role="tab" id="tab-{{ t.id }}" aria-selected="{{ t.sel }}" aria-controls="panel-treatments" onClick="{{ t.pick }}" style="position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 12px 22px; border-radius: 999px; border: 1px solid {{ t.bc }}; background: {{ t.bg }}; color: {{ t.fg }}; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; cursor: pointer; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), border-color 300ms cubic-bezier(0.22,1,0.36,1), transform 300ms cubic-bezier(0.22,1,0.36,1);" style-hover="transform: translateY(-1px); background: {{ t.hbg }};" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">
           <span style="width: 6px; height: 6px; border-radius: 50%; background: {{ t.dot }}; transition: background 300ms ease;"></span>
           {{ t.label }}
         </button>
@@ -323,7 +327,7 @@
                       <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(42,38,32,0.55); white-space: nowrap;">{{ r.duration }}</span>
                       <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #2A2620; white-space: nowrap; text-align: right;">{{ r.price }}</span>
                       <span aria-hidden="true" style="font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1; color: rgba(42,38,32,0.55); transform: {{ r.plusRot }}; transition: transform 340ms cubic-bezier(0.22,1,0.36,1); text-align: center;">+</span>
-                      <a href="{{ r.waHref }}" target="_blank" rel="noopener" onClick="{{ r.book }}" aria-label="{{ r.ariaLabel }}" style="display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(47,73,56,0.45); color: #2F4938; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #2F4938; color: #F5F3EC;" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">BOOK</a>
+                      <a href="{{ r.waHref }}" target="_blank" rel="noopener" onClick="{{ r.book }}" aria-label="{{ r.ariaLabel }}" style="display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(47,73,56,0.45); color: #2F4938; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #2F4938; color: #F5F3EC; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47,73,56,0.25);" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">BOOK</a>
                     </div>
                     <div id="det-{{ r.id }}" style="display: grid; grid-template-rows: {{ r.det }}; opacity: {{ r.detOp }}; transition: grid-template-rows 420ms cubic-bezier(0.22,1,0.36,1), opacity 420ms cubic-bezier(0.22,1,0.36,1);">
                       <div style="overflow: hidden;">
@@ -1038,6 +1042,27 @@ class Component extends DCLogic {
     const total = Math.max(1, el.offsetHeight - window.innerHeight);
     window.scrollTo({ top: top + (0.1 + idx * 0.225 + 0.13) * total, behavior: this.reduced ? "auto" : "smooth" });
   };
+  tabsRef = (el) => { if (el) { this.tabsEl = el; this.syncTabsPuck(); } };
+  syncTabsPuck() {
+    const root = this.tabsEl;
+    if (!root || !root.isConnected) return;
+    const puck = root.querySelector("[data-tabs-puck]");
+    const act = root.querySelector('[role="tab"][aria-selected="true"]');
+    if (!puck || !act) return;
+    const TR = "transform 420ms cubic-bezier(0.22,1,0.36,1), width 420ms cubic-bezier(0.22,1,0.36,1), height 420ms cubic-bezier(0.22,1,0.36,1), opacity 300ms ease";
+    const first = !puck.dataset.on;
+    puck.style.transition = first ? "none" : TR;
+    puck.style.width = act.offsetWidth + "px";
+    puck.style.height = act.offsetHeight + "px";
+    puck.style.transform = "translate(" + act.offsetLeft + "px," + act.offsetTop + "px)";
+    puck.style.opacity = "1";
+    if (first) {
+      puck.dataset.on = "1";
+      void puck.offsetWidth;
+      puck.style.transition = TR;
+    }
+  }
+  componentDidUpdate() { this.syncTabsPuck(); }
   syncPhVideo() {
     const el = this.phVideo;
     if (!el) return;
@@ -1081,7 +1106,7 @@ class Component extends DCLogic {
       this.storyRaf = requestAnimationFrame(() => { this.storyRaf = 0; this.tickStory(); this.tickWords(); });
     };
     window.addEventListener("scroll", this.onScrollStory, { passive: true });
-    this.onResizeStory = () => { this.narrow = window.innerWidth < 760; this.syncPhVideo(); this.onScrollStory(); };
+    this.onResizeStory = () => { this.narrow = window.innerWidth < 760; this.syncPhVideo(); this.syncTabsPuck(); this.onScrollStory(); };
     window.addEventListener("resize", this.onResizeStory);
     setTimeout(() => { this.tickStory(); this.tickWords(); }, 120);
     this.onKeyWords = (e) => {
@@ -1094,7 +1119,7 @@ class Component extends DCLogic {
       this.goToWords((this.wordsIdx || 0) + (e.key === "ArrowRight" ? 1 : -1));
     };
     window.addEventListener("keydown", this.onKeyWords);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.wFitKey = null; this.tickWords(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.wFitKey = null; this.tickWords(); this.syncTabsPuck(); });
     if (!window.MALAYA_TREATMENTS) {
       this.dataPoll = setInterval(() => {
         if (window.MALAYA_TREATMENTS) { clearInterval(this.dataPoll); this.forceUpdate(); }
@@ -1254,11 +1279,11 @@ class Component extends DCLogic {
       const sel = c.id === cat.id;
       return {
         id: c.id, label: c.label, sel: sel,
-        bg: sel ? "#2F4938" : "transparent",
+        bg: "transparent",
         fg: sel ? "#F5F3EC" : "#2A2620",
-        bc: sel ? "#2F4938" : "rgba(42,38,32,0.28)",
+        bc: sel ? "transparent" : "rgba(42,38,32,0.28)",
         dot: sel ? "#98A395" : "rgba(42,38,32,0.3)",
-        hbg: sel ? "#2F4938" : "rgba(42,38,32,0.06)",
+        hbg: sel ? "transparent" : "rgba(42,38,32,0.06)",
         pick: () => this.pickCat(c.id)
       };
     });
@@ -1308,6 +1333,7 @@ class Component extends DCLogic {
       videoPosition: this.props.videoPosition ?? "62% center",
       veilOpacity: this.props.veilOpacity ?? 1,
       trRef: this.trRef,
+      tabsRef: this.tabsRef,
       evRef: (el) => { this.observeReveal(el); },
       storyRef: this.initStory,
       letterRef: (el) => { this.observeReveal(el); },
