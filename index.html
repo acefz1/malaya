@@ -47,6 +47,39 @@
   /* BOOK pill press feedback (tap squish; wins over inline hover styles) */
   #treatments [role="button"][aria-controls^="det-"] > a:active { transform: scale(0.94) !important; }
 
+  /* ===== Mobile-first motion: CTA shine + universal tap feedback ===== */
+  @keyframes malayaCtaShine {
+    0%, 74% { transform: translateX(-180%) skewX(-14deg); }
+    100% { transform: translateX(340%) skewX(-14deg); }
+  }
+  section[data-screen-label="Hero"] a[href*="wa.me"],
+  #contact a[href*="wa.me"] { position: relative; overflow: hidden; }
+  section[data-screen-label="Hero"] a[href*="wa.me"]::after,
+  #contact a[href*="wa.me"]::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 55%;
+    transform: translateX(-180%) skewX(-14deg);
+    animation: malayaCtaShine 5.8s cubic-bezier(0.33,0.6,0.4,1) infinite;
+    pointer-events: none;
+  }
+  section[data-screen-label="Hero"] a[href*="wa.me"]::after {
+    background: linear-gradient(100deg, rgba(245,243,236,0) 0%, rgba(245,243,236,0.13) 45%, rgba(245,243,236,0.26) 52%, rgba(245,243,236,0) 100%);
+  }
+  #contact a[href*="wa.me"]::after {
+    background: linear-gradient(100deg, rgba(184,138,106,0) 0%, rgba(184,138,106,0.14) 45%, rgba(184,138,106,0.3) 52%, rgba(184,138,106,0) 100%);
+    animation-delay: 2.9s;
+  }
+  section[data-screen-label="Hero"] a[href*="wa.me"]:active,
+  #contact a[href*="wa.me"]:active { transform: scale(0.96) !important; }
+
+  /* Everything tappable compresses under the finger */
+  section[data-screen-label="Hero"] nav a { transition: transform 180ms cubic-bezier(0.22,1,0.36,1); }
+  section[data-screen-label="Hero"] nav a:active { transform: scale(0.92); }
+  #treatments [role="tab"]:active { transform: scale(0.95) !important; }
+  #treatments [role="button"][aria-controls^="det-"]:active { transform: scale(0.99) !important; }
+  #faq button[aria-controls^="faq-panel"]:active { transform: scale(0.985) !important; }
+  footer a:active { transform: scale(0.95); display: inline-block; }
+  #contact a:active { transform: scale(0.96) !important; }
+
   /* ============================================================
      Mobile layout optimization — same content, same animations.
      Every rule below is gated to small screens; desktop untouched.
@@ -193,7 +226,7 @@
 
         <p style="margin: 22px 0 0; max-width: 620px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 18px; line-height: 1.62; color: rgba(245,243,236,0.88); text-wrap: pretty;">Malaya brings together premium beauty, wellness, and self-care. From expert hair transformations to advanced skincare and spa experiences, every visit is designed to help you look and feel your best.</p>
 
-        <a href="https://wa.me/96170816041?text=Hello!%20I%20would%20like%20to%20book%20an%20appointment%20at%20Malaya." target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 14px; margin-top: 40px; padding: 21px 40px; border-radius: 999px; background: #2F4938; border: 1px solid rgba(245,243,236,0.22); color: #FFFFFF; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em; transition: background 320ms ease, transform 320ms ease;" style-hover="background: #5D7363; transform: translateY(-2px); color: #FFFFFF;">
+        <a href="https://wa.me/96170816041?text=Hello!%20I%20would%20like%20to%20book%20an%20appointment%20at%20Malaya." target="_blank" rel="noopener" onClick="{{ ctaTap }}" style="display: inline-flex; align-items: center; gap: 14px; margin-top: 40px; padding: 21px 40px; border-radius: 999px; background: #2F4938; border: 1px solid rgba(245,243,236,0.22); color: #FFFFFF; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em; transition: background 320ms ease, transform 320ms ease;" style-hover="background: #5D7363; transform: translateY(-2px); color: #FFFFFF;">
           BOOK YOUR VISIT
         </a>
       </div>
@@ -719,7 +752,7 @@
         </div>
       </div>
       <div data-rv="7" style="margin-top: clamp(40px, 6vh, 64px); opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
-        <a href="https://wa.me/96170816041?text=Hello!%20I%20would%20like%20to%20book%20an%20appointment%20at%20Malaya." target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 14px; padding: 21px 44px; border-radius: 999px; background: #F5F3EC; border: 1px solid rgba(245,243,236,0.3); color: #1A2620; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em; transition: background 250ms cubic-bezier(0.22,1,0.36,1), transform 250ms cubic-bezier(0.22,1,0.36,1), gap 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #FFFFFF; transform: translateY(-2px); gap: 18px; color: #1A2620;">BOOK YOUR EXPERIENCE</a>
+        <a href="https://wa.me/96170816041?text=Hello!%20I%20would%20like%20to%20book%20an%20appointment%20at%20Malaya." target="_blank" rel="noopener" onClick="{{ ctaTap }}" style="display: inline-flex; align-items: center; gap: 14px; padding: 21px 44px; border-radius: 999px; background: #F5F3EC; border: 1px solid rgba(245,243,236,0.3); color: #1A2620; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em; transition: background 250ms cubic-bezier(0.22,1,0.36,1), transform 250ms cubic-bezier(0.22,1,0.36,1), gap 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #FFFFFF; transform: translateY(-2px); gap: 18px; color: #1A2620;">BOOK YOUR EXPERIENCE</a>
       </div>
     </div>
     <div style="position: relative; min-height: clamp(340px, 50vh, 640px);">
@@ -1166,6 +1199,10 @@ class Component extends DCLogic {
     root.querySelectorAll("[data-count]").forEach((el, i) => {
       this.countUp(el, 900 + i * 130);
     });
+    if (root.id === "treatments" && !this.trCascaded) {
+      this.trCascaded = true;
+      this.setState({ anim: this.state.anim + 1 });
+    }
   }
   countUp(el, delay) {
     const source = el.dataset.countText || el.textContent.trim();
@@ -1334,6 +1371,7 @@ class Component extends DCLogic {
       veilOpacity: this.props.veilOpacity ?? 1,
       trRef: this.trRef,
       tabsRef: this.tabsRef,
+      ctaTap: () => { if (navigator.vibrate) navigator.vibrate(8); },
       evRef: (el) => { this.observeReveal(el); },
       storyRef: this.initStory,
       letterRef: (el) => { this.observeReveal(el); },
