@@ -129,7 +129,7 @@
        nav truly centers with balanced sides and never collides */
     [data-glassbar] img { height: 24px !important; }
     [data-glassbar] > div[aria-hidden] { width: 51px !important; }
-    [data-glassbar] nav { gap: 13px !important; }
+    [data-glassbar] nav { gap: 25px !important; }
     [data-glassbar] nav a { font-size: 10px !important; letter-spacing: 0.12em !important; }
 
     /* Hero chapter line stacks vertically, staying clear of her face */
@@ -173,11 +173,10 @@
     #contact div[data-rv="5"] > div:last-child { font-size: 17px !important; }
   }
 
-  /* Very small phones: tighter bar nav, dots hidden */
+  /* Very small phones: tighter bar nav */
   @media (max-width: 374px) {
-    [data-glassbar] nav { gap: 10px !important; }
+    [data-glassbar] nav { gap: 12px !important; }
     [data-glassbar] nav a { font-size: 9.5px !important; }
-    [data-glassbar] nav span[aria-hidden] { display: none; }
   }
 
 </style>
@@ -190,11 +189,9 @@
   <a href="#top" aria-label="Malaya — back to top" style="display: block; flex-shrink: 0;">
     <img src="assets/malaya-mark-light-clear.png" alt="Malaya" style="display: block; height: 34px; width: auto; filter: drop-shadow(0 2px 6px rgba(14,23,18,0.5));">
   </a>
-  <nav style="display: flex; align-items: center; gap: clamp(18px, 2.6vw, 42px);">
+  <nav style="display: flex; align-items: center; gap: clamp(30px, 3.6vw, 58px);">
     <a href="#treatments" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">TREATMENTS</a>
-    <span aria-hidden="true" style="width: 3px; height: 3px; border-radius: 999px; background: rgba(184,138,106,0.85); flex-shrink: 0;"></span>
     <a href="#about" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">ABOUT</a>
-    <span aria-hidden="true" style="width: 3px; height: 3px; border-radius: 999px; background: rgba(184,138,106,0.85); flex-shrink: 0;"></span>
     <a href="#team" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">TEAM</a>
   </nav>
   <div aria-hidden="true" style="width: 72px; flex-shrink: 0;"></div>
