@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#1A2620"/><text x="50" y="66" text-anchor="middle" font-family="Georgia, serif" font-size="44" fill="#B88A6A" font-style="italic">M</text></svg></template>
+
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Jost:wght@300;400;500&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="treatments-data.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  html { -webkit-text-size-adjust: 100%; } html, body { margin: 0; padding: 0; background: #F5F3EC; } body { -webkit-tap-highlight-color: transparent; }
+  * { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #ECE8DD; }
+  @keyframes malayaFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes malayaRowInA { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes malayaRowInB { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes malayaBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+  @keyframes malayaLeak { 0%, 100% { transform: translate3d(-6%, -4%, 0) scale(1); opacity: 0.5; } 50% { transform: translate3d(5%, 4%, 0) scale(1.15); opacity: 0.85; } }
+  @keyframes malayaSweep { 0%, 74% { transform: translateX(-140%) skewX(-14deg); } 100% { transform: translateX(150%) skewX(-14deg); } }
+  @keyframes malayaDust {
+    0% { transform: translate3d(0, 26px, 0); opacity: 0; }
+    18% { opacity: 0.4; }
+    75% { opacity: 0.18; }
+    100% { transform: translate3d(16px, -52px, 0); opacity: 0; }
+  }
+  @keyframes malayaRise {
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes malayaCurtain { to { transform: translateY(-101%); } }
+  @keyframes malayaBlurUp { from { opacity: 0; transform: translateY(26px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+  @keyframes malayaMarquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ============================================================
+     Mobile layout optimization — same content, same animations.
+     Every rule below is gated to small screens; desktop untouched.
+     Only static layout properties are overridden (never opacity/
+     transform/clip-path, which the animation engine drives inline).
+     ============================================================ */
+
+  /* Single-column FAQ (narrow + mid widths): the sticky intro column
+     slides over the accordion once the grid wraps — unstick it. */
+  @media (max-width: 900px) {
+    #faq > div > div:first-child { position: static !important; }
+  }
+
+  @media (max-width: 759px) {
+    body { overflow-x: clip; }
+
+    /* Full-screen scenes: size to the *visible* viewport so mobile
+       browser bars never chop content (svh falls back to vh). */
+    section[data-screen-label="Hero"],
+    section[data-screen-label="Hero"] > div:nth-child(4),
+    section[data-screen-label="Philosophy"] { min-height: 100vh !important; min-height: 100svh !important; }
+    [data-st="stage"], [data-w="stage"] { height: 100vh !important; height: 100svh !important; }
+
+    /* Hero: on tall narrow screens a full-bleed 16:9 video can only show a
+       ~26%-wide sliver of the scene. Confine it to a top band instead — the
+       visible window roughly doubles, so the whole subject fits, and the
+       band fades into the section background with the headline below it. */
+    section[data-screen-label="Hero"] > div:first-of-type {
+      height: 48vh; height: 48svh; bottom: auto;
+      -webkit-mask-image: linear-gradient(180deg, #000 82%, transparent 100%);
+      mask-image: linear-gradient(180deg, #000 82%, transparent 100%);
+    }
+    section[data-screen-label="Hero"] video { object-position: 84% center !important; }
+    section[data-screen-label="Hero"] > div:nth-child(4) > div:last-of-type {
+      align-items: flex-start !important;
+      padding-top: 0 !important;
+      margin-top: max(12px, calc(48svh - 196px));
+    }
+
+    /* Hero: give the top labels and headline breathing room */
+    section[data-screen-label="Hero"] header { padding-top: 58px !important; }
+    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type { gap: 10px !important; }
+    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(1),
+    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(3) { font-size: 10px !important; letter-spacing: 0.16em !important; }
+    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(2) { width: 26px !important; }
+    section[data-screen-label="Hero"] header img { height: 60px !important; }
+    section[data-screen-label="Hero"] h1 { font-size: min(56px, 14.8vw) !important; }
+    section[data-screen-label="Hero"] p { font-size: 16.5px !important; }
+    section[data-screen-label="Hero"] a[href*="wa.me"] { padding: 18px 32px !important; }
+
+    /* Treatments: restack each row so names get the full width —
+       number | name | price | plus | book, duration tucks under name. */
+    #treatments [role="button"][aria-controls^="det-"] {
+      grid-template-columns: 26px minmax(0, 1fr) auto 14px 40px !important;
+      grid-template-rows: auto auto;
+      column-gap: 10px !important;
+      row-gap: 3px !important;
+      padding: 15px 4px !important;
+    }
+    #treatments [role="button"][aria-controls^="det-"] > span:nth-child(1) { grid-area: 1 / 1; }
+    #treatments [role="button"][aria-controls^="det-"] > span:nth-child(2) { grid-area: 1 / 2; }
+    #treatments [role="button"][aria-controls^="det-"] > span:nth-child(3) { grid-area: 2 / 2 / 3 / 5; }
+    #treatments [role="button"][aria-controls^="det-"] > span:nth-child(4) { grid-area: 1 / 3; }
+    #treatments [role="button"][aria-controls^="det-"] > span:nth-child(5) { grid-area: 1 / 4; }
+    #treatments [role="button"][aria-controls^="det-"] > a { grid-area: 1 / 5 / 3 / 6; align-self: center; width: 40px !important; height: 40px !important; }
+    #treatments [id^="det-"] > div > div { padding-left: 36px !important; padding-right: 6px !important; }
+    #treatments [role="tab"] { padding: 10px 16px !important; }
+
+    /* Our story: smaller portrait so image + captions always fit the scene */
+    [data-st="slicerow"] { width: min(30vh, 74vw) !important; width: min(30svh, 74vw) !important; }
+
+    /* FAQ: tighter row grid and answer indent */
+    #faq button[aria-controls^="faq-panel"] { grid-template-columns: 30px 1fr 32px !important; gap: 12px !important; }
+    #faq button[aria-controls^="faq-panel"] > span:nth-child(3) { width: 32px !important; height: 32px !important; }
+    #faq [id^="faq-panel"] p { padding-left: 42px !important; padding-right: 12px !important; }
+
+    /* Contact: keep the booking pill on one line; fit the info values */
+    #contact a[href*="wa.me"] { padding: 18px 26px !important; font-size: 11px !important; letter-spacing: 0.16em !important; white-space: nowrap; }
+    #contact div[data-rv="5"] > div:last-child { font-size: 17px !important; }
+  }
+
+  /* Very small phones */
+  @media (max-width: 374px) {
+    section[data-screen-label="Hero"] nav { gap: 16px !important; }
+    section[data-screen-label="Hero"] nav a { font-size: 11px !important; }
+    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(1),
+    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(3) { font-size: 9px !important; }
+    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(2) { width: 18px !important; }
+  }
+</style>
+</helmet>
+<div aria-hidden="true" style="position: fixed; inset: 0; z-index: 60; background: #1A2620; display: flex; align-items: center; justify-content: center; pointer-events: none; animation: malayaCurtain 900ms 1000ms cubic-bezier(0.76,0,0.24,1) forwards; will-change: transform;">
+  <img src="assets/malaya-mark-light-clear.png" alt="" style="height: 72px; width: auto; animation: malayaFade 700ms 100ms cubic-bezier(0.22,0.61,0.36,1) both;">
+</div>
+
+<section data-screen-label="Hero" style="position: relative; width: 100%; min-height: 100vh; overflow: hidden; background: #2A2620; font-family: 'Jost', sans-serif;">
+
+  <div style="position: absolute; inset: 0;">
+    <video preload="auto" autoplay="{{ true }}" loop="{{ true }}" muted="{{ true }}" playsinline="{{ true }}" ref="{{ videoRef }}" src="assets/hero-loop.mp4" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ videoPosition }};"></video>
+  </div>
+
+  <div style="position: absolute; inset: 0; background: linear-gradient(100deg, rgba(24,36,28,0.90) 0%, rgba(24,36,28,0.72) 26%, rgba(24,36,28,0.34) 52%, rgba(24,36,28,0.10) 74%, rgba(24,36,28,0.22) 100%); opacity: {{ veilOpacity }};"></div>
+  <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,31,24,0.55) 0%, rgba(20,31,24,0) 22%, rgba(20,31,24,0) 70%, rgba(20,31,24,0.42) 100%);"></div>
+
+  <div style="position: relative; display: flex; flex-direction: column; min-height: 100vh; animation: malayaRise 1000ms 120ms cubic-bezier(0.22,0.61,0.36,1) both;">
+
+    <header style="position: relative; display: flex; align-items: flex-start; justify-content: flex-start; gap: 24px 40px; padding: 72px clamp(24px, 4vw, 56px) 0;">
+      
+
+      <nav style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; gap: clamp(24px, 2.6vw, 44px);">
+        <a href="#treatments" style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.18em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 8px; margin: -12px -8px;">TREATMENTS</a>
+        <a href="#about" style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.18em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 8px; margin: -12px -8px;">ABOUT</a>
+        <a href="#team" style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.18em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 8px; margin: -12px -8px;">TEAM</a>
+      </nav>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.72); white-space: nowrap;">CH. 01</span>
+          <span style="width: 46px; height: 1px; flex-shrink: 0; background: rgba(152,163,149,0.75);"></span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.86); white-space: nowrap;">SALON · SPA · WELLNESS</span>
+        </div>
+        <a href="#top" style="display: block; width: fit-content;">
+          <img src="assets/malaya-mark-light-clear.png" alt="Malaya" style="display: block; height: 72px; width: auto; filter: drop-shadow(0 2px 6px rgba(14,23,18,0.5)) drop-shadow(0 6px 22px rgba(14,23,18,0.45));">
+        </a>
+      </div><div style="display: flex; justify-content: flex-end; margin-left: auto;">
+        
+      </div>
+
+
+    </header>
+
+    <div style="display: flex; flex: 1; align-items: center; padding: 48px clamp(24px, 4vw, 56px) 72px;">
+      <div style="max-width: 780px;">
+        <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(56px, 8.2vw, 132px); line-height: 0.9; letter-spacing: -0.015em; color: #F5F3EC; text-wrap: pretty;">
+          <span style="display: block; animation: malayaBlurUp 900ms 1200ms cubic-bezier(0.22,0.61,0.36,1) both;">More than</span>
+          <em style="display: block; font-style: italic; font-weight: 400; animation: malayaBlurUp 900ms 1360ms cubic-bezier(0.22,0.61,0.36,1) both;">beauty.</em>
+          <span style="display: block; animation: malayaBlurUp 900ms 1520ms cubic-bezier(0.22,0.61,0.36,1) both;">An experience.</span>
+        </h1>
+
+        <div style="display: flex; align-items: center; gap: 18px; margin-top: 44px;">
+          <span style="width: 52px; height: 1px; background: rgba(152,163,149,0.85);"></span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.24em; color: rgba(245,243,236,0.85);">ELEVATING EVERY MOMENT</span>
+        </div>
+
+        <p style="margin: 22px 0 0; max-width: 620px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 18px; line-height: 1.62; color: rgba(245,243,236,0.88); text-wrap: pretty;">Malaya brings together premium beauty, wellness, and self-care. From expert hair transformations to advanced skincare and spa experiences, every visit is designed to help you look and feel your best.</p>
+
+        <a href="https://wa.me/96170816041" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 14px; margin-top: 40px; padding: 21px 40px; border-radius: 999px; background: #2F4938; border: 1px solid rgba(245,243,236,0.22); color: #FFFFFF; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em; transition: background 320ms ease, transform 320ms ease;" style-hover="background: #5D7363; transform: translateY(-2px); color: #FFFFFF;">
+          BOOK YOUR VISIT
+          <span style="font-family: 'Jost', sans-serif; font-size: 15px;">↗</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<div aria-hidden="true" style="position: relative; overflow: hidden; background: #1A2620; border-top: 1px solid rgba(245,243,236,0.08); border-bottom: 1px solid rgba(245,243,236,0.08); padding: 20px 0;">
+  <div style="display: inline-flex; white-space: nowrap; animation: malayaMarquee 48s linear infinite; will-change: transform;"><span style="display: inline-flex; align-items: center; gap: 52px; padding-right: 52px;"><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Biologique Recherche</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Advanced Aesthetics</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Laser Technologies</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Massage Rituals</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Physiotherapy</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Hair Couture</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Nails & Beauty</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Waxing & Threading</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Wellness Experiences</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span></span><span style="display: inline-flex; align-items: center; gap: 52px; padding-right: 52px;"><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Biologique Recherche</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Advanced Aesthetics</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Laser Technologies</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Massage Rituals</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Physiotherapy</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Hair Couture</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Nails & Beauty</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Waxing & Threading</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 1.4vw, 20px); color: rgba(245,243,236,0.6); white-space: nowrap;">Wellness Experiences</span><span style="width: 4px; height: 4px; border-radius: 999px; background: rgba(184,138,106,0.7); flex-shrink: 0;"></span></span></div>
+</div>
+
+<section data-screen-label="Philosophy" id="about" ref="{{ phRef }}" style="position: relative; width: 100%; min-height: 100vh; display: flex; align-items: center; overflow: hidden; background: #1A2620; padding: clamp(84px, 11vh, 150px) clamp(24px, 4vw, 56px) clamp(72px, 9vh, 120px); font-family: 'Jost', sans-serif;">
+
+  <div data-rv="1" style="position: absolute; inset: 0; opacity: 0; transition: opacity 1400ms cubic-bezier(0.22,0.61,0.36,1);">
+    <img src="assets/spa-lounge.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%;">
+    <div style="position: absolute; inset: 0; background: radial-gradient(126% 72% at 52% 40%, rgba(13,21,17,0.78) 0%, rgba(13,21,17,0.7) 46%, rgba(13,21,17,0.4) 74%, rgba(13,21,17,0.08) 92%, rgba(13,21,17,0) 100%), radial-gradient(120% 56% at 50% 84%, rgba(13,21,17,0.76) 0%, rgba(13,21,17,0.66) 48%, rgba(13,21,17,0.34) 78%, rgba(13,21,17,0) 98%), linear-gradient(180deg, rgba(13,21,17,0.3) 0%, rgba(13,21,17,0.1) 26%, rgba(13,21,17,0.1) 74%, rgba(13,21,17,0.34) 100%);"></div>
+  </div>
+
+  <div style="position: relative; width: 100%; max-width: 1560px; margin: 0 auto;">
+    <div style="position: relative; display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 88px); align-items: flex-start;">
+
+    <div data-rv="1" style="flex: 1 0 150px; max-width: 210px; display: flex; flex-direction: column; gap: 8px; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: rgba(245,243,236,0.78); text-shadow: 0 1px 4px rgba(14,23,18,0.95), 0 2px 18px rgba(14,23,18,0.8);">— CH. 02 · PHILOSOPHY</span>
+      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; line-height: 1.7; color: #F5F3EC; text-shadow: 0 1px 4px rgba(14,23,18,0.95), 0 2px 18px rgba(14,23,18,0.8);">BEAUTY, RESTORED<br>THROUGH CARE.</span>
+    </div>
+
+    <div style="flex: 1 1 520px; min-width: min(100%, 300px);">
+      <h2 data-rv="2" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(38px, 5.2vw, 86px); line-height: 1.1; letter-spacing: -0.02em; color: #F5F3EC; text-shadow: 0 2px 6px rgba(14,23,18,0.75), 0 4px 30px rgba(14,23,18,0.85); text-wrap: pretty; opacity: 0; transform: translateY(20px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+        We begin with care, creating <em data-rv="3" style="font-style: italic; font-weight: 400; color: #DFB49B; opacity: 0; transition: opacity 900ms cubic-bezier(0.22,0.61,0.36,1);">thoughtful</em> rituals that honour your <em data-rv="4" style="font-style: italic; font-weight: 400; color: #DFB49B; opacity: 0; transition: opacity 900ms cubic-bezier(0.22,0.61,0.36,1);">natural beauty</em>, wellbeing, and the <em data-rv="5" style="font-style: italic; font-weight: 400; color: #DFB49B; opacity: 0; transition: opacity 900ms cubic-bezier(0.22,0.61,0.36,1);">quiet confidence</em> that stays with you.
+      </h2>
+
+      <div style="margin-top: clamp(56px, 7vh, 96px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(430px, 100%), 1fr)); gap: clamp(16px, 1.6vw, 26px);">
+
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 1.6vw, 26px);">
+        <div data-rv="7" style="padding: 30px 22px 34px 0; opacity: 0; transform: translateY(22px); transition: opacity 900ms cubic-bezier(0.22,0.61,0.36,1), transform 900ms cubic-bezier(0.22,0.61,0.36,1);">
+          <div data-rv-line="7" style="height: 1px; background: rgba(152,163,149,0.85); margin-bottom: 22px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(30px, 3.6vw, 62px); line-height: 1; letter-spacing: -0.01em; color: #F5F3EC; text-shadow: 0 2px 6px rgba(14,23,18,0.8), 0 4px 26px rgba(14,23,18,0.85);" data-count="1">20+</div>
+          <div style="margin-top: 18px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.18em; line-height: 1.6; color: #F1EEE6; text-shadow: 0 1px 3px rgba(14,23,18,0.95), 0 2px 12px rgba(14,23,18,0.9), 0 0 30px rgba(14,23,18,0.75);">EXPERT<br>SPECIALISTS</div>
+        </div>
+        <div data-rv="8" style="padding: 30px 22px 34px 0; opacity: 0; transform: translateY(22px); transition: opacity 900ms cubic-bezier(0.22,0.61,0.36,1), transform 900ms cubic-bezier(0.22,0.61,0.36,1);">
+          <div data-rv-line="8" style="height: 1px; background: rgba(152,163,149,0.85); margin-bottom: 22px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(30px, 3.6vw, 62px); line-height: 1; letter-spacing: -0.01em; color: #F5F3EC; text-shadow: 0 2px 6px rgba(14,23,18,0.8), 0 4px 26px rgba(14,23,18,0.85);" data-count="1">750m²</div>
+          <div style="margin-top: 18px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.18em; line-height: 1.6; color: #F1EEE6; text-shadow: 0 1px 3px rgba(14,23,18,0.95), 0 2px 12px rgba(14,23,18,0.9), 0 0 30px rgba(14,23,18,0.75);">LUXURY WELLNESS<br>SPACE</div>
+        </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 1.6vw, 26px);">
+        <div data-rv="9" style="padding: 30px 22px 34px 0; opacity: 0; transform: translateY(22px); transition: opacity 900ms cubic-bezier(0.22,0.61,0.36,1), transform 900ms cubic-bezier(0.22,0.61,0.36,1);">
+          <div data-rv-line="9" style="height: 1px; background: rgba(152,163,149,0.85); margin-bottom: 22px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(30px, 3.6vw, 62px); line-height: 1; letter-spacing: -0.01em; color: #F5F3EC; text-shadow: 0 2px 6px rgba(14,23,18,0.8), 0 4px 26px rgba(14,23,18,0.85);" data-count="1">40,000+</div>
+          <div style="margin-top: 18px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.18em; line-height: 1.6; color: #F1EEE6; text-shadow: 0 1px 3px rgba(14,23,18,0.95), 0 2px 12px rgba(14,23,18,0.9), 0 0 30px rgba(14,23,18,0.75);">GUESTS<br>WELCOMED</div>
+        </div>
+        <div data-rv="10" style="padding: 30px 22px 34px 0; opacity: 0; transform: translateY(22px); transition: opacity 900ms cubic-bezier(0.22,0.61,0.36,1), transform 900ms cubic-bezier(0.22,0.61,0.36,1);">
+          <div data-rv-line="10" style="height: 1px; background: rgba(152,163,149,0.85); margin-bottom: 22px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(30px, 3.6vw, 62px); line-height: 1; letter-spacing: -0.01em; color: #F5F3EC; text-shadow: 0 2px 6px rgba(14,23,18,0.8), 0 4px 26px rgba(14,23,18,0.85);" data-count="1">40+</div>
+          <div style="margin-top: 18px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.18em; line-height: 1.6; color: #F1EEE6; text-shadow: 0 1px 3px rgba(14,23,18,0.95), 0 2px 12px rgba(14,23,18,0.9), 0 0 30px rgba(14,23,18,0.75);">SIGNATURE<br>TREATMENTS</div>
+        </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+  </div>
+
+</section>
+
+<section data-screen-label="Treatments" id="treatments" ref="{{ trRef }}" style="position: relative; width: 100%; background: #F5F3EC; color: #2A2620; padding: clamp(84px, 11vh, 150px) clamp(24px, 4vw, 56px) clamp(96px, 12vh, 160px); font-family: 'Jost', sans-serif;">
+  <div style="width: 100%; max-width: 1280px; margin: 0 auto;">
+
+    <div data-rv="1" style="display: flex; align-items: center; gap: 16px; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(42,38,32,0.65); white-space: nowrap;">— CH. 03 · TREATMENTS</span>
+    </div>
+
+    <h2 data-rv="2" style="margin: 26px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(42px, 5.4vw, 88px); line-height: 1.02; letter-spacing: -0.02em; color: #2A2620; text-wrap: pretty; max-width: 900px; opacity: 0; transform: translateY(20px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+      Treatments designed <em style="font-style: italic; font-weight: 400; color: #2F4938;">around you.</em>
+    </h2>
+    <p data-rv="3" style="margin: 22px 0 0; max-width: 560px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.6; color: rgba(42,38,32,0.75); text-wrap: pretty; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">Explore Malaya’s complete collection of advanced skincare, beauty and wellness services.</p>
+
+    <div data-rv="4" role="tablist" aria-label="Treatment categories" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(36px, 5vh, 56px); opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
+        <button type="button" role="tab" id="tab-{{ t.id }}" aria-selected="{{ t.sel }}" aria-controls="panel-treatments" onClick="{{ t.pick }}" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 12px 22px; border-radius: 999px; border: 1px solid {{ t.bc }}; background: {{ t.bg }}; color: {{ t.fg }}; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; cursor: pointer; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), border-color 300ms cubic-bezier(0.22,1,0.36,1), transform 300ms cubic-bezier(0.22,1,0.36,1);" style-hover="transform: translateY(-1px); background: {{ t.hbg }};" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">
+          <span style="width: 6px; height: 6px; border-radius: 50%; background: {{ t.dot }}; transition: background 300ms ease;"></span>
+          {{ t.label }}
+        </button>
+      </sc-for>
+    </div>
+
+    <div role="tabpanel" id="panel-treatments" aria-labelledby="tab-{{ activeId }}" style="margin-top: clamp(36px, 5vh, 60px);">
+
+      <sc-if value="{{ hasSubs }}" hint-placeholder-val="{{ false }}">
+        <div role="tablist" aria-label="Subcategories" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px;">
+          <sc-for list="{{ subTabs }}" as="s" hint-placeholder-count="5">
+            <button type="button" role="tab" id="subtab-{{ s.id }}" aria-selected="{{ s.sel }}" aria-controls="panel-treatments" onClick="{{ s.pick }}" style="display: inline-flex; align-items: center; min-height: 38px; padding: 9px 18px; border-radius: 999px; border: 1px solid {{ s.bc }}; background: {{ s.bg }}; color: {{ s.fg }}; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; cursor: pointer; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), border-color 300ms cubic-bezier(0.22,1,0.36,1), transform 300ms cubic-bezier(0.22,1,0.36,1);" style-hover="transform: translateY(-1px); background: {{ s.hbg }};" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">
+              {{ s.label }}
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <div ref="{{ listRef }}">
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="1">
+          <div style="margin-bottom: 46px;">
+
+            <sc-if value="{{ g.hasHead }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; gap: 7px; margin: 10px 0 18px;">
+                <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: #2F4938;">{{ g.title }}</span>
+                <sc-if value="{{ g.hasSubT }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: 19px; color: rgba(42,38,32,0.85);">{{ g.subtitle }}</span>
+                </sc-if>
+                <sc-if value="{{ g.hasDesc }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin: 2px 0 0; max-width: 660px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 14.5px; line-height: 1.6; color: rgba(42,38,32,0.7); text-wrap: pretty;">{{ g.description }}</p>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ g.hasRows }}" hint-placeholder-val="{{ true }}">
+              <div style="border-top: 1px solid rgba(42,38,32,0.16);">
+                <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="6">
+                  <div style="border-bottom: 1px solid rgba(42,38,32,0.12); animation: {{ r.anim }};">
+                    <div role="button" tabindex="0" aria-expanded="{{ r.open }}" aria-controls="det-{{ r.id }}" onClick="{{ r.toggle }}" onKeyDown="{{ r.key }}" onMouseEnter="{{ r.enter }}" onMouseLeave="{{ r.leave }}" style="display: grid; grid-template-columns: 34px minmax(0, 1fr) auto auto 18px 44px; gap: clamp(10px, 2vw, 26px); align-items: center; min-height: 44px; padding: 17px 8px; cursor: pointer; background: {{ r.bg }}; transition: background 260ms ease;" style-hover="background: rgba(42,38,32,0.035);" style-focus="outline: 2px solid #2F4938; outline-offset: -2px;">
+                      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(42,38,32,0.5);">{{ r.num }}</span>
+                      <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0; transform: {{ r.shift }}; transition: transform 320ms cubic-bezier(0.22,1,0.36,1);">
+                        <span style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(18px, 1.6vw, 23px); line-height: 1.15; color: #2A2620; text-wrap: pretty;">{{ r.name }}</span>
+                        <sc-if value="{{ r.hasSub }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: 15px; color: rgba(42,38,32,0.65);">{{ r.sub }}</span>
+                        </sc-if>
+                      </span>
+                      <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(42,38,32,0.55); white-space: nowrap;">{{ r.duration }}</span>
+                      <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #2A2620; white-space: nowrap; text-align: right;">{{ r.price }}</span>
+                      <span aria-hidden="true" style="font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1; color: rgba(42,38,32,0.55); transform: {{ r.plusRot }}; transition: transform 340ms cubic-bezier(0.22,1,0.36,1); text-align: center;">+</span>
+                      <a href="#contact" onClick="{{ r.book }}" aria-label="{{ r.ariaLabel }}" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(47,73,56,0.4); display: flex; align-items: center; justify-content: center; color: #2F4938; font-family: 'Jost', sans-serif; font-size: 15px; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), transform 300ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #2F4938; color: #F5F3EC; transform: rotate(45deg);" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">↗</a>
+                    </div>
+                    <div id="det-{{ r.id }}" style="display: grid; grid-template-rows: {{ r.det }}; opacity: {{ r.detOp }}; transition: grid-template-rows 420ms cubic-bezier(0.22,1,0.36,1), opacity 420ms cubic-bezier(0.22,1,0.36,1);">
+                      <div style="overflow: hidden;">
+                        <div style="padding: 2px 8px 24px calc(34px + clamp(10px, 2vw, 26px)); max-width: 720px;">
+                          <sc-if value="{{ r.hasDesc }}" hint-placeholder-val="{{ false }}">
+                            <p style="margin: 0; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 15px; line-height: 1.65; color: rgba(42,38,32,0.78); text-wrap: pretty;">{{ r.desc }}</p>
+                          </sc-if>
+                          <sc-if value="{{ r.hasOpts }}" hint-placeholder-val="{{ false }}">
+                            <div style="display: flex; flex-direction: column; gap: 9px; margin-top: 14px;">
+                              <sc-for list="{{ r.opts }}" as="o" hint-placeholder-count="2">
+                                <div style="display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 16px; align-items: baseline; max-width: 480px;">
+                                  <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: rgba(42,38,32,0.55);">{{ o.k }}</span>
+                                  <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; color: #2A2620;">{{ o.v }}</span>
+                                </div>
+                              </sc-for>
+                            </div>
+                          </sc-if>
+                          <sc-if value="{{ r.hasNote }}" hint-placeholder-val="{{ false }}">
+                            <p style="margin: 14px 0 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; line-height: 1.5; color: rgba(47,73,56,0.9);">{{ r.note }}</p>
+                          </sc-if>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ g.hasNote }}" hint-placeholder-val="{{ false }}">
+              <p style="margin: 16px 0 0; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em; line-height: 1.8; color: rgba(42,38,32,0.6);">{{ g.note }}</p>
+            </sc-if>
+
+          </div>
+        </sc-for>
+
+        <sc-if value="{{ hasCatNote }}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 6px 0 0; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.16em; color: rgba(47,73,56,0.85);">{{ catNote }}</p>
+        </sc-if>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section data-screen-label="Our story" id="team" ref="{{ storyRef }}" style="position: relative; width: 100%; height: 480vh; background: #1A2620; font-family: 'Jost', sans-serif;">
+  <div data-st="stage" style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(18px, 3vh, 30px); padding: clamp(64px, 9vh, 110px) clamp(24px, 4vw, 56px) clamp(28px, 4vh, 48px);">
+
+    <div data-st="eyebrow" style="position: absolute; top: clamp(24px, 4vh, 40px); left: clamp(24px, 4vw, 56px); opacity: 0; pointer-events: none;">
+      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.72);">— CH. 04 · OUR STORY</span>
+    </div>
+
+    <div data-st="dust" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; opacity: 0;">
+      <span style="position: absolute; left: 18%; top: 62%; width: 4px; height: 4px; border-radius: 50%; background: radial-gradient(circle, rgba(223,180,155,0.55), rgba(223,180,155,0)); filter: blur(0.5px); animation: malayaDust 9s linear infinite;"></span>
+      <span style="position: absolute; left: 30%; top: 40%; width: 3px; height: 3px; border-radius: 50%; background: radial-gradient(circle, rgba(223,180,155,0.5), rgba(223,180,155,0)); filter: blur(1px); animation: malayaDust 12s linear infinite; animation-delay: -4s;"></span>
+      <span style="position: absolute; left: 44%; top: 74%; width: 5px; height: 5px; border-radius: 50%; background: radial-gradient(circle, rgba(245,243,236,0.4), rgba(245,243,236,0)); filter: blur(1px); animation: malayaDust 11s linear infinite; animation-delay: -7s;"></span>
+      <span style="position: absolute; left: 58%; top: 34%; width: 3px; height: 3px; border-radius: 50%; background: radial-gradient(circle, rgba(223,180,155,0.5), rgba(223,180,155,0)); filter: blur(0.5px); animation: malayaDust 10s linear infinite; animation-delay: -2s;"></span>
+      <span style="position: absolute; left: 70%; top: 58%; width: 4px; height: 4px; border-radius: 50%; background: radial-gradient(circle, rgba(245,243,236,0.45), rgba(245,243,236,0)); filter: blur(1px); animation: malayaDust 13s linear infinite; animation-delay: -9s;"></span>
+      <span style="position: absolute; left: 82%; top: 46%; width: 3px; height: 3px; border-radius: 50%; background: radial-gradient(circle, rgba(223,180,155,0.5), rgba(223,180,155,0)); filter: blur(0.5px); animation: malayaDust 9.5s linear infinite; animation-delay: -5s;"></span>
+      <span style="position: absolute; left: 12%; top: 30%; width: 3px; height: 3px; border-radius: 50%; background: radial-gradient(circle, rgba(245,243,236,0.4), rgba(245,243,236,0)); filter: blur(1px); animation: malayaDust 12.5s linear infinite; animation-delay: -6s;"></span>
+    </div>
+
+    <div data-st="s1" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 clamp(24px, 6vw, 80px); text-align: center; opacity: 0; pointer-events: none; z-index: 3;">
+      <p style="margin: 0; max-width: 900px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(30px, 4.6vw, 62px); line-height: 1.16; letter-spacing: -0.015em; color: #F5F3EC; text-wrap: pretty;">Every beautiful place begins with a <em style="font-style: italic; font-weight: 400; color: #DFB49B;">dream</em>.</p>
+    </div>
+
+    <div data-st="imgwrap" style="position: relative; z-index: 1; will-change: transform;">
+      <div data-st="breathe" style="animation: malayaBreathe 11s ease-in-out infinite;">
+        <div data-st="clip" style="opacity: 0; will-change: transform, opacity;">
+          <div data-st="slicerow" role="img" aria-label="Aya Karnib, Hiam Lahham and Malak Karnib — the three founders of Malaya" style="position: relative; display: flex; width: min(40vh, 78vw); aspect-ratio: 943 / 1671; pointer-events: none;">
+            <div data-st="slice0" data-founder="0" style="flex: 0 0 38%; height: 100%; background-image: url('assets/founders.jpg'); background-size: 263.7% 100.6%; background-position: 0% 50%; will-change: transform;"></div>
+            <div data-st="slice1" data-founder="1" style="flex: 0 0 25%; height: 100%; background-image: url('assets/founders.jpg'); background-size: 400.6% 100.6%; background-position: 50.67% 50%; will-change: transform;"></div>
+            <div data-st="slice2" data-founder="2" style="flex: 0 0 37%; height: 100%; background-image: url('assets/founders.jpg'); background-size: 270.8% 100.6%; background-position: 100% 50%; will-change: transform;"></div>
+            <div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; border-radius: 20px; pointer-events: none;">
+              <div data-st="sweep" style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: linear-gradient(100deg, rgba(223,180,155,0) 0%, rgba(223,180,155,0.12) 45%, rgba(245,243,236,0.16) 52%, rgba(223,180,155,0) 100%); animation: malayaSweep 9s ease-in-out infinite;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position: relative; z-index: 2; width: 100%; max-width: 980px; height: clamp(150px, 21vh, 210px);">
+      <div data-st="trio" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; text-align: center; pointer-events: none;">
+        <p data-st="trio0" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(24px, 3vw, 40px); line-height: 1.2; color: #F5F3EC; opacity: 0;">Three women.</p>
+        <p data-st="trio1" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(24px, 3vw, 40px); line-height: 1.2; color: #F5F3EC; opacity: 0;">Different strengths.</p>
+        <p data-st="trio2" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(24px, 3vw, 40px); line-height: 1.2; color: #DFB49B; opacity: 0;">One purpose.</p>
+      </div>
+
+      <div data-st="caps" style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, minmax(150px, 250px)); justify-content: center; gap: clamp(18px, 3vw, 40px); opacity: 0; pointer-events: none;">
+        <div data-founder="0" data-st="cap0" style="text-align: center; opacity: 0; cursor: default;">
+          <div data-st="capline0" style="height: 1px; background: rgba(152,163,149,0.6); margin-bottom: 16px; transform: scaleX(0);"></div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(20px, 1.9vw, 26px); color: #F5F3EC;">Aya Karnib</div>
+          <div style="margin-top: 7px; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: #98A395;">THE VISION</div>
+          <p style="margin: 12px 0 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: 15.5px; line-height: 1.45; color: rgba(245,243,236,0.66); text-wrap: pretty;">The dream that started it all.</p>
+        </div>
+        <div data-founder="1" data-st="cap1" style="text-align: center; opacity: 0; cursor: default;">
+          <div data-st="capline1" style="height: 1px; background: rgba(152,163,149,0.6); margin-bottom: 16px; transform: scaleX(0);"></div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(20px, 1.9vw, 26px); color: #F5F3EC;">Hiam Lahham</div>
+          <div style="margin-top: 7px; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: #98A395;">THE HEART</div>
+          <p style="margin: 12px 0 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: 15.5px; line-height: 1.45; color: rgba(245,243,236,0.66); text-wrap: pretty;">The warmth behind every client experience.</p>
+        </div>
+        <div data-founder="2" data-st="cap2" style="text-align: center; opacity: 0; cursor: default;">
+          <div data-st="capline2" style="height: 1px; background: rgba(152,163,149,0.6); margin-bottom: 16px; transform: scaleX(0);"></div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(20px, 1.9vw, 26px); color: #F5F3EC;">Malak Karnib</div>
+          <div style="margin-top: 7px; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: #98A395;">THE CRAFT</div>
+          <p style="margin: 12px 0 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: 15.5px; line-height: 1.45; color: rgba(245,243,236,0.66); text-wrap: pretty;">The pursuit of excellence in every detail.</p>
+        </div>
+      </div>
+    </div>
+
+    <div data-st="scrim" aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(90% 70% at 50% 50%, rgba(13,21,17,0.88) 0%, rgba(13,21,17,0.62) 55%, rgba(13,21,17,0.3) 100%); opacity: 0; pointer-events: none; z-index: 2;"></div>
+
+    <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(14px, 2.6vh, 26px); padding: 0 clamp(24px, 6vw, 80px); text-align: center; pointer-events: none; z-index: 3;">
+      <p data-st="g1" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(24px, 2.9vw, 44px); line-height: 1.2; color: rgba(245,243,236,0.9); opacity: 0;">Individually, we found our purpose.</p>
+      <p data-st="g2" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(38px, 5.2vw, 82px); line-height: 1.06; letter-spacing: -0.015em; color: #F5F3EC; opacity: 0;">Together, we built <em style="font-style: italic; font-weight: 400; color: #DFB49B;">Malaya</em>.</p>
+    </div>
+
+  </div>
+</section>
+
+<section data-screen-label="Founders letter" ref="{{ letterRef }}" style="position: relative; width: 100%; background: #1A2620; padding: clamp(40px, 6vh, 80px) clamp(24px, 4vw, 56px) clamp(120px, 16vh, 200px); font-family: 'Jost', sans-serif;">
+  <div style="width: 100%; max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(28px, 4vh, 44px);">
+    <div data-rv="1" style="display: flex; align-items: center; gap: 16px; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+      <span style="width: 46px; height: 1px; background: rgba(152,163,149,0.75);"></span>
+      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.72);">A LETTER FROM THE FOUNDERS</span>
+    </div>
+    <p data-rv="2" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(26px, 3vw, 42px); line-height: 1.3; color: #F5F3EC; text-wrap: pretty; opacity: 0; transform: translateY(18px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">Malaya was never meant to be another salon.</p>
+    <p data-rv="3" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(26px, 3vw, 42px); line-height: 1.3; color: rgba(245,243,236,0.88); text-wrap: pretty; opacity: 0; transform: translateY(18px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">We built the place we were always searching for — where you are welcomed by name, never hurried, and beauty is treated as something <em style="font-style: italic; font-weight: 400; color: #DFB49B;">you already own</em>.</p>
+    <p data-rv="4" style="margin: 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.24em; line-height: 2.1; color: #98A395; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">EVERY TREATMENT. EVERY CONVERSATION. EVERY DETAIL.</p>
+    <p data-rv="5" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(26px, 3vw, 42px); line-height: 1.3; color: rgba(245,243,236,0.88); text-wrap: pretty; opacity: 0; transform: translateY(18px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">All of it exists so you leave feeling <em style="font-style: italic; font-weight: 400; color: #DFB49B;">more yourself</em> than when you arrived.</p>
+    <div data-rv="6" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+      <span style="width: 56px; height: 1px; background: rgba(152,163,149,0.6);"></span>
+      <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: 21px; color: #F5F3EC;">— Aya, Hiam &amp; Malak</span>
+      <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.24em; color: rgba(245,243,236,0.55);">FOUNDERS · MALAYA</span>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="In their words" id="words" ref="{{ wordsRef }}" style="position: relative; width: 100%; height: 560vh; background: #F5F3EC; font-family: 'Jost', sans-serif;">
+  <div data-w="stage" style="position: sticky; top: 0; height: 100vh; overflow: hidden; padding: clamp(72px, 10vh, 120px) clamp(24px, 4vw, 56px) clamp(88px, 12vh, 130px);">
+    <svg aria-hidden="true" viewBox="0 0 480 760" fill="none" style="position: absolute; right: -60px; top: -80px; width: clamp(380px, 36vw, 640px); height: auto; opacity: 0.045; pointer-events: none; transform: rotate(190deg); z-index: 0;">
+      <g stroke="#2F4938" stroke-width="1.1" stroke-linecap="round" fill="none">
+        <path d="M 236 748 C 230 640 240 540 244 452 C 248 356 260 250 292 118 C 300 84 310 56 322 28"></path>
+        <path d="M 240 640 Q 192 646 158 610 Q 200 596 240 640"></path>
+        <path d="M 238 600 Q 288 604 322 566 Q 278 554 238 600"></path>
+        <path d="M 242 530 Q 190 534 154 494 Q 202 482 242 530"></path>
+        <path d="M 246 488 Q 298 490 330 450 Q 284 440 246 488"></path>
+        <path d="M 248 420 Q 196 420 162 378 Q 212 370 248 420"></path>
+        <path d="M 254 372 Q 306 372 340 330 Q 292 322 254 372"></path>
+        <path d="M 262 300 Q 210 296 180 254 Q 230 250 262 300"></path>
+        <path d="M 272 252 Q 322 248 354 208 Q 306 202 272 252"></path>
+        <path d="M 286 180 Q 238 172 212 130 Q 258 128 286 180"></path>
+        <path d="M 296 140 Q 344 134 372 96 Q 326 90 296 140"></path>
+        <path d="M 314 56 Q 336 18 368 2 Q 330 0 314 56"></path>
+      </g>
+    </svg>
+
+    <div data-w="eyebrow" style="position: absolute; top: clamp(24px, 4vh, 40px); left: clamp(24px, 4vw, 56px); opacity: 0; pointer-events: none; z-index: 7;">
+      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(42,38,32,0.62);">— CH. 05 · IN THEIR WORDS</span>
+    </div>
+
+    <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; pointer-events: none; z-index: 6;">
+      <span data-w="introch" style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.3em; color: rgba(42,38,32,0.6); opacity: 0;">CH. 05</span>
+      <span data-w="introtitle" style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(40px, 5.6vw, 88px); line-height: 1.04; letter-spacing: -0.02em; color: #2A2620; opacity: 0;">In <em style="font-style: italic; font-weight: 400; color: #2F4938;">their</em> words.</span>
+    </div>
+
+    <div data-w="story0" role="group" aria-label="Story 1 of 4 — Perla" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: clamp(72px, 11vh, 130px) clamp(24px, 4vw, 56px) clamp(96px, 13vh, 150px); opacity: 0; pointer-events: none; z-index: 1;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: clamp(28px, 4.5vw, 76px); align-items: center; width: 100%; max-width: 1460px;">
+        <div data-wc="1" style="position: relative; overflow: hidden; border-radius: 20px; border: 1px solid rgba(42,38,32,0.1); box-shadow: 0 18px 50px rgba(26,38,32,0.14); will-change: transform;">
+          <div data-wz="1" style="animation: malayaBreathe 11s ease-in-out infinite; will-change: transform;">
+            <img src="assets/stories/story-1.jpg" alt="A guest being welcomed with coffee and flowers at Malaya" loading="lazy" style="display: block; width: 100%; aspect-ratio: 16 / 10; max-height: min(44vh, 40vw + 120px); object-fit: cover;">
+          </div>
+          <div data-wleak="1" aria-hidden="true" style="position: absolute; width: 46%; aspect-ratio: 1; left: -8%; top: -12%; background: radial-gradient(circle, rgba(223,180,155,0.3), rgba(223,180,155,0) 70%); filter: blur(28px); animation: malayaLeak 15s ease-in-out infinite; pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; box-shadow: inset 0 0 110px rgba(26,38,32,0.26); pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/%3E%3CfeColorMatrix type=%22saturate%22 values=%220%22/%3E%3C/filter%3E%3Crect width=%22140%22 height=%22140%22 filter=%22url(%23n)%22 opacity=%220.5%22/%3E%3C/svg%3E'); opacity: 0.055; pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none;">
+            <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: linear-gradient(100deg, rgba(223,180,155,0) 0%, rgba(223,180,155,0.1) 45%, rgba(245,243,236,0.13) 52%, rgba(223,180,155,0) 100%); animation: malayaSweep 10s ease-in-out infinite;"></div>
+          </div>
+        </div>
+        <div>
+          <div data-wq="1" aria-hidden="true" style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(64px, 6vw, 96px); line-height: 0.5; color: #DFB49B; opacity: 0;">“</div>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 26px;">
+            <p data-wl="1" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(21px, 2.2vw, 36px); line-height: 1.28; letter-spacing: -0.01em; color: #2A2620; text-wrap: pretty; opacity: 0;">It wasn’t the coffee that made me feel special.</p>
+            <p data-wl="2" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(21px, 2.2vw, 36px); line-height: 1.28; letter-spacing: -0.01em; color: rgba(42,38,32,0.82); text-wrap: pretty; opacity: 0;">It was the feeling that, from the very first moment, I wasn’t treated like a client — I was <em style="font-style: italic; font-weight: 400; color: #2F4938;">welcomed like a guest</em>.</p>
+          </div>
+          <div data-wn="1" style="margin-top: clamp(28px, 4vh, 44px); opacity: 0;">
+            <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(20px, 1.8vw, 26px); color: #2A2620;">— Perla</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 7px; margin-top: 16px;">
+            <span data-wo="1" style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: rgba(42,38,32,0.55); opacity: 0;">BEIRUT</span>
+            <span data-wt="1" style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: #2F4938; opacity: 0;">GUEST EXPERIENCE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-w="story1" role="group" aria-label="Story 2 of 4 — Nour" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: clamp(72px, 11vh, 130px) clamp(24px, 4vw, 56px) clamp(96px, 13vh, 150px); opacity: 0; pointer-events: none; z-index: 2;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: clamp(28px, 4.5vw, 76px); align-items: center; width: 100%; max-width: 1460px;">
+        <div data-wc="1" style="position: relative; overflow: hidden; border-radius: 20px; border: 1px solid rgba(42,38,32,0.1); box-shadow: 0 18px 50px rgba(26,38,32,0.14); will-change: transform;">
+          <div data-wz="1" style="animation: malayaBreathe 12s ease-in-out infinite; will-change: transform;">
+            <img src="assets/stories/story-2.jpg" alt="A stylist fixing the final strand of a bride's hair" loading="lazy" style="display: block; width: 100%; aspect-ratio: 16 / 10; max-height: min(44vh, 40vw + 120px); object-fit: cover;">
+          </div>
+          <div data-wleak="1" aria-hidden="true" style="position: absolute; width: 46%; aspect-ratio: 1; right: -10%; top: -14%; background: radial-gradient(circle, rgba(223,180,155,0.26), rgba(223,180,155,0) 70%); filter: blur(28px); animation: malayaLeak 17s ease-in-out infinite; pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; box-shadow: inset 0 0 110px rgba(26,38,32,0.26); pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/%3E%3CfeColorMatrix type=%22saturate%22 values=%220%22/%3E%3C/filter%3E%3Crect width=%22140%22 height=%22140%22 filter=%22url(%23n)%22 opacity=%220.5%22/%3E%3C/svg%3E'); opacity: 0.055; pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none;">
+            <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: linear-gradient(100deg, rgba(223,180,155,0) 0%, rgba(223,180,155,0.1) 45%, rgba(245,243,236,0.13) 52%, rgba(223,180,155,0) 100%); animation: malayaSweep 11s ease-in-out infinite;"></div>
+          </div>
+        </div>
+        <div>
+          <div data-wq="1" aria-hidden="true" style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(64px, 6vw, 96px); line-height: 0.5; color: #DFB49B; opacity: 0;">“</div>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 26px;">
+            <p data-wl="1" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(21px, 2.2vw, 36px); line-height: 1.28; letter-spacing: -0.01em; color: #2A2620; text-wrap: pretty; opacity: 0;">There are moments you’ll remember forever.</p>
+            <p data-wl="2" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(21px, 2.2vw, 36px); line-height: 1.28; letter-spacing: -0.01em; color: rgba(42,38,32,0.82); text-wrap: pretty; opacity: 0;">Looking into that mirror, I didn’t just see my wedding hairstyle — I saw the most <em style="font-style: italic; font-weight: 400; color: #2F4938;">confident version of myself</em>.</p>
+          </div>
+          <div data-wn="1" style="margin-top: clamp(28px, 4vh, 44px); opacity: 0;">
+            <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(20px, 1.8vw, 26px); color: #2A2620;">— Nour</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 7px; margin-top: 16px;">
+            <span data-wo="1" style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: rgba(42,38,32,0.55); opacity: 0;">BEIRUT</span>
+            <span data-wt="1" style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: #2F4938; opacity: 0;">BRIDAL STYLING</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-w="story2" role="group" aria-label="Story 3 of 4 — Nadine" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: clamp(72px, 11vh, 130px) clamp(24px, 4vw, 56px) clamp(96px, 13vh, 150px); opacity: 0; pointer-events: none; z-index: 3;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: clamp(28px, 4.5vw, 76px); align-items: center; width: 100%; max-width: 1460px;">
+        <div data-wc="1" style="position: relative; overflow: hidden; border-radius: 20px; border: 1px solid rgba(42,38,32,0.1); box-shadow: 0 18px 50px rgba(26,38,32,0.14); will-change: transform;">
+          <div data-wz="1" style="animation: malayaBreathe 11.5s ease-in-out infinite; will-change: transform;">
+            <img src="assets/stories/story-3.jpg" alt="Nadine receiving the final step of a Transformation Facial" loading="lazy" style="display: block; width: 100%; aspect-ratio: 16 / 10; max-height: min(44vh, 40vw + 120px); object-fit: cover;">
+          </div>
+          <div data-wleak="1" aria-hidden="true" style="position: absolute; width: 46%; aspect-ratio: 1; left: -8%; bottom: -14%; background: radial-gradient(circle, rgba(223,180,155,0.26), rgba(223,180,155,0) 70%); filter: blur(28px); animation: malayaLeak 16s ease-in-out infinite; pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; box-shadow: inset 0 0 110px rgba(26,38,32,0.26); pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/%3E%3CfeColorMatrix type=%22saturate%22 values=%220%22/%3E%3C/filter%3E%3Crect width=%22140%22 height=%22140%22 filter=%22url(%23n)%22 opacity=%220.5%22/%3E%3C/svg%3E'); opacity: 0.055; pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none;">
+            <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: linear-gradient(100deg, rgba(223,180,155,0) 0%, rgba(223,180,155,0.1) 45%, rgba(245,243,236,0.13) 52%, rgba(223,180,155,0) 100%); animation: malayaSweep 10.5s ease-in-out infinite;"></div>
+          </div>
+        </div>
+        <div>
+          <div data-wq="1" aria-hidden="true" style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(64px, 6vw, 96px); line-height: 0.5; color: #DFB49B; opacity: 0;">“</div>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 26px;">
+            <p data-wl="1" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(20px, 2vw, 32px); line-height: 1.28; letter-spacing: -0.01em; color: #2A2620; text-wrap: pretty; opacity: 0;">I came hoping for healthier skin.</p>
+            <p data-wl="2" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(20px, 2vw, 32px); line-height: 1.28; letter-spacing: -0.01em; color: rgba(42,38,32,0.82); text-wrap: pretty; opacity: 0;">I left feeling beautiful without needing to hide behind makeup.</p>
+            <p data-wl="3" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(20px, 2vw, 32px); line-height: 1.28; letter-spacing: -0.01em; color: rgba(42,38,32,0.82); text-wrap: pretty; opacity: 0;">The transformation wasn’t only in my skin — it was in the way I <em style="font-style: italic; font-weight: 400; color: #2F4938;">saw myself</em>.</p>
+          </div>
+          <div data-wn="1" style="margin-top: clamp(24px, 3.5vh, 40px); opacity: 0;">
+            <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(20px, 1.8vw, 26px); color: #2A2620;">— Nadine</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 7px; margin-top: 16px;">
+            <span data-wo="1" style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: rgba(42,38,32,0.55); opacity: 0;">ACHRAFIEH</span>
+            <span data-wt="1" style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: #2F4938; opacity: 0;">TRANSFORMATION FACIAL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-w="story3" role="group" aria-label="Story 4 of 4 — Maya" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: clamp(72px, 11vh, 130px) clamp(24px, 4vw, 56px) clamp(96px, 13vh, 150px); opacity: 0; pointer-events: none; z-index: 4;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: clamp(28px, 4.5vw, 76px); align-items: center; width: 100%; max-width: 1460px;">
+        <div data-wc="1" style="position: relative; overflow: hidden; border-radius: 20px; border: 1px solid rgba(42,38,32,0.1); box-shadow: 0 18px 50px rgba(26,38,32,0.14); will-change: transform;">
+          <div data-wz="1" style="animation: malayaBreathe 12.5s ease-in-out infinite; will-change: transform;">
+            <img src="assets/stories/story-4.jpg" alt="A deep tissue massage in a warm, quiet spa room" loading="lazy" style="display: block; width: 100%; aspect-ratio: 16 / 10; max-height: min(44vh, 40vw + 120px); object-fit: cover;">
+          </div>
+          <div data-wleak="1" aria-hidden="true" style="position: absolute; width: 46%; aspect-ratio: 1; right: -10%; bottom: -12%; background: radial-gradient(circle, rgba(223,180,155,0.28), rgba(223,180,155,0) 70%); filter: blur(28px); animation: malayaLeak 18s ease-in-out infinite; pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; box-shadow: inset 0 0 110px rgba(26,38,32,0.26); pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/%3E%3CfeColorMatrix type=%22saturate%22 values=%220%22/%3E%3C/filter%3E%3Crect width=%22140%22 height=%22140%22 filter=%22url(%23n)%22 opacity=%220.5%22/%3E%3C/svg%3E'); opacity: 0.055; pointer-events: none;"></div>
+          <div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none;">
+            <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: linear-gradient(100deg, rgba(223,180,155,0) 0%, rgba(223,180,155,0.1) 45%, rgba(245,243,236,0.13) 52%, rgba(223,180,155,0) 100%); animation: malayaSweep 11.5s ease-in-out infinite;"></div>
+          </div>
+        </div>
+        <div>
+          <div data-wq="1" aria-hidden="true" style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(64px, 6vw, 96px); line-height: 0.5; color: #DFB49B; opacity: 0;">“</div>
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 26px;">
+            <p data-wl="1" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(21px, 2.2vw, 36px); line-height: 1.28; letter-spacing: -0.01em; color: #2A2620; text-wrap: pretty; opacity: 0;">I came in carrying stress I didn’t even realize I was holding.</p>
+            <p data-wl="2" style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(21px, 2.2vw, 36px); line-height: 1.28; letter-spacing: -0.01em; color: rgba(42,38,32,0.82); text-wrap: pretty; opacity: 0;">I left feeling lighter, calmer, and more <em style="font-style: italic; font-weight: 400; color: #2F4938;">present</em> than I had in months.</p>
+          </div>
+          <div data-wn="1" style="margin-top: clamp(28px, 4vh, 44px); opacity: 0;">
+            <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(20px, 1.8vw, 26px); color: #2A2620;">— Maya</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 7px; margin-top: 16px;">
+            <span data-wo="1" style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: rgba(42,38,32,0.55); opacity: 0;">JOUNIEH</span>
+            <span data-wt="1" style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.24em; color: #2F4938; opacity: 0;">DEEP TISSUE MASSAGE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position: absolute; left: 0; right: 0; bottom: clamp(22px, 4vh, 40px); display: flex; align-items: center; justify-content: center; gap: 22px; z-index: 8;">
+      <span data-w="count" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: rgba(42,38,32,0.65); min-width: 20px; text-align: right;">01</span>
+      <span style="width: 34px; height: 1px; background: rgba(42,38,32,0.3);"></span>
+      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: rgba(42,38,32,0.4);">04</span>
+      <div style="display: flex; align-items: center; gap: 10px; margin-left: 14px;">
+        <button type="button" data-w="dot0" onClick="{{ goW0 }}" aria-label="Go to story 1" style="width: 8px; height: 8px; border-radius: 999px; border: none; padding: 0; background: rgba(42,38,32,0.25); cursor: pointer; transition: width 400ms cubic-bezier(0.22,1,0.36,1), background 400ms ease;"></button>
+        <button type="button" data-w="dot1" onClick="{{ goW1 }}" aria-label="Go to story 2" style="width: 8px; height: 8px; border-radius: 999px; border: none; padding: 0; background: rgba(42,38,32,0.25); cursor: pointer; transition: width 400ms cubic-bezier(0.22,1,0.36,1), background 400ms ease;"></button>
+        <button type="button" data-w="dot2" onClick="{{ goW2 }}" aria-label="Go to story 3" style="width: 8px; height: 8px; border-radius: 999px; border: none; padding: 0; background: rgba(42,38,32,0.25); cursor: pointer; transition: width 400ms cubic-bezier(0.22,1,0.36,1), background 400ms ease;"></button>
+        <button type="button" data-w="dot3" onClick="{{ goW3 }}" aria-label="Go to story 4" style="width: 8px; height: 8px; border-radius: 999px; border: none; padding: 0; background: rgba(42,38,32,0.25); cursor: pointer; transition: width 400ms cubic-bezier(0.22,1,0.36,1), background 400ms ease;"></button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section data-screen-label="FAQ" id="faq" ref="{{ faqRef }}" style="position: relative; width: 100%; overflow: hidden; background: #F9F7F2; color: #222222; padding: clamp(96px, 13vh, 170px) clamp(24px, 4vw, 56px) clamp(80px, 10vh, 140px); font-family: 'Jost', sans-serif;">
+  <svg aria-hidden="true" viewBox="0 0 480 760" fill="none" style="position: absolute; left: -70px; bottom: -90px; width: clamp(420px, 40vw, 700px); height: auto; opacity: 0.05; pointer-events: none; transform: rotate(10deg);">
+    <g stroke="#B88A6A" stroke-width="1.1" stroke-linecap="round" fill="none">
+      <path d="M 236 748 C 230 640 240 540 244 452 C 248 356 260 250 292 118 C 300 84 310 56 322 28"></path>
+      <path d="M 240 640 Q 192 646 158 610 Q 200 596 240 640"></path>
+      <path d="M 238 600 Q 288 604 322 566 Q 278 554 238 600"></path>
+      <path d="M 242 530 Q 190 534 154 494 Q 202 482 242 530"></path>
+      <path d="M 246 488 Q 298 490 330 450 Q 284 440 246 488"></path>
+      <path d="M 248 420 Q 196 420 162 378 Q 212 370 248 420"></path>
+      <path d="M 254 372 Q 306 372 340 330 Q 292 322 254 372"></path>
+      <path d="M 262 300 Q 210 296 180 254 Q 230 250 262 300"></path>
+      <path d="M 272 252 Q 322 248 354 208 Q 306 202 272 252"></path>
+      <path d="M 286 180 Q 238 172 212 130 Q 258 128 286 180"></path>
+      <path d="M 296 140 Q 344 134 372 96 Q 326 90 296 140"></path>
+      <path d="M 314 56 Q 336 18 368 2 Q 330 0 314 56"></path>
+    </g>
+  </svg>
+  <div style="position: relative; width: 100%; max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: clamp(48px, 6vw, 110px); align-items: start;">
+    <div style="position: sticky; top: clamp(90px, 14vh, 150px); display: flex; flex-direction: column; align-items: flex-start;">
+      <div data-rv="1" style="display: flex; align-items: center; gap: 16px; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+        <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(34,34,34,0.62);">CH. 06</span>
+        <span style="width: 46px; height: 1px; flex-shrink: 0; background: rgba(184,138,106,0.65);"></span>
+        <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(34,34,34,0.62);">FAQ</span>
+      </div>
+      <h2 data-rv="2" style="margin: 28px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(42px, 4.4vw, 74px); line-height: 1.02; letter-spacing: -0.015em; color: #222222; text-wrap: pretty; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">Answers,<br><em style="font-style: italic; font-weight: 400; color: #B88A6A;">before you ask.</em></h2>
+      <p data-rv="3" style="margin: 26px 0 0; max-width: 380px; font-weight: 300; font-size: 16px; line-height: 1.66; color: rgba(34,34,34,0.66); text-wrap: pretty; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">Everything you need to know before your visit. If you have additional questions, our team is always happy to help.</p>
+      <div data-rv="4" style="margin-top: 36px; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+        <a href="https://wa.me/96170816041" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(184,138,106,0.5); font-family: 'DM Mono', monospace; font-size: 11.5px; letter-spacing: 0.2em; color: #222222; transition: color 250ms cubic-bezier(0.22,1,0.36,1), border-color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A; border-bottom: 1px solid #B88A6A;">TALK TO OUR TEAM <span style="font-family: 'Jost', sans-serif; font-size: 14px;">↗</span></a>
+      </div>
+    </div>
+    <div style="border-top: 1px solid #E8E1D8;">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+        <div data-rv="{{ f.rv }}" style="border-bottom: 1px solid #E8E1D8; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+          <button type="button" onClick="{{ f.toggle }}" onMouseEnter="{{ f.enter }}" onMouseLeave="{{ f.leave }}" aria-expanded="{{ f.open }}" aria-controls="{{ f.aid }}" style="display: grid; grid-template-columns: 38px 1fr 36px; gap: 20px; align-items: center; width: 100%; padding: clamp(22px, 3vh, 30px) 0; margin: 0; background: transparent; border: none; text-align: left; cursor: pointer; font-family: inherit; transform: {{ f.rowY }}; transition: transform 250ms cubic-bezier(0.22,1,0.36,1);">
+            <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: #B88A6A; padding-top: 4px;">{{ f.num }}</span>
+            <span style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(21px, 2vw, 27px); line-height: 1.22; letter-spacing: -0.01em; color: {{ f.qColor }}; text-wrap: pretty; transition: color 250ms cubic-bezier(0.22,1,0.36,1);">{{ f.q }}</span>
+            <span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; border: 1px solid {{ f.circB }}; color: {{ f.iconC }}; transition: border-color 250ms cubic-bezier(0.22,1,0.36,1), color 250ms cubic-bezier(0.22,1,0.36,1);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display: block; transform: {{ f.rot }}; transition: transform 350ms cubic-bezier(0.22,1,0.36,1);"><path d="M6 1 V11 M1 6 H11" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"></path></svg>
+            </span>
+          </button>
+          <div id="{{ f.aid }}" role="region" style="display: grid; grid-template-rows: {{ f.rows }}; transition: grid-template-rows 350ms cubic-bezier(0.22,1,0.36,1);">
+            <div style="overflow: hidden; min-height: 0;">
+              <p style="margin: 0; padding: 2px clamp(20px, 4vw, 48px) 30px 58px; max-width: 640px; font-weight: 300; font-size: 15.5px; line-height: 1.72; color: rgba(34,34,34,0.68); text-wrap: pretty; opacity: {{ f.aOp }}; transform: {{ f.aY }}; transition: opacity 350ms cubic-bezier(0.22,1,0.36,1), transform 350ms cubic-bezier(0.22,1,0.36,1);">{{ f.a }}</p>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+
+
+<section data-screen-label="Contact" id="contact" ref="{{ contactRef }}" style="position: relative; width: 100%; background: #F9F7F2; padding: clamp(32px, 5vh, 72px) clamp(20px, 3vw, 48px) clamp(96px, 12vh, 170px); font-family: 'Jost', sans-serif;">
+  <div style="position: relative; width: 100%; max-width: 1360px; margin: 0 auto; background: #1A2620; border-radius: 24px; overflow: hidden; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));">
+    <div style="position: relative; z-index: 2; padding: clamp(48px, 6vw, 92px) clamp(28px, 4.5vw, 88px) clamp(48px, 6vw, 92px) clamp(28px, 5vw, 96px);">
+      <div data-rv="1" style="display: flex; align-items: center; gap: 16px; opacity: 0; transform: translateY(16px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+        <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.62);">CH. 07</span>
+        <span style="width: 46px; height: 1px; flex-shrink: 0; background: rgba(184,138,106,0.6);"></span>
+        <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.62);">CONTACT</span>
+      </div>
+      <h2 style="margin: 30px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(44px, 4.6vw, 80px); line-height: 1.02; letter-spacing: -0.015em; color: #F5F3EC; text-wrap: pretty;">
+        <span data-rv="1" style="display: block; opacity: 0; transform: translateY(20px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">Begin your</span>
+        <em data-rv="2" style="display: block; font-style: italic; font-weight: 400; color: #B88A6A; opacity: 0; transform: translateY(20px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">wellness journey.</em>
+      </h2>
+      <p data-rv="3" style="margin: 26px 0 0; max-width: 440px; font-weight: 300; font-size: 16px; line-height: 1.66; color: rgba(245,243,236,0.66); text-wrap: pretty; opacity: 0; transform: translateY(16px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">Whether you're booking your first facial, a relaxing massage, beauty services or a personalized wellness experience, our team is here to welcome you.</p>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 3vh, 40px) clamp(24px, 3vw, 48px); margin-top: clamp(36px, 5vh, 56px); max-width: 560px;">
+        <div data-rv="3" style="opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+          <div data-rv-line="3" style="height: 1px; background: rgba(245,243,236,0.16); margin-bottom: 16px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
+          <div style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: rgba(245,243,236,0.5);">PHONE</div>
+          <a href="tel:+96170816041" style="display: inline-block; margin-top: 10px; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(21px, 1.8vw, 26px); line-height: 1.3; color: #F5F3EC; transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">70 816 041</a>
+        </div>
+        <div data-rv="4" style="opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+          <div data-rv-line="4" style="height: 1px; background: rgba(245,243,236,0.16); margin-bottom: 16px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
+          <div style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: rgba(245,243,236,0.5);">VISIT</div>
+          <a href="https://maps.app.goo.gl/k8KGaXXnposMVMWj8" target="_blank" rel="noopener" style="display: inline-block; margin-top: 10px; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(21px, 1.8vw, 26px); line-height: 1.3; color: #F5F3EC; transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">Farid Trad, Beirut</a>
+        </div>
+        <div data-rv="5" style="opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+          <div data-rv-line="5" style="height: 1px; background: rgba(245,243,236,0.16); margin-bottom: 16px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
+          <div style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: rgba(245,243,236,0.5);">HOURS</div>
+          <div style="margin-top: 10px; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.4; color: #F5F3EC;">Monday – Saturday<br>10:00 AM – 7:00 PM</div>
+        </div>
+        <div data-rv="6" style="opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+          <div data-rv-line="6" style="height: 1px; background: rgba(245,243,236,0.16); margin-bottom: 16px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
+          <div style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: rgba(245,243,236,0.5);">INSTAGRAM</div>
+          <a href="https://www.instagram.com/malaya.beirut/?hl=en" target="_blank" rel="noopener" style="display: inline-block; margin-top: 10px; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(21px, 1.8vw, 26px); line-height: 1.3; color: #F5F3EC; transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">@malaya.beirut</a>
+        </div>
+      </div>
+      <div data-rv="7" style="margin-top: clamp(40px, 6vh, 64px); opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+        <a href="https://wa.me/96170816041" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 14px; padding: 21px 44px; border-radius: 999px; background: #F5F3EC; border: 1px solid rgba(245,243,236,0.3); color: #1A2620; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em; transition: background 250ms cubic-bezier(0.22,1,0.36,1), transform 250ms cubic-bezier(0.22,1,0.36,1), gap 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #FFFFFF; transform: translateY(-2px); gap: 18px; color: #1A2620;">BOOK YOUR EXPERIENCE <span style="font-family: 'Jost', sans-serif; font-size: 15px;">↗</span></a>
+      </div>
+    </div>
+    <div style="position: relative; min-height: clamp(340px, 50vh, 640px);">
+      <img data-rv="2" src="assets/storefront-night.jpg" alt="Malaya storefront at night — guests at outdoor tables under the lit awning" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; transform: scale(1.04); transition: opacity 1100ms cubic-bezier(0.22,1,0.36,1), transform 1400ms cubic-bezier(0.22,1,0.36,1);">
+      <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(90deg, #1A2620 0%, rgba(26,38,32,0.45) 22%, rgba(26,38,32,0) 60%), linear-gradient(180deg, rgba(26,38,32,0.55) 0%, rgba(26,38,32,0) 30%); pointer-events: none;"></div>
+    </div>
+  </div>
+</section>
+
+<footer data-screen-label="Footer" ref="{{ footRef }}" style="position: relative; width: 100%; background: #F9F7F2; color: #222222; border-top: 1px solid #E8E1D8; padding: clamp(64px, 8vh, 100px) clamp(24px, 4vw, 56px) clamp(36px, 5vh, 56px); font-family: 'Jost', sans-serif;">
+  <div style="width: 100%; max-width: 1280px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: clamp(40px, 5vw, 80px); align-items: start;">
+      <div data-rv="1" style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px; opacity: 0; transform: translateY(14px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+        <img src="assets/malaya-mark.png" alt="Malaya" style="display: block; height: 48px; width: auto;">
+        <p style="margin: 0; max-width: 280px; font-weight: 300; font-size: 14.5px; line-height: 1.6; color: rgba(34,34,34,0.68); text-wrap: pretty;">Where beauty, wellness and confidence come together.</p>
+        <div style="display: flex; flex-direction: column; gap: 6px; font-weight: 300; font-size: 14px; line-height: 1.55; color: rgba(34,34,34,0.62);">
+          <a href="tel:+96170816041" style="color: rgba(34,34,34,0.62); transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">70 816 041</a>
+          <span>Farid Trad, Beirut</span>
+          <span>Monday – Saturday<br>10:00 AM – 7:00 PM</span>
+        </div>
+      </div>
+      <div data-rv="2" style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; opacity: 0; transform: translateY(14px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+        <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.22em; color: rgba(34,34,34,0.55);">NAVIGATION</span>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="#treatments" style="font-weight: 300; font-size: 15px; color: rgba(34,34,34,0.78); transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">Treatments</a>
+          <a href="#about" style="font-weight: 300; font-size: 15px; color: rgba(34,34,34,0.78); transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">About</a>
+          <a href="#team" style="font-weight: 300; font-size: 15px; color: rgba(34,34,34,0.78); transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">Team</a>
+        </div>
+      </div>
+      <div data-rv="3" style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; opacity: 0; transform: translateY(14px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
+        <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.22em; color: rgba(34,34,34,0.55);">CONNECT</span>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="https://www.instagram.com/malaya.beirut/?hl=en" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 300; font-size: 15px; color: rgba(34,34,34,0.78); transition: color 250ms cubic-bezier(0.22,1,0.36,1), gap 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A; gap: 12px;">Instagram <span style="font-size: 12px;">↗</span></a>
+          <a href="https://www.tiktok.com/@malaya.beirut" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 300; font-size: 15px; color: rgba(34,34,34,0.78); transition: color 250ms cubic-bezier(0.22,1,0.36,1), gap 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A; gap: 12px;">TikTok <span style="font-size: 12px;">↗</span></a>
+          <a href="https://maps.app.goo.gl/k8KGaXXnposMVMWj8" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 300; font-size: 15px; color: rgba(34,34,34,0.78); transition: color 250ms cubic-bezier(0.22,1,0.36,1), gap 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A; gap: 12px;">Google Maps <span style="font-size: 12px;">↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: clamp(48px, 7vh, 80px); padding-top: 24px; border-top: 1px solid #E8E1D8; display: flex; justify-content: center;">
+      <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: rgba(34,34,34,0.5); text-align: center;">© 2026 MALAYA SALON • SPA • WELLNESS CENTER</span>
+    </div>
+  </div>
+</footer></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;videoPosition&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;50% center&quot;,&quot;62% center&quot;,&quot;75% center&quot;,&quot;100% center&quot;],&quot;default&quot;:&quot;62% center&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Background&quot;},&quot;veilOpacity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0.4,&quot;max&quot;:1,&quot;step&quot;:0.05,&quot;default&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Background&quot;}}">
+class Component extends DCLogic {
+  state = { cat: "biologique", sub: {}, expanded: null, hoveredRow: null, anim: 0, faqOpen: 0, faqHover: null };
+  faqData = [
+    { q: "What services does Malaya offer?", a: "Malaya brings together advanced aesthetic medicine, facial treatments, laser technologies, massage therapies, physiotherapy, beauty services, hair care, nails, waxing, threading and wellness experiences—all under one roof, with every treatment tailored to your individual needs." },
+    { q: "How do I know which treatment is right for me?", a: "Every visit begins with a personalized consultation. Our specialists assess your skin, lifestyle and goals before recommending the treatment—or combination of treatments—that will deliver the best results." },
+    { q: "Can I combine multiple treatments in one visit?", a: "Absolutely. Many guests enjoy combining facials, massage, hair, nails and beauty services into one seamless visit. Our team will create a personalized experience that fits comfortably within your schedule." },
+    { q: "How long do treatments usually take?", a: "Treatment times vary depending on the service. Beauty appointments may take around 30 minutes, while advanced facials, massages and aesthetic treatments generally range from one to two hours. We'll always let you know what to expect before your appointment." },
+    { q: "Do you offer treatment packages?", a: "Yes. Many of our services can be combined into personalized packages designed to maximize both results and value. Our specialists will recommend the option best suited to your goals." },
+    { q: "How can I book an appointment?", a: "Booking is simple. Contact us by phone, WhatsApp or through our online booking request. If you're unsure which treatment is right for you, our team will gladly guide you every step of the way." }
+  ];
+  trRef = (el) => this.observeReveal(el);
+  listRef = (el) => { this.listEl = el; };
+  initStory = (el) => { if (!el) return; this.storyEl = el; this.stq = null; };
+  stRamp(p, a, b) { return Math.max(0, Math.min(1, (p - a) / (b - a))); }
+  stEase(t) { return t * t * (3 - 2 * t); }
+  ensureStoryCache() {
+    const root = this.storyEl;
+    if (!root) return false;
+    if (this.stq && this.stq.stage && this.stq.stage.isConnected) return true;
+    const q = {};
+    ["stage","eyebrow","dust","s1","imgwrap","breathe","clip","slicerow","slice0","slice1","slice2","sweep","trio0","trio1","trio2","caps","cap0","cap1","cap2","capline0","capline1","capline2","scrim","g1","g2"].forEach((k) => { q[k] = root.querySelector('[data-st="' + k + '"]'); });
+    if (!q.stage || !q.clip || !q.caps) return false;
+    this.stq = q;
+    [q.slice0, q.slice1, q.slice2].forEach((s) => { if (s) s.style.transition = "border-radius 360ms ease, filter 500ms ease"; });
+    if (q.imgwrap) q.imgwrap.style.transition = "transform 700ms cubic-bezier(0.22,1,0.36,1)";
+    if (this.reduced) {
+      if (q.dust) q.dust.style.display = "none";
+      if (q.sweep) q.sweep.style.animation = "none";
+      if (q.breathe) q.breathe.style.animation = "none";
+    }
+    if (!q.stage.dataset.bound) {
+      q.stage.dataset.bound = "1";
+      q.stage.addEventListener("mousemove", (e) => {
+        if (this.reduced || this.narrow || !this.stq) return;
+        const r = this.stq.stage.getBoundingClientRect();
+        const ry = ((e.clientX - r.left) / r.width - 0.5) * 4.8;
+        const rx = ((e.clientY - r.top) / r.height - 0.5) * -4.8;
+        this.stq.imgwrap.style.transform = "perspective(1100px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)";
+      });
+      q.stage.addEventListener("mouseleave", () => { if (this.stq) this.stq.imgwrap.style.transform = "perspective(1100px)"; });
+      q.stage.addEventListener("mouseover", (e) => {
+        const f = e.target.closest && e.target.closest("[data-founder]");
+        const h = f ? Number(f.dataset.founder) : -1;
+        if (h !== this.storyHover) { this.storyHover = h; this.applyStory(this.lastStoryP || 0); }
+      });
+      q.stage.addEventListener("mouseout", (e) => {
+        if (!e.relatedTarget || !e.relatedTarget.closest || !e.relatedTarget.closest("[data-founder]")) {
+          if (this.storyHover !== -1) { this.storyHover = -1; this.applyStory(this.lastStoryP || 0); }
+        }
+      });
+    }
+    return true;
+  }
+  tickStory = () => {
+    const el = this.storyEl;
+    if (!el || !this.ensureStoryCache()) return;
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    if (this.storyInit && (rect.bottom < -120 || rect.top > vh + 120)) return;
+    this.storyInit = true;
+    const total = Math.max(1, el.offsetHeight - vh);
+    const p = Math.max(0, Math.min(1, -rect.top / total));
+    this.lastStoryP = p;
+    this.applyStory(p);
+  };
+  applyStory(p) {
+    const q = this.stq;
+    if (!q) return;
+    const R = (a, b) => this.stRamp(p, a, b);
+    const E = this.stEase;
+    const red = this.reduced;
+    const s1o = R(0.02, 0.07) * (1 - R(0.13, 0.17));
+    q.s1.style.opacity = s1o.toFixed(3);
+    q.s1.style.transform = red ? "none" : "translateY(" + ((1 - E(R(0.02, 0.07))) * 24 - E(R(0.13, 0.17)) * 18).toFixed(1) + "px)";
+    q.eyebrow.style.opacity = R(0.02, 0.06).toFixed(3);
+    const rv = E(R(0.15, 0.3));
+    const grandDim = E(R(0.84, 0.92));
+    q.clip.style.opacity = rv.toFixed(3);
+    q.clip.style.clipPath = "inset(" + ((1 - rv) * 14).toFixed(2) + "% round 20px)";
+    q.clip.style.transform = red ? "none" : "scale(" + ((1.07 - 0.07 * rv) * (1 - 0.045 * grandDim)).toFixed(4) + ")";
+    q.clip.style.filter = "brightness(" + (1 - 0.68 * grandDim).toFixed(3) + ")";
+    q.dust.style.opacity = (rv * (1 - grandDim) * 0.85).toFixed(3);
+    for (let i = 0; i < 3; i++) {
+      const tin = R(0.32 + i * 0.07, 0.365 + i * 0.07);
+      const tout = R(0.545, 0.575);
+      const t = q["trio" + i];
+      t.style.opacity = (tin * (1 - tout)).toFixed(3);
+      t.style.transform = red ? "none" : "translateY(" + ((1 - E(tin)) * 16).toFixed(1) + "px)";
+    }
+    const split = E(R(0.58, 0.67)) * (1 - E(R(0.77, 0.85)));
+    const off = split * (this.narrow ? 12 : 28);
+    q.slice0.style.transform = "translateX(" + (-off).toFixed(1) + "px)";
+    q.slice2.style.transform = "translateX(" + off.toFixed(1) + "px)";
+    const uni = split > 0.12;
+    q.slice0.style.borderRadius = uni ? "14px" : "20px 0 0 20px";
+    q.slice1.style.borderRadius = uni ? "14px" : "0";
+    q.slice2.style.borderRadius = uni ? "14px" : "0 20px 20px 0";
+    const hold = split > 0.6 && p < 0.77;
+    q.caps.style.opacity = split.toFixed(3);
+    q.caps.style.pointerEvents = hold ? "auto" : "none";
+    q.slicerow.style.pointerEvents = hold ? "auto" : "none";
+    const h = hold ? (this.storyHover == null ? -1 : this.storyHover) : -1;
+    for (let i = 0; i < 3; i++) {
+      let capIn;
+      if (this.narrow) {
+        const seg = R(0.6, 0.79) * 3;
+        capIn = Math.max(0, Math.min(1, 1.5 - Math.abs(seg - (i + 0.5)) * 3.2)) * (split > 0.05 ? 1 : 0);
+      } else {
+        capIn = E(R(0.6 + i * 0.028, 0.66 + i * 0.028)) * (1 - E(R(0.77, 0.82)));
+      }
+      const cap = q["cap" + i];
+      const dimmed = h !== -1 && h !== i;
+      cap.style.opacity = (capIn * (dimmed ? 0.45 : 1)).toFixed(3);
+      cap.style.transform = red ? "none" : "translateY(" + ((1 - capIn) * 14).toFixed(1) + "px)";
+      q["capline" + i].style.transform = "scaleX(" + capIn.toFixed(3) + ")";
+      const sl = q["slice" + i];
+      sl.style.filter = h === -1 ? "brightness(1)" : (h === i ? "brightness(1.07)" : "brightness(0.78)");
+      if (this.narrow && hold) {
+        sl.style.filter = capIn > 0.5 ? "brightness(1.06)" : "brightness(0.85)";
+      }
+    }
+    if (this.narrow) {
+      q.caps.style.gridTemplateColumns = "1fr";
+      for (let i = 0; i < 3; i++) q["cap" + i].style.gridArea = "1 / 1";
+    } else {
+      q.caps.style.gridTemplateColumns = "repeat(3, minmax(150px, 250px))";
+      for (let i = 0; i < 3; i++) q["cap" + i].style.gridArea = "auto";
+    }
+    q.scrim.style.opacity = (E(R(0.85, 0.92)) * 0.9).toFixed(3);
+    const g1 = E(R(0.86, 0.905));
+    const g2 = E(R(0.915, 0.955));
+    q.g1.style.opacity = g1.toFixed(3);
+    q.g1.style.transform = red ? "none" : "translateY(" + ((1 - g1) * 20).toFixed(1) + "px)";
+    q.g2.style.opacity = g2.toFixed(3);
+    q.g2.style.transform = red ? "none" : "translateY(" + ((1 - g2) * 24).toFixed(1) + "px) scale(" + (0.985 + 0.015 * g2).toFixed(4) + ")";
+  }
+  initWords = (el) => { if (!el) return; this.wordsEl = el; this.wq = null; };
+  ensureWordsCache() {
+    const root = this.wordsEl;
+    if (!root) return false;
+    if (this.wq && this.wq.stage && this.wq.stage.isConnected) return true;
+    const q = { stories: [] };
+    ["stage", "eyebrow", "introch", "introtitle", "count"].forEach((k) => { q[k] = root.querySelector('[data-w="' + k + '"]'); });
+    q.dots = [0, 1, 2, 3].map((i) => root.querySelector('[data-w="dot' + i + '"]'));
+    for (let i = 0; i < 4; i++) {
+      const layer = root.querySelector('[data-w="story' + i + '"]');
+      if (!layer) return false;
+      q.stories.push({
+        layer: layer,
+        clip: layer.querySelector("[data-wc]"),
+        zoom: layer.querySelector("[data-wz]"),
+        qm: layer.querySelector("[data-wq]"),
+        lines: Array.prototype.slice.call(layer.querySelectorAll("[data-wl]")),
+        name: layer.querySelector("[data-wn]"),
+        loc: layer.querySelector("[data-wo]"),
+        treat: layer.querySelector("[data-wt]")
+      });
+    }
+    if (!q.stage || !q.stories[3].clip) return false;
+    q.grids = q.stories.map((s) => s.layer.firstElementChild);
+    this.wq = q;
+    this.wFitKey = null;
+    if (this.reduced) {
+      root.querySelectorAll("[data-wz],[data-wleak]").forEach((el) => { el.style.animation = "none"; });
+    }
+    if (!q.stage.dataset.bound) {
+      q.stage.dataset.bound = "1";
+      q.stage.addEventListener("touchstart", (e) => { this.wTx = e.touches[0].clientX; this.wTy = e.touches[0].clientY; }, { passive: true });
+      q.stage.addEventListener("touchend", (e) => {
+        if (this.wTx == null) return;
+        const dx = e.changedTouches[0].clientX - this.wTx;
+        const dy = e.changedTouches[0].clientY - this.wTy;
+        this.wTx = null;
+        if (Math.abs(dx) > 64 && Math.abs(dx) > Math.abs(dy) * 1.4) this.goToWords(this.wordsIdx + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+      q.stage.addEventListener("mousemove", (e) => {
+        if (this.reduced || this.narrow || !this.wq) return;
+        const s = this.wq.stories[this.wordsIdx || 0];
+        if (!s) return;
+        const r = this.wq.stage.getBoundingClientRect();
+        const mx = ((e.clientX - r.left) / r.width - 0.5) * 8;
+        const my = ((e.clientY - r.top) / r.height - 0.5) * 6;
+        s.zoom.style.translate = (-mx).toFixed(1) + "px " + (-my).toFixed(1) + "px";
+      });
+      q.stage.addEventListener("mouseleave", () => {
+        if (this.wq) this.wq.stories.forEach((s) => { s.zoom.style.translate = "0px 0px"; });
+      });
+    }
+    return true;
+  }
+  fitWords() {
+    const q = this.wq;
+    if (!q) return;
+    const key = q.stage.clientWidth + "x" + q.stage.clientHeight;
+    if (this.wFitKey === key) return;
+    this.wFitKey = key;
+    q.stories.forEach((s, i) => {
+      const g = q.grids[i];
+      if (!g) return;
+      g.style.transform = "";
+      const cs = getComputedStyle(s.layer);
+      const avail = s.layer.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      const h = g.offsetHeight;
+      if (h > avail && avail > 0) {
+        const sc = Math.max(0.5, avail / h);
+        g.style.transformOrigin = "center center";
+        g.style.transform = "scale(" + sc.toFixed(4) + ")";
+      }
+    });
+  }
+  tickWords = () => {
+    const el = this.wordsEl;
+    if (!el || !this.ensureWordsCache()) return;
+    this.fitWords();
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    if (this.wordsInit && (rect.bottom < -120 || rect.top > vh + 120)) return;
+    this.wordsInit = true;
+    const total = Math.max(1, el.offsetHeight - vh);
+    const p = Math.max(0, Math.min(1, -rect.top / total));
+    this.lastWordsP = p;
+    this.applyWords(p);
+  };
+  applyWords(p) {
+    const q = this.wq;
+    if (!q) return;
+    const R = (v, a, b) => Math.max(0, Math.min(1, (v - a) / (b - a)));
+    const E = this.stEase;
+    const red = this.reduced;
+    const introO = R(p, 0.012, 0.04) * (1 - R(p, 0.085, 0.108));
+    q.introch.style.opacity = (R(p, 0.012, 0.038) * (1 - R(p, 0.085, 0.108))).toFixed(3);
+    q.introtitle.style.opacity = introO.toFixed(3);
+    q.introtitle.style.transform = red ? "none" : "translateY(" + ((1 - E(R(p, 0.025, 0.06))) * 22).toFixed(1) + "px)";
+    q.eyebrow.style.opacity = R(p, 0.02, 0.05).toFixed(3);
+    const SPAN = 0.225, BASE = 0.1;
+    this.wordsIdx = Math.max(0, Math.min(3, Math.floor((p - BASE) / SPAN)));
+    for (let i = 0; i < 4; i++) {
+      const s = q.stories[i];
+      const t = (p - (BASE + i * SPAN)) / SPAN;
+      const enter = E(R(t, -0.04, 0.1));
+      const out = i < 3 ? E(R(t, 0.9, 1.04)) : 0;
+      const vis = enter * (1 - out);
+      s.layer.style.opacity = vis.toFixed(3);
+      s.layer.style.transform = red ? "none" : "translateX(" + ((1 - enter) * 6.5).toFixed(2) + "%)";
+      s.layer.setAttribute("aria-hidden", vis < 0.05 ? "true" : "false");
+      const c = E(R(t, 0.02, 0.2));
+      s.clip.style.clipPath = "inset(" + ((1 - c) * 12).toFixed(2) + "% round 20px)";
+      s.clip.style.transform = red ? "none" : "scale(" + ((1.05 - 0.05 * c) * (1 - 0.05 * out)).toFixed(4) + ")";
+      s.qm.style.opacity = R(t, 0.1, 0.18).toFixed(3);
+      s.lines.forEach((ln, j) => {
+        const lo = E(R(t, 0.16 + j * 0.075, 0.26 + j * 0.075));
+        ln.style.opacity = lo.toFixed(3);
+        ln.style.transform = red ? "none" : "translateY(" + ((1 - lo) * 16).toFixed(1) + "px)";
+      });
+      const nBase = 0.2 + s.lines.length * 0.075;
+      const no = E(R(t, nBase + 0.06, nBase + 0.14));
+      s.name.style.opacity = no.toFixed(3);
+      s.name.style.transform = red ? "none" : "translateY(" + ((1 - no) * 12).toFixed(1) + "px)";
+      s.loc.style.opacity = E(R(t, nBase + 0.12, nBase + 0.2)).toFixed(3);
+      s.treat.style.opacity = E(R(t, nBase + 0.17, nBase + 0.25)).toFixed(3);
+    }
+    q.count.textContent = "0" + (this.wordsIdx + 1);
+    q.dots.forEach((d, i) => {
+      if (!d) return;
+      const on = i === this.wordsIdx;
+      d.style.width = on ? "26px" : "8px";
+      d.style.background = on ? "#2F4938" : "rgba(42,38,32,0.25)";
+      d.setAttribute("aria-current", on ? "true" : "false");
+    });
+  }
+  goToWords = (i) => {
+    const el = this.wordsEl;
+    if (!el) return;
+    const idx = Math.max(0, Math.min(3, i));
+    const top = window.scrollY + el.getBoundingClientRect().top;
+    const total = Math.max(1, el.offsetHeight - window.innerHeight);
+    window.scrollTo({ top: top + (0.1 + idx * 0.225 + 0.13) * total, behavior: this.reduced ? "auto" : "smooth" });
+  };
+  componentDidMount() {
+    this._onScrollV = () => {
+      if (this._vTick) return;
+      this._vTick = true;
+      requestAnimationFrame(() => {
+        this._vTick = false;
+        const y = window.scrollY;
+        if (this.video && y < window.innerHeight * 1.3) this.video.style.transform = 'translate3d(0,' + (y * 0.12).toFixed(1) + 'px,0) scale(1.06)';
+      });
+    };
+    if (!this.reduced) window.addEventListener('scroll', this._onScrollV, { passive: true });
+    this._revealSweep = () => {
+      (this.observedEls ? Array.from(this.observedEls) : []).forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > -window.innerHeight) this.reveal(el);
+      });
+    };
+    setTimeout(this._revealSweep, 900);
+    setTimeout(this._revealSweep, 2200);
+    window.addEventListener('pageshow', this._revealSweep);
+    const v = this.video;
+    if (v) {
+      v.muted = true;
+      const p = v.play();
+      if (p && p.catch) p.catch(() => {});
+    }
+    this.reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.storyHover = -1;
+    this.narrow = window.innerWidth < 760;
+    this.onScrollStory = () => {
+      if (this.storyRaf) return;
+      this.storyRaf = requestAnimationFrame(() => { this.storyRaf = 0; this.tickStory(); this.tickWords(); });
+    };
+    window.addEventListener("scroll", this.onScrollStory, { passive: true });
+    this.onResizeStory = () => { this.narrow = window.innerWidth < 760; this.onScrollStory(); };
+    window.addEventListener("resize", this.onResizeStory);
+    setTimeout(() => { this.tickStory(); this.tickWords(); }, 120);
+    this.onKeyWords = (e) => {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      const el = this.wordsEl;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (r.top > window.innerHeight * 0.35 || r.bottom < window.innerHeight * 0.65) return;
+      e.preventDefault();
+      this.goToWords((this.wordsIdx || 0) + (e.key === "ArrowRight" ? 1 : -1));
+    };
+    window.addEventListener("keydown", this.onKeyWords);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.wFitKey = null; this.tickWords(); });
+    if (!window.MALAYA_TREATMENTS) {
+      this.dataPoll = setInterval(() => {
+        if (window.MALAYA_TREATMENTS) { clearInterval(this.dataPoll); this.forceUpdate(); }
+      }, 60);
+    }
+  }
+  swap(apply) {
+    const el = this.listEl;
+    if (this.reduced || !el) { apply(); return; }
+    el.style.transition = "opacity 210ms cubic-bezier(0.22,1,0.36,1), transform 210ms cubic-bezier(0.22,1,0.36,1)";
+    el.style.opacity = "0";
+    el.style.transform = "translateY(-14px)";
+    setTimeout(() => {
+      apply();
+      el.style.transition = "none";
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    }, 220);
+  }
+  pickCat(id) {
+    if (id === this.state.cat) return;
+    this.swap(() => this.setState({ cat: id, expanded: null, hoveredRow: null, anim: this.state.anim + 1 }));
+  }
+  pickSub(catId, subId) {
+    if ((this.state.sub[catId] || null) === subId) return;
+    const sub = Object.assign({}, this.state.sub);
+    sub[catId] = subId;
+    this.swap(() => this.setState({ sub: sub, expanded: null, hoveredRow: null, anim: this.state.anim + 1 }));
+  }
+  reveal(root) {
+    if (!root || root.dataset.revealed === "1") return;
+    root.dataset.revealed = "1";
+    root.querySelectorAll("[data-rv]").forEach((el) => {
+      const step = Number(el.dataset.rv) || 1;
+      el.style.transitionDelay = (60 + step * 110) + "ms";
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    });
+    root.querySelectorAll("[data-rv-line]").forEach((el) => {
+      const step = Number(el.dataset.rvLine) || 1;
+      el.style.transitionDelay = (120 + step * 110) + "ms";
+      el.style.transform = "scaleX(1)";
+    });
+    root.querySelectorAll("[data-count]").forEach((el, i) => {
+      this.countUp(el, 900 + i * 130);
+    });
+  }
+  countUp(el, delay) {
+    const source = el.dataset.countText || el.textContent.trim();
+    el.dataset.countText = source;
+    const m = source.match(/^([^\d]*)([\d.,]+)(.*)$/);
+    if (!m) return;
+    const prefix = m[1], raw = m[2], suffix = m[3];
+    const grouped = raw.indexOf(",") !== -1;
+    const decimals = (raw.split(".")[1] || "").length;
+    const target = parseFloat(raw.replace(/,/g, ""));
+    if (!isFinite(target)) return;
+    const fmt = (n) => {
+      let out = decimals ? n.toFixed(decimals) : String(Math.round(n));
+      if (grouped) {
+        const parts = out.split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        out = parts.join(".");
+      }
+      return prefix + out + suffix;
+    };
+    el.style.fontVariantNumeric = "tabular-nums";
+    el.textContent = fmt(0);
+    const dur = 1800;
+    const start = performance.now() + delay;
+    const tick = (now) => {
+      if (now < start) { requestAnimationFrame(tick); return; }
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmt(target * eased);
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = source;
+    };
+    requestAnimationFrame(tick);
+  }
+  observeReveal(el) {
+    if (!el) return;
+    if (!this.observedEls) this.observedEls = new Set();
+    if (this.observedEls.has(el)) return;
+    this.observedEls.add(el);
+    if (typeof IntersectionObserver === "undefined") { this.reveal(el); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && (e.intersectionRatio > 0.12 || e.intersectionRect.height > window.innerHeight * 0.12)) { this.reveal(e.target); io.disconnect(); }
+      });
+    }, { threshold: [0, 0.05, 0.1, 0.16, 0.25, 0.4] });
+    io.observe(el);
+    this.ios = (this.ios || []).concat(io);
+  }
+  componentWillUnmount() {
+    if (this._revealSweep) window.removeEventListener('pageshow', this._revealSweep);
+    if (this._onScrollV) window.removeEventListener('scroll', this._onScrollV);
+    (this.ios || []).forEach((io) => io.disconnect());
+    if (this.dataPoll) clearInterval(this.dataPoll);
+    if (this.onScrollStory) window.removeEventListener("scroll", this.onScrollStory);
+    if (this.onResizeStory) window.removeEventListener("resize", this.onResizeStory);
+    if (this.storyRaf) cancelAnimationFrame(this.storyRaf);
+    if (this.onKeyWords) window.removeEventListener("keydown", this.onKeyWords);
+  }
+  renderVals() {
+    const DATA = window.MALAYA_TREATMENTS || [];
+    const cat = DATA.find((c) => c.id === this.state.cat) || DATA[0] || { id: "none", label: "", groups: [] };
+    const subs = cat.subs || null;
+    const activeSub = subs ? (subs.find((s) => s.id === this.state.sub[cat.id]) || subs[0]) : null;
+    const rawGroups = activeSub ? activeSub.groups : (cat.groups || []);
+    const animName = this.state.anim % 2 ? "malayaRowInB" : "malayaRowInA";
+    let ri = 0;
+    const groups = rawGroups.map((g, gi) => {
+      const rows = (g.items || []).map((it, ii) => {
+        const id = cat.id + "-" + (activeSub ? activeSub.id + "-" : "") + gi + "-" + ii;
+        const open = this.state.expanded === id;
+        const i = ri++;
+        const hasDetails = !!(it.d || (it.opts && it.opts.length) || it.note);
+        const toggle = () => { if (hasDetails) this.setState({ expanded: open ? null : id }); };
+        return {
+          id: id,
+          num: String((g.start || 1) + ii).padStart(2, "0"),
+          name: it.n,
+          hasSub: !!it.s, sub: it.s || "",
+          duration: it.du || "",
+          price: it.p || "",
+          open: open,
+          det: open ? "1fr" : "0fr",
+          detOp: open ? 1 : 0,
+          plusRot: open ? "rotate(45deg)" : "rotate(0deg)",
+          shift: this.state.hoveredRow === id ? "translateX(6px)" : "translateX(0)",
+          bg: open ? "rgba(42,38,32,0.03)" : "transparent",
+          anim: this.reduced ? "none" : animName + " 460ms cubic-bezier(0.22,1,0.36,1) " + (Math.min(i, 12) * 55) + "ms both",
+          toggle: toggle,
+          key: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } },
+          enter: () => this.setState({ hoveredRow: id }),
+          leave: () => this.setState({ hoveredRow: null }),
+          book: (e) => e.stopPropagation(),
+          hasDesc: !!it.d, desc: it.d || "",
+          hasOpts: !!(it.opts && it.opts.length),
+          opts: (it.opts || []).map((o) => ({ k: o[0], v: o[1] })),
+          hasNote: !!it.note, note: it.note || "",
+          ariaLabel: "Book " + it.n
+        };
+      });
+      return {
+        hasHead: !!g.title, title: g.title || "",
+        hasSubT: !!g.subtitle, subtitle: g.subtitle || "",
+        hasDesc: !!g.description, description: g.description || "",
+        hasNote: !!g.note, note: g.note || "",
+        hasRows: rows.length > 0,
+        rows: rows
+      };
+    });
+    const tabs = DATA.map((c) => {
+      const sel = c.id === cat.id;
+      return {
+        id: c.id, label: c.label, sel: sel,
+        bg: sel ? "#2F4938" : "transparent",
+        fg: sel ? "#F5F3EC" : "#2A2620",
+        bc: sel ? "#2F4938" : "rgba(42,38,32,0.28)",
+        dot: sel ? "#98A395" : "rgba(42,38,32,0.3)",
+        hbg: sel ? "#2F4938" : "rgba(42,38,32,0.06)",
+        pick: () => this.pickCat(c.id)
+      };
+    });
+    const subTabs = subs ? subs.map((s) => {
+      const sel = activeSub && s.id === activeSub.id;
+      return {
+        id: s.id, label: s.label, sel: sel,
+        bg: sel ? "#5D7363" : "transparent",
+        fg: sel ? "#F5F3EC" : "rgba(42,38,32,0.8)",
+        bc: sel ? "#5D7363" : "rgba(42,38,32,0.22)",
+        hbg: sel ? "#5D7363" : "rgba(42,38,32,0.05)",
+        pick: () => this.pickSub(cat.id, s.id)
+      };
+    }) : [];
+    const faqs = this.faqData.map((f, i) => {
+      const open = this.state.faqOpen === i;
+      const hov = this.state.faqHover === i;
+      return {
+        num: String(i + 1).padStart(2, "0"),
+        q: f.q, a: f.a, rv: i + 2, aid: "faq-panel-" + i, open: open,
+        rows: open ? "1fr" : "0fr",
+        aOp: open ? 1 : 0,
+        aY: open ? "translateY(0px)" : "translateY(8px)",
+        rot: open || hov ? "rotate(45deg)" : "rotate(0deg)",
+        rowY: hov ? "translateY(-1.5px)" : "translateY(0px)",
+        qColor: open || hov ? "#111111" : "rgba(34,34,34,0.78)",
+        circB: open ? "rgba(184,138,106,0.9)" : hov ? "rgba(34,34,34,0.5)" : "rgba(34,34,34,0.22)",
+        iconC: open ? "#B88A6A" : hov ? "#222222" : "rgba(34,34,34,0.62)",
+        toggle: () => this.setState({ faqOpen: open ? null : i }),
+        enter: () => this.setState({ faqHover: i }),
+        leave: () => this.setState({ faqHover: null })
+      };
+    });
+    return {
+      faqRef: (el) => this.observeReveal(el),
+      bookRef: (el) => this.observeReveal(el),
+      contactRef: (el) => this.observeReveal(el),
+      footRef: (el) => this.observeReveal(el),
+      faqs: faqs,
+      videoRef: (el) => { this.video = el; },
+      phRef: (el) => { this.observeReveal(el); },
+      phVideoRef: (el) => {
+        if (!el) return;
+        el.muted = true;
+        const p = el.play();
+        if (p && p.catch) p.catch(() => {});
+      },
+      videoPosition: this.props.videoPosition ?? "62% center",
+      veilOpacity: this.props.veilOpacity ?? 1,
+      trRef: this.trRef,
+      evRef: (el) => { this.observeReveal(el); },
+      storyRef: this.initStory,
+      letterRef: (el) => { this.observeReveal(el); },
+      wordsRef: this.initWords,
+      goW0: () => this.goToWords(0),
+      goW1: () => this.goToWords(1),
+      goW2: () => this.goToWords(2),
+      goW3: () => this.goToWords(3),
+      listRef: this.listRef,
+      tabs: tabs,
+      subTabs: subTabs,
+      hasSubs: !!subs,
+      groups: groups,
+      activeId: cat.id,
+      hasCatNote: !!cat.note,
+      catNote: cat.note || ""
+    };
+  }
+}
+</script>
+</body>
+</html>
