@@ -47,6 +47,24 @@
   /* BOOK pill press feedback (tap squish; wins over inline hover styles) */
   #treatments [role="button"][aria-controls^="det-"] > a:active { transform: scale(0.94) !important; }
 
+  /* Floating glass bar: transparent at top, frosts on scroll, hides going
+     down and returns going up (JS drives the data attributes). */
+  [data-glassbar] {
+    background-color: rgba(20,31,24,0);
+    border-bottom: 1px solid rgba(245,243,236,0);
+    -webkit-backdrop-filter: blur(0px) saturate(1);
+    backdrop-filter: blur(0px) saturate(1);
+    transition: transform 460ms cubic-bezier(0.22,1,0.36,1), background-color 400ms ease, border-color 400ms ease, -webkit-backdrop-filter 400ms ease, backdrop-filter 400ms ease;
+  }
+  [data-glassbar][data-scrolled="1"] {
+    background-color: rgba(20,31,24,0.72);
+    -webkit-backdrop-filter: blur(16px) saturate(1.25);
+    backdrop-filter: blur(16px) saturate(1.25);
+    border-bottom: 1px solid rgba(245,243,236,0.08);
+  }
+  [data-glassbar][data-hidden="1"] { transform: translateY(-104%); }
+  [data-glassbar] nav a:active { transform: scale(0.92); display: inline-block; }
+
   /* ===== Mobile-first motion: CTA shine + universal tap feedback ===== */
   @keyframes malayaCtaShine {
     0%, 74% { transform: translateX(-180%) skewX(-14deg); }
@@ -116,16 +134,10 @@
     section[data-screen-label="Hero"] > div:nth-child(4) > div:last-of-type {
       align-items: flex-start !important;
       padding-top: 0 !important;
-      margin-top: max(12px, calc(48svh - 196px));
+      margin-top: max(12px, calc(48svh - 64px));
     }
 
-    /* Hero: give the top labels and headline breathing room */
-    section[data-screen-label="Hero"] header { padding-top: 58px !important; }
-    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type { gap: 10px !important; }
-    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(1),
-    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(3) { font-size: 10px !important; letter-spacing: 0.16em !important; }
-    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(2) { width: 26px !important; }
-    section[data-screen-label="Hero"] header img { height: 60px !important; }
+    /* Hero: headline sizing */
     section[data-screen-label="Hero"] h1 { font-size: min(56px, 14.8vw) !important; }
     section[data-screen-label="Hero"] p { font-size: 16.5px !important; }
     section[data-screen-label="Hero"] a[href*="wa.me"] { padding: 18px 32px !important; }
@@ -163,17 +175,26 @@
 
   /* Very small phones */
   @media (max-width: 374px) {
-    section[data-screen-label="Hero"] nav { gap: 16px !important; }
-    section[data-screen-label="Hero"] nav a { font-size: 11px !important; }
-    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(1),
-    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(3) { font-size: 9px !important; }
-    section[data-screen-label="Hero"] header > div:first-of-type > div:first-of-type > span:nth-child(2) { width: 18px !important; }
+    [data-glassbar] img { height: 30px !important; }
+    [data-glassbar] nav { gap: 12px !important; }
+    [data-glassbar] nav a { font-size: 10px !important; }
   }
 </style>
 </helmet>
 <div aria-hidden="true" style="position: fixed; inset: 0; z-index: 60; background: #1A2620; display: flex; align-items: center; justify-content: center; pointer-events: none; animation: malayaCurtain 900ms 1000ms cubic-bezier(0.76,0,0.24,1) forwards; will-change: transform;">
   <img src="assets/malaya-mark-light-clear.png" alt="" style="height: 72px; width: auto; animation: malayaFade 700ms 100ms cubic-bezier(0.22,0.61,0.36,1) both;">
 </div>
+
+<header data-glassbar ref="{{ barRef }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: calc(12px + env(safe-area-inset-top, 0px)) clamp(20px, 4vw, 56px) 12px; animation: malayaFade 700ms 1400ms cubic-bezier(0.22,0.61,0.36,1) both;">
+  <a href="#top" aria-label="Malaya — back to top" style="display: block; flex-shrink: 0;">
+    <img src="assets/malaya-mark-light-clear.png" alt="Malaya" style="display: block; height: 34px; width: auto; filter: drop-shadow(0 2px 6px rgba(14,23,18,0.5));">
+  </a>
+  <nav style="display: flex; align-items: center; gap: clamp(16px, 2.4vw, 40px);">
+    <a href="#treatments" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">TREATMENTS</a>
+    <a href="#about" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">ABOUT</a>
+    <a href="#team" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">TEAM</a>
+  </nav>
+</header>
 
 <section data-screen-label="Hero" style="position: relative; width: 100%; min-height: 100vh; overflow: hidden; background: #2A2620; font-family: 'Jost', sans-serif;">
 
@@ -186,33 +207,12 @@
 
   <div style="position: relative; display: flex; flex-direction: column; min-height: 100vh; animation: malayaRise 1000ms 120ms cubic-bezier(0.22,0.61,0.36,1) both;">
 
-    <header style="position: relative; display: flex; align-items: flex-start; justify-content: flex-start; gap: 24px 40px; padding: 72px clamp(24px, 4vw, 56px) 0;">
-      
-
-      <nav style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; gap: clamp(24px, 2.6vw, 44px);">
-        <a href="#treatments" style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.18em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 8px; margin: -12px -8px;">TREATMENTS</a>
-        <a href="#about" style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.18em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 8px; margin: -12px -8px;">ABOUT</a>
-        <a href="#team" style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.18em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 8px; margin: -12px -8px;">TEAM</a>
-      </nav>
-
-      <div style="display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.72); white-space: nowrap;">CH. 01</span>
-          <span style="width: 46px; height: 1px; flex-shrink: 0; background: rgba(152,163,149,0.75);"></span>
-          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.86); white-space: nowrap;">SALON · SPA · WELLNESS</span>
-        </div>
-        <a href="#top" style="display: block; width: fit-content;">
-          <img src="assets/malaya-mark-light-clear.png" alt="Malaya" style="display: block; height: 72px; width: auto; filter: drop-shadow(0 2px 6px rgba(14,23,18,0.5)) drop-shadow(0 6px 22px rgba(14,23,18,0.45));">
-        </a>
-      </div><div style="display: flex; justify-content: flex-end; margin-left: auto;">
-        
-      </div>
-
-
-    </header>
-
     <div style="display: flex; flex: 1; align-items: center; padding: 48px clamp(24px, 4vw, 56px) 72px;">
       <div style="max-width: 780px;">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 26px; animation: malayaBlurUp 900ms 1060ms cubic-bezier(0.22,0.61,0.36,1) both;">
+          <span style="width: 46px; height: 1px; flex-shrink: 0; background: rgba(152,163,149,0.75);"></span>
+          <span style="font-family: 'DM Mono', monospace; font-size: clamp(9.5px, 2.85vw, 11px); letter-spacing: 0.2em; color: rgba(245,243,236,0.82); white-space: nowrap;">CH. 01 · SALON · SPA · WELLNESS</span>
+        </div>
         <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(56px, 8.2vw, 132px); line-height: 0.9; letter-spacing: -0.015em; color: #F5F3EC; text-wrap: pretty;">
           <span style="display: block; animation: malayaBlurUp 900ms 1200ms cubic-bezier(0.22,0.61,0.36,1) both;">More than</span>
           <em style="display: block; font-style: italic; font-weight: 400; animation: malayaBlurUp 900ms 1360ms cubic-bezier(0.22,0.61,0.36,1) both;">beauty.</em>
@@ -1116,6 +1116,28 @@ class Component extends DCLogic {
       });
     };
     if (!this.reduced) window.addEventListener('scroll', this._onScrollV, { passive: true });
+    this._barY = window.scrollY;
+    this._barAcc = 0;
+    this._onScrollBar = () => {
+      if (this._barTick) return;
+      this._barTick = true;
+      requestAnimationFrame(() => {
+        this._barTick = false;
+        const bar = this.barEl;
+        if (!bar) return;
+        const y = window.scrollY;
+        bar.dataset.scrolled = y > 24 ? "1" : "0";
+        const dy = y - this._barY;
+        this._barY = y;
+        if (dy !== 0 && (dy > 0) !== (this._barAcc > 0)) this._barAcc = 0;
+        this._barAcc += dy;
+        if (y < 90) bar.dataset.hidden = "0";
+        else if (this._barAcc > 26) bar.dataset.hidden = "1";
+        else if (this._barAcc < -26) bar.dataset.hidden = "0";
+      });
+    };
+    window.addEventListener("scroll", this._onScrollBar, { passive: true });
+    this._onScrollBar();
     this._revealSweep = () => {
       (this.observedEls ? Array.from(this.observedEls) : []).forEach((el) => {
         const r = el.getBoundingClientRect();
@@ -1254,6 +1276,7 @@ class Component extends DCLogic {
   componentWillUnmount() {
     if (this._revealSweep) window.removeEventListener('pageshow', this._revealSweep);
     if (this._onScrollV) window.removeEventListener('scroll', this._onScrollV);
+    if (this._onScrollBar) window.removeEventListener('scroll', this._onScrollBar);
     (this.ios || []).forEach((io) => io.disconnect());
     if (this.dataPoll) clearInterval(this.dataPoll);
     if (this.onScrollStory) window.removeEventListener("scroll", this.onScrollStory);
@@ -1371,6 +1394,7 @@ class Component extends DCLogic {
       veilOpacity: this.props.veilOpacity ?? 1,
       trRef: this.trRef,
       tabsRef: this.tabsRef,
+      barRef: (el) => { this.barEl = el; },
       ctaTap: () => { if (navigator.vibrate) navigator.vibrate(8); },
       evRef: (el) => { this.observeReveal(el); },
       storyRef: this.initStory,
