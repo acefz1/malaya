@@ -105,7 +105,8 @@
     }
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(1) { grid-area: 1 / 1; }
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(2) { grid-area: 1 / 2; }
-    #treatments [role="button"][aria-controls^="det-"] > span:nth-child(3) { grid-area: 2 / 2 / 3 / 5; }
+    #treatments [role="button"][aria-controls^="det-"] > span:nth-child(3) { grid-area: 2 / 2 / 3 / 3; align-self: center; }
+    #treatments [role="button"][aria-controls^="det-"] > a { grid-area: 2 / 3 / 3 / 5; justify-self: end; margin-top: 4px; }
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(4) { grid-area: 1 / 3; }
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(5) { grid-area: 1 / 4; }
     #treatments [id^="det-"] > div > div { padding-left: 36px !important; padding-right: 6px !important; }
@@ -311,7 +312,7 @@
               <div style="border-top: 1px solid rgba(42,38,32,0.16);">
                 <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="6">
                   <div style="border-bottom: 1px solid rgba(42,38,32,0.12); animation: {{ r.anim }};">
-                    <div role="button" tabindex="0" aria-expanded="{{ r.open }}" aria-controls="det-{{ r.id }}" onClick="{{ r.toggle }}" onKeyDown="{{ r.key }}" onMouseEnter="{{ r.enter }}" onMouseLeave="{{ r.leave }}" style="display: grid; grid-template-columns: 34px minmax(0, 1fr) auto auto 18px; gap: clamp(10px, 2vw, 26px); align-items: center; min-height: 44px; padding: 17px 8px; cursor: pointer; background: {{ r.bg }}; transition: background 260ms ease;" style-hover="background: rgba(42,38,32,0.035);" style-focus="outline: 2px solid #2F4938; outline-offset: -2px;">
+                    <div role="button" tabindex="0" aria-expanded="{{ r.open }}" aria-controls="det-{{ r.id }}" onClick="{{ r.toggle }}" onKeyDown="{{ r.key }}" onMouseEnter="{{ r.enter }}" onMouseLeave="{{ r.leave }}" style="display: grid; grid-template-columns: 34px minmax(0, 1fr) auto auto 18px auto; gap: clamp(10px, 2vw, 26px); align-items: center; min-height: 44px; padding: 17px 8px; cursor: pointer; background: {{ r.bg }}; transition: background 260ms ease;" style-hover="background: rgba(42,38,32,0.035);" style-focus="outline: 2px solid #2F4938; outline-offset: -2px;">
                       <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(42,38,32,0.5);">{{ r.num }}</span>
                       <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0; transform: {{ r.shift }}; transition: transform 320ms cubic-bezier(0.22,1,0.36,1);">
                         <span style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(18px, 1.6vw, 23px); line-height: 1.15; color: #2A2620; text-wrap: pretty;">{{ r.name }}</span>
@@ -322,6 +323,7 @@
                       <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(42,38,32,0.55); white-space: nowrap;">{{ r.duration }}</span>
                       <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #2A2620; white-space: nowrap; text-align: right;">{{ r.price }}</span>
                       <span aria-hidden="true" style="font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1; color: rgba(42,38,32,0.55); transform: {{ r.plusRot }}; transition: transform 340ms cubic-bezier(0.22,1,0.36,1); text-align: center;">+</span>
+                      <a href="{{ r.waHref }}" target="_blank" rel="noopener" onClick="{{ r.book }}" aria-label="{{ r.ariaLabel }}" style="display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(47,73,56,0.45); color: #2F4938; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #2F4938; color: #F5F3EC;" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">BOOK</a>
                     </div>
                     <div id="det-{{ r.id }}" style="display: grid; grid-template-rows: {{ r.det }}; opacity: {{ r.detOp }}; transition: grid-template-rows 420ms cubic-bezier(0.22,1,0.36,1), opacity 420ms cubic-bezier(0.22,1,0.36,1);">
                       <div style="overflow: hidden;">
@@ -1231,6 +1233,7 @@ class Component extends DCLogic {
           enter: () => this.setState({ hoveredRow: id }),
           leave: () => this.setState({ hoveredRow: null }),
           book: (e) => e.stopPropagation(),
+          waHref: "https://wa.me/96170816041?text=" + encodeURIComponent('Hello Malaya! I would like to book "' + it.n + '". Could you share the next available time?'),
           hasDesc: !!it.d, desc: it.d || "",
           hasOpts: !!(it.opts && it.opts.length),
           opts: (it.opts || []).map((o) => ({ k: o[0], v: o[1] })),
