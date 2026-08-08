@@ -1039,6 +1039,15 @@ class Component extends DCLogic {
     const total = Math.max(1, el.offsetHeight - window.innerHeight);
     window.scrollTo({ top: top + (0.1 + idx * 0.225 + 0.13) * total, behavior: this.reduced ? "auto" : "smooth" });
   };
+  syncPhVideo() {
+    const el = this.phVideo;
+    if (!el) return;
+    const want = window.innerWidth >= 760 ? "assets/philosophy-loop-wide.mp4" : "assets/philosophy-loop.mp4";
+    if (el.getAttribute("src") !== want) el.setAttribute("src", want);
+    el.muted = true;
+    const p = el.play();
+    if (p && p.catch) p.catch(() => {});
+  }
   componentDidMount() {
     this._onScrollV = () => {
       if (this._vTick) return;
@@ -1073,7 +1082,7 @@ class Component extends DCLogic {
       this.storyRaf = requestAnimationFrame(() => { this.storyRaf = 0; this.tickStory(); this.tickWords(); });
     };
     window.addEventListener("scroll", this.onScrollStory, { passive: true });
-    this.onResizeStory = () => { this.narrow = window.innerWidth < 760; this.onScrollStory(); };
+    this.onResizeStory = () => { this.narrow = window.innerWidth < 760; this.syncPhVideo(); this.onScrollStory(); };
     window.addEventListener("resize", this.onResizeStory);
     setTimeout(() => { this.tickStory(); this.tickWords(); }, 120);
     this.onKeyWords = (e) => {
@@ -1293,12 +1302,8 @@ class Component extends DCLogic {
       phRef: (el) => { this.observeReveal(el); },
       phVideoRef: (el) => {
         if (!el) return;
-        if (window.innerWidth >= 760 && el.getAttribute("src") !== "assets/philosophy-loop-wide.mp4") {
-          el.setAttribute("src", "assets/philosophy-loop-wide.mp4");
-        }
-        el.muted = true;
-        const p = el.play();
-        if (p && p.catch) p.catch(() => {});
+        this.phVideo = el;
+        this.syncPhVideo();
       },
       videoPosition: this.props.videoPosition ?? "62% center",
       veilOpacity: this.props.veilOpacity ?? 1,
