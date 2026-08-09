@@ -227,8 +227,9 @@
     [data-st="dust"], [data-wleak] { display: none !important; }
     [data-st="sweep"] { animation: none !important; opacity: 0 !important; }
 
-    /* FAQ: tighter row grid and answer indent */
-    #faq button[aria-controls^="faq-panel"] { grid-template-columns: 30px 1fr 32px !important; gap: 12px !important; }
+    /* FAQ: tighter row grid and answer indent — eight questions, one calm column */
+    #faq button[aria-controls^="faq-panel"] { grid-template-columns: 30px 1fr 32px !important; gap: 12px !important; padding: 17px 0 !important; }
+    #faq button[aria-controls^="faq-panel"] > span:nth-child(2) { font-size: 18.5px !important; }
     #faq button[aria-controls^="faq-panel"] > span:nth-child(3) { width: 32px !important; height: 32px !important; }
     #faq [id^="faq-panel"] p { padding-left: 42px !important; padding-right: 12px !important; }
 
@@ -926,12 +927,14 @@ class Component extends DCLogic {
     this.setState({ cart: cart });
   }
   faqData = [
-    { q: "What services does Malaya offer?", a: "Malaya brings together advanced aesthetic medicine, facial treatments, laser technologies, massage therapies, physiotherapy, beauty services, hair care, nails, waxing, threading and wellness experiences—all under one roof, with every treatment tailored to your individual needs." },
-    { q: "How do I know which treatment is right for me?", a: "Every visit begins with a personalized consultation. Our specialists assess your skin, lifestyle and goals before recommending the treatment—or combination of treatments—that will deliver the best results." },
-    { q: "Can I combine multiple treatments in one visit?", a: "Absolutely. Many guests enjoy combining facials, massage, hair, nails and beauty services into one seamless visit. Our team will create a personalized experience that fits comfortably within your schedule." },
-    { q: "How long do treatments usually take?", a: "Treatment times vary depending on the service. Beauty appointments may take around 30 minutes, while advanced facials, massages and aesthetic treatments generally range from one to two hours. We'll always let you know what to expect before your appointment." },
-    { q: "Do you offer treatment packages?", a: "Yes. Many of our services can be combined into personalized packages designed to maximize both results and value. Our specialists will recommend the option best suited to your goals." },
-    { q: "How can I book an appointment?", a: "Booking is simple. Contact us by phone, WhatsApp or through our online booking request. If you're unsure which treatment is right for you, our team will gladly guide you every step of the way." }
+    { q: "How do I book — and do you take walk-ins?", a: "The fastest way is WhatsApp: one message and we’ll confirm your time right away. Walk-ins are welcome whenever the schedule allows, but Beirut weekends fill quickly — we recommend booking two to three days ahead, and earlier for Saturdays." },
+    { q: "What payment methods do you accept?", a: "Our menu is priced in USD, and we accept cash in USD or LBP at the current market rate. If you’d like to arrange another way to pay, just message us on WhatsApp before your visit." },
+    { q: "What is Biologique Recherche, and why does Malaya use it?", a: "Biologique Recherche is a Paris-founded clinical skincare house found in the world’s finest spas. Every facial at Malaya begins with a Skin Instant® analysis, so your treatment is formulated for your skin as it is that day — never one-size-fits-all." },
+    { q: "Do you do bridal and occasion beauty?", a: "Yes — bridal hair, makeup and skin preparation, plus engagement and occasion styling, with trials beforehand so your look is perfected before the big day. Dates go fast in wedding season: reserve yours as early as you can." },
+    { q: "Can I come with friends — or book a group visit?", a: "We love a girls’ afternoon. Bridal parties, birthdays, or simply a day together — message us on WhatsApp and we’ll arrange side-by-side treatments and time the visit so everyone is pampered together." },
+    { q: "Where exactly are you — and what about parking?", a: "You’ll find us on Farid Trad Street, Beirut — tap Google Maps in the footer and it brings you straight to our door. And don’t worry about parking: we have our own valet waiting for you." },
+    { q: "How do I know which treatment is right for me?", a: "Every visit begins with a personalized consultation. Our specialists assess your skin, lifestyle and goals before recommending the treatment — or combination of treatments — that will give you the best results." },
+    { q: "Do you offer packages?", a: "Yes — packages are available for all our treatments. Tell us what you love and how often you’d like to visit, and we’ll tailor a combination that gives you the best value from your Malaya ritual." }
   ];
   trRef = (el) => this.observeReveal(el);
   listRef = (el) => { this.listEl = el; };
