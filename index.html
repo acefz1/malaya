@@ -47,6 +47,12 @@
   /* BOOK pill press feedback (tap squish; wins over inline hover styles) */
   #treatments [role="button"][aria-controls^="det-"] > a:active { transform: scale(0.94) !important; }
 
+  /* CH.03: menu rows awaken one by one as they enter the viewport */
+  #treatments [data-row-el] { opacity: 0; transform: translateY(18px); transition: opacity 620ms cubic-bezier(0.22,0.61,0.36,1), transform 620ms cubic-bezier(0.22,0.61,0.36,1); }
+  #treatments [data-row-el][data-row-in="1"] { opacity: 1; transform: translateY(0); }
+  /* CH.03: headline words sharpen as they rise */
+  section[data-screen-label="Treatments"][data-revealed="1"] h2 span[data-rv] { filter: blur(0) !important; }
+
   /* Floating glass bar: transparent at top, frosts on scroll, hides going
      down and returns going up (JS drives the data attributes). */
   [data-glassbar] {
@@ -306,19 +312,37 @@
 
 </section>
 
-<section data-screen-label="Treatments" id="treatments" ref="{{ trRef }}" style="position: relative; width: 100%; background: #F5F3EC; color: #2A2620; padding: clamp(84px, 11vh, 150px) clamp(24px, 4vw, 56px) clamp(96px, 12vh, 160px); font-family: 'Jost', sans-serif;">
-  <div style="width: 100%; max-width: 1280px; margin: 0 auto;">
+<section data-screen-label="Treatments" id="treatments" ref="{{ trRef }}" style="position: relative; width: 100%; overflow: hidden; background: #F5F3EC; color: #2A2620; padding: clamp(84px, 11vh, 150px) clamp(24px, 4vw, 56px) clamp(96px, 12vh, 160px); font-family: 'Jost', sans-serif;">
+  <svg aria-hidden="true" viewBox="0 0 480 760" fill="none" style="position: absolute; right: -70px; top: -50px; width: clamp(300px, 34vw, 520px); height: auto; opacity: 0.05; pointer-events: none; transform: rotate(196deg);">
+    <g stroke="#2F4938" stroke-width="1.1" stroke-linecap="round" fill="none">
+      <path d="M 236 748 C 230 640 240 540 244 452 C 248 356 260 250 292 118 C 300 84 310 56 322 28"></path>
+      <path d="M 240 640 Q 192 646 158 610 Q 200 596 240 640"></path>
+      <path d="M 238 600 Q 288 604 322 566 Q 278 554 238 600"></path>
+      <path d="M 242 530 Q 190 534 154 494 Q 202 482 242 530"></path>
+      <path d="M 246 488 Q 298 490 330 450 Q 284 440 246 488"></path>
+      <path d="M 248 420 Q 196 420 162 378 Q 212 370 248 420"></path>
+      <path d="M 254 372 Q 306 372 340 330 Q 292 322 254 372"></path>
+      <path d="M 262 300 Q 210 296 180 254 Q 230 250 262 300"></path>
+      <path d="M 272 252 Q 322 248 354 208 Q 306 202 272 252"></path>
+      <path d="M 286 180 Q 238 172 212 130 Q 258 128 286 180"></path>
+      <path d="M 296 140 Q 344 134 372 96 Q 326 90 296 140"></path>
+      <path d="M 314 56 Q 336 18 368 2 Q 330 0 314 56"></path>
+    </g>
+  </svg>
+  <div style="position: relative; width: 100%; max-width: 1280px; margin: 0 auto;">
 
     <div data-rv="1" style="display: flex; align-items: center; gap: 16px; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
       <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(42,38,32,0.65); white-space: nowrap;">— CH. 03 · TREATMENTS</span>
     </div>
 
-    <h2 data-rv="2" style="margin: 26px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(42px, 5.4vw, 88px); line-height: 1.02; letter-spacing: -0.02em; color: #2A2620; text-wrap: pretty; max-width: 900px; opacity: 0; transform: translateY(20px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
-      Treatments designed <em style="font-style: italic; font-weight: 400; color: #2F4938;">around you.</em>
+    <h2 style="margin: 26px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(42px, 5.4vw, 88px); line-height: 1.02; letter-spacing: -0.02em; color: #2A2620; text-wrap: pretty; max-width: 900px;">
+      <span data-rv="2" style="display: inline-block; opacity: 0; transform: translateY(22px); filter: blur(6px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1), filter 800ms cubic-bezier(0.22,0.61,0.36,1);">Treatments</span>
+      <span data-rv="3" style="display: inline-block; opacity: 0; transform: translateY(22px); filter: blur(6px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1), filter 800ms cubic-bezier(0.22,0.61,0.36,1);">designed</span>
+      <em style="font-style: italic; font-weight: 400; color: #2F4938;"><span data-rv="4" style="display: inline-block; opacity: 0; transform: translateY(22px); filter: blur(6px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1), filter 800ms cubic-bezier(0.22,0.61,0.36,1);">around</span> <span data-rv="5" style="display: inline-block; opacity: 0; transform: translateY(22px); filter: blur(6px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1), filter 800ms cubic-bezier(0.22,0.61,0.36,1);">you.</span></em>
     </h2>
-    <p data-rv="3" style="margin: 22px 0 0; max-width: 560px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.6; color: rgba(42,38,32,0.75); text-wrap: pretty; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">Explore Malaya’s complete collection of advanced skincare, beauty and wellness services.</p>
+    <p data-rv="6" style="margin: 22px 0 0; max-width: 560px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.6; color: rgba(42,38,32,0.75); text-wrap: pretty; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">Explore Malaya’s complete collection of advanced skincare, beauty and wellness services.</p>
 
-    <div data-rv="4" role="tablist" aria-label="Treatment categories" ref="{{ tabsRef }}" style="position: relative; display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(36px, 5vh, 56px); opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
+    <div data-rv="7" role="tablist" aria-label="Treatment categories" ref="{{ tabsRef }}" style="position: relative; display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(36px, 5vh, 56px); opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
       <div data-tabs-puck aria-hidden="true" style="position: absolute; left: 0; top: 0; border-radius: 999px; background: #2F4938; z-index: 0; opacity: 0; will-change: transform;"></div>
       <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
         <button type="button" role="tab" id="tab-{{ t.id }}" aria-selected="{{ t.sel }}" aria-controls="panel-treatments" onClick="{{ t.pick }}" style="position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 12px 22px; border-radius: 999px; border: 1px solid {{ t.bc }}; background: {{ t.bg }}; color: {{ t.fg }}; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; cursor: pointer; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), border-color 300ms cubic-bezier(0.22,1,0.36,1), transform 300ms cubic-bezier(0.22,1,0.36,1);" style-hover="transform: translateY(-1px); background: {{ t.hbg }};" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">
@@ -359,7 +383,7 @@
             <sc-if value="{{ g.hasRows }}" hint-placeholder-val="{{ true }}">
               <div style="border-top: 1px solid rgba(42,38,32,0.16);">
                 <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="6">
-                  <div style="border-bottom: 1px solid rgba(42,38,32,0.12); animation: {{ r.anim }};">
+                  <div data-row-el style="border-bottom: 1px solid rgba(42,38,32,0.12);">
                     <div role="button" tabindex="0" aria-expanded="{{ r.open }}" aria-controls="det-{{ r.id }}" onClick="{{ r.toggle }}" onKeyDown="{{ r.key }}" onMouseEnter="{{ r.enter }}" onMouseLeave="{{ r.leave }}" style="display: grid; grid-template-columns: 34px minmax(0, 1fr) auto auto 18px auto; gap: clamp(10px, 2vw, 26px); align-items: center; min-height: 44px; padding: 17px 8px; cursor: pointer; background: {{ r.bg }}; transition: background 260ms ease;" style-hover="background: rgba(42,38,32,0.035);" style-focus="outline: 2px solid #2F4938; outline-offset: -2px;">
                       <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(42,38,32,0.5);">{{ r.num }}</span>
                       <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0; transform: {{ r.shift }}; transition: transform 320ms cubic-bezier(0.22,1,0.36,1);">
@@ -1106,7 +1130,29 @@ class Component extends DCLogic {
       puck.style.transition = TR;
     }
   }
-  componentDidUpdate() { this.syncTabsPuck(); }
+  componentDidUpdate() { this.syncTabsPuck(); this.observeRows(); }
+  ensureRowIO() {
+    if (this.rowIO || typeof IntersectionObserver === "undefined") return;
+    this.rowIO = new IntersectionObserver((entries) => {
+      let i = 0;
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.style.transitionDelay = (i++ * 45) + "ms";
+        e.target.dataset.rowIn = "1";
+        this.rowIO.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+  }
+  observeRows() {
+    const list = this.listEl;
+    if (!list) return;
+    if (typeof IntersectionObserver === "undefined") {
+      list.querySelectorAll("[data-row-el]").forEach((el) => { el.dataset.rowIn = "1"; });
+      return;
+    }
+    this.ensureRowIO();
+    list.querySelectorAll("[data-row-el]:not([data-row-in])").forEach((el) => this.rowIO.observe(el));
+  }
   syncHeroVideo() {
     const el = this.video;
     if (!el) return;
@@ -1175,7 +1221,7 @@ class Component extends DCLogic {
     window.addEventListener("scroll", this.onScrollStory, { passive: true });
     this.onResizeStory = () => { this.narrow = window.innerWidth < 760; this.syncHeroVideo(); this.syncPhVideo(); this.syncTabsPuck(); this.onScrollStory(); };
     window.addEventListener("resize", this.onResizeStory);
-    setTimeout(() => { this.tickStory(); this.tickWords(); }, 120);
+    setTimeout(() => { this.tickStory(); this.tickWords(); this.observeRows(); }, 120);
     this.onKeyWords = (e) => {
       if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
       const el = this.wordsEl;
@@ -1204,6 +1250,10 @@ class Component extends DCLogic {
       el.style.transition = "none";
       el.style.opacity = "1";
       el.style.transform = "none";
+      requestAnimationFrame(() => {
+        el.querySelectorAll("[data-row-el]").forEach((r) => { delete r.dataset.rowIn; r.style.transitionDelay = "0ms"; });
+        this.observeRows();
+      });
     }, 220);
   }
   pickCat(id) {
@@ -1233,10 +1283,6 @@ class Component extends DCLogic {
     root.querySelectorAll("[data-count]").forEach((el, i) => {
       this.countUp(el, 900 + i * 130);
     });
-    if (root.id === "treatments" && !this.trCascaded) {
-      this.trCascaded = true;
-      this.setState({ anim: this.state.anim + 1 });
-    }
   }
   countUp(el, delay) {
     const source = el.dataset.countText || el.textContent.trim();
@@ -1290,6 +1336,7 @@ class Component extends DCLogic {
     if (this._onScrollV) window.removeEventListener('scroll', this._onScrollV);
     if (this._onScrollBar) window.removeEventListener('scroll', this._onScrollBar);
     (this.ios || []).forEach((io) => io.disconnect());
+    if (this.rowIO) this.rowIO.disconnect();
     if (this.dataPoll) clearInterval(this.dataPoll);
     if (this.onScrollStory) window.removeEventListener("scroll", this.onScrollStory);
     if (this.onResizeStory) window.removeEventListener("resize", this.onResizeStory);
