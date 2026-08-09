@@ -219,6 +219,7 @@
     [data-st="slicerow"] { width: min(34vh, 82vw) !important; width: min(34svh, 82vw) !important; }
     [data-st="eyebrow"], [data-w="eyebrow"] { top: calc(74px + env(safe-area-inset-top, 0px)) !important; left: 50% !important; transform: translateX(-50%); width: max-content; }
     [data-st="eyebrow"] span, [data-w="eyebrow"] span { font-size: 10px !important; }
+    [data-w="story0"], [data-w="story1"], [data-w="story2"], [data-w="story3"] { padding-top: calc(150px + env(safe-area-inset-top, 0px)) !important; }
     [data-st="stage"] { padding-top: calc(118px + env(safe-area-inset-top, 0px)) !important; }
     [data-w="stage"] { padding-top: calc(114px + env(safe-area-inset-top, 0px)) !important; }
 
@@ -330,7 +331,7 @@
 <section data-screen-label="Philosophy" id="about" ref="{{ phRef }}" style="position: relative; width: 100%; min-height: 100vh; display: flex; align-items: center; overflow: hidden; background: #1A2620; padding: clamp(84px, 11vh, 150px) clamp(24px, 4vw, 56px) clamp(72px, 9vh, 120px); font-family: 'Jost', sans-serif;">
 
   <div data-rv="1" style="position: absolute; inset: 0; opacity: 0; transition: opacity 1400ms cubic-bezier(0.22,0.61,0.36,1);">
-    <video preload="auto" autoplay="{{ true }}" loop="{{ true }}" muted="{{ true }}" playsinline="{{ true }}" ref="{{ phVideoRef }}" src="assets/philosophy-loop.mp4" poster="assets/spa-lounge.jpg" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%;"></video>
+    <video preload="metadata" loop="{{ true }}" muted="{{ true }}" playsinline="{{ true }}" ref="{{ phVideoRef }}" src="assets/philosophy-loop.mp4" poster="assets/spa-lounge.jpg" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%;"></video>
     <div style="position: absolute; inset: 0; background: radial-gradient(126% 72% at 52% 40%, rgba(13,21,17,0.42) 0%, rgba(13,21,17,0.34) 46%, rgba(13,21,17,0.16) 74%, rgba(13,21,17,0.02) 92%, rgba(13,21,17,0) 100%), radial-gradient(120% 56% at 50% 84%, rgba(13,21,17,0.4) 0%, rgba(13,21,17,0.3) 48%, rgba(13,21,17,0.14) 78%, rgba(13,21,17,0) 98%), linear-gradient(180deg, rgba(13,21,17,0.2) 0%, rgba(13,21,17,0.05) 26%, rgba(13,21,17,0.05) 74%, rgba(13,21,17,0.24) 100%);"></div>
   </div>
 
@@ -1254,14 +1255,28 @@ class Component extends DCLogic {
       if (p && p.catch) p.catch(() => {});
     }
   }
+  playPh() {
+    const el = this.phVideo;
+    if (!el || !this.phSeen) return;
+    el.muted = true;
+    const p = el.play();
+    if (p && p.catch) p.catch(() => {});
+  }
   syncPhVideo() {
     const el = this.phVideo;
     if (!el) return;
     const want = window.innerWidth >= 760 ? "assets/philosophy-loop-wide.mp4" : "assets/philosophy-loop.mp4";
-    if (el.getAttribute("src") !== want) el.setAttribute("src", want);
-    el.muted = true;
-    const p = el.play();
-    if (p && p.catch) p.catch(() => {});
+    if (el.getAttribute("src") !== want) {
+      el.setAttribute("src", want);
+      this.playPh();
+    }
+  }
+  watchPhVideo() {
+    if (this.phArmed) return;
+    this.phArmed = true;
+    const go = () => setTimeout(() => { this.phSeen = true; this.playPh(); }, 900);
+    if (document.readyState === "complete") go();
+    else window.addEventListener("load", go, { once: true });
   }
   componentDidMount() {
     this._onScrollV = () => {
@@ -1433,6 +1448,7 @@ class Component extends DCLogic {
     if (this._onScrollBar) window.removeEventListener('scroll', this._onScrollBar);
     (this.ios || []).forEach((io) => io.disconnect());
     if (this.rowIO) this.rowIO.disconnect();
+    if (this.phIO) this.phIO.disconnect();
     if (this.dataPoll) clearInterval(this.dataPoll);
     if (this.onScrollStory) window.removeEventListener("scroll", this.onScrollStory);
     if (this.onResizeStory) window.removeEventListener("resize", this.onResizeStory);
@@ -1549,6 +1565,7 @@ class Component extends DCLogic {
         if (!el) return;
         this.phVideo = el;
         this.syncPhVideo();
+        this.watchPhVideo();
       },
       videoPosition: this.props.videoPosition ?? "62% center",
       veilOpacity: this.props.veilOpacity ?? 1,
