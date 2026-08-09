@@ -53,6 +53,27 @@
   /* CH.03: headline words sharpen as they rise */
   section[data-screen-label="Treatments"][data-revealed="1"] h2 span[data-rv] { filter: blur(0) !important; }
 
+  /* CH.03: the sprig sketches itself in when the section reveals */
+  #treatments > svg path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  #treatments[data-revealed="1"] > svg path { stroke-dashoffset: 0; transition: stroke-dashoffset 1100ms cubic-bezier(0.4,0,0.2,1); }
+  #treatments[data-revealed="1"] > svg path:nth-child(1) { transition-duration: 2000ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(2) { transition-delay: 500ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(3) { transition-delay: 620ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(4) { transition-delay: 740ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(5) { transition-delay: 860ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(6) { transition-delay: 980ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(7) { transition-delay: 1100ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(8) { transition-delay: 1220ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(9) { transition-delay: 1340ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(10) { transition-delay: 1460ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(11) { transition-delay: 1580ms; }
+  #treatments[data-revealed="1"] > svg path:nth-child(12) { transition-delay: 1700ms; }
+
+  /* CH.03: floating category chip — appears when the pills scroll away */
+  [data-cat-chip] { position: fixed; top: calc(62px + env(safe-area-inset-top, 0px)); left: 50%; transform: translate(-50%, -10px); z-index: 49; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; margin: 0; border-radius: 999px; border: 1px solid rgba(245,243,236,0.16); background: rgba(20,31,24,0.78); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); color: #F5F3EC; font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; white-space: nowrap; opacity: 0; pointer-events: none; cursor: pointer; transition: opacity 320ms ease, transform 320ms cubic-bezier(0.22,1,0.36,1); }
+  [data-cat-chip][data-show="1"] { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  [data-cat-chip]:active { transform: translate(-50%, 0) scale(0.93) !important; }
+
   /* Floating glass bar: transparent at top, frosts on scroll, hides going
      down and returns going up (JS drives the data attributes). */
   [data-glassbar] {
@@ -216,6 +237,11 @@
   </div>
 </header>
 
+<button type="button" data-cat-chip data-show="0" ref="{{ chipRef }}" onClick="{{ chipTap }}" aria-label="Back to treatment categories">
+  <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M2 6.5 L5 3.5 L8 6.5"></path></svg>
+  {{ activeCatLabel }}
+</button>
+
 <section data-screen-label="Hero" style="position: relative; width: 100%; min-height: 100vh; overflow: hidden; background: #2A2620; font-family: 'Jost', sans-serif;">
 
   <div style="position: absolute; inset: 0;">
@@ -315,18 +341,18 @@
 <section data-screen-label="Treatments" id="treatments" ref="{{ trRef }}" style="position: relative; width: 100%; overflow: hidden; background: #F5F3EC; color: #2A2620; padding: clamp(84px, 11vh, 150px) clamp(24px, 4vw, 56px) clamp(96px, 12vh, 160px); font-family: 'Jost', sans-serif;">
   <svg aria-hidden="true" viewBox="0 0 480 760" fill="none" style="position: absolute; right: -70px; top: -50px; width: clamp(300px, 34vw, 520px); height: auto; opacity: 0.05; pointer-events: none; transform: rotate(196deg);">
     <g stroke="#2F4938" stroke-width="1.1" stroke-linecap="round" fill="none">
-      <path d="M 236 748 C 230 640 240 540 244 452 C 248 356 260 250 292 118 C 300 84 310 56 322 28"></path>
-      <path d="M 240 640 Q 192 646 158 610 Q 200 596 240 640"></path>
-      <path d="M 238 600 Q 288 604 322 566 Q 278 554 238 600"></path>
-      <path d="M 242 530 Q 190 534 154 494 Q 202 482 242 530"></path>
-      <path d="M 246 488 Q 298 490 330 450 Q 284 440 246 488"></path>
-      <path d="M 248 420 Q 196 420 162 378 Q 212 370 248 420"></path>
-      <path d="M 254 372 Q 306 372 340 330 Q 292 322 254 372"></path>
-      <path d="M 262 300 Q 210 296 180 254 Q 230 250 262 300"></path>
-      <path d="M 272 252 Q 322 248 354 208 Q 306 202 272 252"></path>
-      <path d="M 286 180 Q 238 172 212 130 Q 258 128 286 180"></path>
-      <path d="M 296 140 Q 344 134 372 96 Q 326 90 296 140"></path>
-      <path d="M 314 56 Q 336 18 368 2 Q 330 0 314 56"></path>
+      <path pathLength="1" d="M 236 748 C 230 640 240 540 244 452 C 248 356 260 250 292 118 C 300 84 310 56 322 28"></path>
+      <path pathLength="1" d="M 240 640 Q 192 646 158 610 Q 200 596 240 640"></path>
+      <path pathLength="1" d="M 238 600 Q 288 604 322 566 Q 278 554 238 600"></path>
+      <path pathLength="1" d="M 242 530 Q 190 534 154 494 Q 202 482 242 530"></path>
+      <path pathLength="1" d="M 246 488 Q 298 490 330 450 Q 284 440 246 488"></path>
+      <path pathLength="1" d="M 248 420 Q 196 420 162 378 Q 212 370 248 420"></path>
+      <path pathLength="1" d="M 254 372 Q 306 372 340 330 Q 292 322 254 372"></path>
+      <path pathLength="1" d="M 262 300 Q 210 296 180 254 Q 230 250 262 300"></path>
+      <path pathLength="1" d="M 272 252 Q 322 248 354 208 Q 306 202 272 252"></path>
+      <path pathLength="1" d="M 286 180 Q 238 172 212 130 Q 258 128 286 180"></path>
+      <path pathLength="1" d="M 296 140 Q 344 134 372 96 Q 326 90 296 140"></path>
+      <path pathLength="1" d="M 314 56 Q 336 18 368 2 Q 330 0 314 56"></path>
     </g>
   </svg>
   <div style="position: relative; width: 100%; max-width: 1280px; margin: 0 auto;">
@@ -1192,6 +1218,12 @@ class Component extends DCLogic {
         const bar = this.barEl;
         if (!bar) return;
         bar.dataset.scrolled = window.scrollY > 24 ? "1" : "0";
+        const chip = this.catChipEl, tabs = this.tabsEl, list = this.listEl;
+        if (chip && tabs && tabs.isConnected && list && list.isConnected) {
+          const tb = tabs.getBoundingClientRect();
+          const lb = list.getBoundingClientRect();
+          chip.dataset.show = (tb.bottom < 70 && lb.bottom > 170 && lb.top < window.innerHeight) ? "1" : "0";
+        }
       });
     };
     window.addEventListener("scroll", this._onScrollBar, { passive: true });
@@ -1454,6 +1486,9 @@ class Component extends DCLogic {
       trRef: this.trRef,
       tabsRef: this.tabsRef,
       barRef: (el) => { this.barEl = el; },
+      chipRef: (el) => { this.catChipEl = el; },
+      chipTap: () => { const t = this.tabsEl; if (t) window.scrollTo({ top: window.scrollY + t.getBoundingClientRect().top - 80, behavior: this.reduced ? "auto" : "smooth" }); },
+      activeCatLabel: cat.label,
       ctaTap: () => { if (navigator.vibrate) navigator.vibrate(8); },
       evRef: (el) => { this.observeReveal(el); },
       storyRef: this.initStory,
