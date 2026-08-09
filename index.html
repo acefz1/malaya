@@ -45,7 +45,7 @@
   }
 
   /* BOOK pill press feedback (tap squish; wins over inline hover styles) */
-  #treatments [role="button"][aria-controls^="det-"] > a:active { transform: scale(0.94) !important; }
+  #treatments [role="button"][aria-controls^="det-"] > button:active { transform: scale(0.94) !important; }
 
   /* CH.03: menu rows awaken one by one as they enter the viewport */
   #treatments [data-row-el] { opacity: 0; transform: translateY(18px); border-bottom-color: rgba(184,138,106,0.28) !important; transition: opacity 620ms cubic-bezier(0.22,0.61,0.36,1), transform 620ms cubic-bezier(0.22,0.61,0.36,1); }
@@ -78,6 +78,13 @@
   }
   #treatments [data-list]::after { margin: 36px auto 0; }
 
+  /* CH.03: floating booking cart bar */
+  [data-cart-bar] { position: fixed; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translate(-50%, 18px); z-index: 48; display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; border: 1px solid rgba(245,243,236,0.18); background: rgba(20,31,24,0.86); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); color: #F5F3EC; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; white-space: nowrap; opacity: 0; pointer-events: none; cursor: pointer; box-shadow: 0 14px 40px rgba(14,23,18,0.45); transition: opacity 340ms ease, transform 340ms cubic-bezier(0.22,1,0.36,1); }
+  [data-cart-bar][data-show="1"] { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  [data-cart-bar]:active { transform: translate(-50%, 0) scale(0.95) !important; }
+  [data-cart-count] { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: #B88A6A; color: #1A2620; font-size: 10.5px; letter-spacing: 0; }
+  [data-cart-sep] { width: 1px; height: 14px; background: rgba(245,243,236,0.25); }
+
   /* CH.03: floating category chip — appears when the pills scroll away */
   [data-cat-chip] { position: fixed; top: calc(62px + env(safe-area-inset-top, 0px)); left: 50%; transform: translate(-50%, -10px); z-index: 49; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; margin: 0; border-radius: 999px; border: 1px solid rgba(245,243,236,0.16); background: rgba(20,31,24,0.78); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); color: #F5F3EC; font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; white-space: nowrap; opacity: 0; pointer-events: none; cursor: pointer; transition: opacity 320ms ease, transform 320ms cubic-bezier(0.22,1,0.36,1); }
   [data-cat-chip][data-show="1"] { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
@@ -98,7 +105,9 @@
     backdrop-filter: blur(16px) saturate(1.25);
     border-bottom: 1px solid rgba(245,243,236,0.08);
   }
-  [data-glassbar] nav a:active { transform: scale(0.92); display: inline-block; }
+  [data-glassbar] nav a { display: inline-block; transition: color 250ms ease, text-shadow 380ms ease, transform 180ms cubic-bezier(0.22,1,0.36,1); }
+  [data-glassbar] nav a:hover { color: #FFFFFF; text-shadow: 0 0 16px rgba(245,243,236,0.85), 0 0 5px rgba(245,243,236,0.5); }
+  [data-glassbar] nav a:active { transform: scale(0.92); }
   [data-bar-wa] { opacity: 0; transform: scale(0.8); pointer-events: none; transition: opacity 340ms ease, transform 340ms cubic-bezier(0.22,1,0.36,1), background 250ms ease; }
   [data-glassbar][data-scrolled="1"] [data-bar-wa] { opacity: 1; transform: scale(1); pointer-events: auto; }
   [data-bar-wa]:hover { background: rgba(245,243,236,0.15); }
@@ -195,7 +204,7 @@
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(1) { grid-area: 1 / 1; }
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(2) { grid-area: 1 / 2; }
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(3) { grid-area: 2 / 2 / 3 / 3; align-self: center; }
-    #treatments [role="button"][aria-controls^="det-"] > a { grid-area: 2 / 3 / 3 / 5; justify-self: end; margin-top: 4px; }
+    #treatments [role="button"][aria-controls^="det-"] > button { grid-area: 2 / 3 / 3 / 5; justify-self: end; margin-top: 4px; }
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(4) { grid-area: 1 / 3; }
     #treatments [role="button"][aria-controls^="det-"] > span:nth-child(5) { grid-area: 1 / 4; }
     #treatments [id^="det-"] > div > div { padding-left: 36px !important; padding-right: 6px !important; }
@@ -205,8 +214,14 @@
     #about h2 { font-size: 30px !important; line-height: 1.18 !important; }
     #about [data-count] { font-size: 20px !important; }
 
-    /* Our story: smaller portrait so image + captions always fit the scene */
-    [data-st="slicerow"] { width: min(30vh, 74vw) !important; width: min(30svh, 74vw) !important; }
+    /* Our story: larger portrait, and pinned chapter labels move to top
+       centre so they never sit over the photos */
+    [data-st="slicerow"] { width: min(34vh, 82vw) !important; width: min(34svh, 82vw) !important; }
+    [data-st="eyebrow"], [data-w="eyebrow"] { top: 66px !important; left: 50% !important; transform: translateX(-50%); width: max-content; }
+
+    /* Pinned scenes: drop the costliest decorative layers on phones */
+    [data-st="dust"], [data-wleak] { display: none !important; }
+    [data-st="sweep"] { animation: none !important; opacity: 0 !important; }
 
     /* FAQ: tighter row grid and answer indent */
     #faq button[aria-controls^="faq-panel"] { grid-template-columns: 30px 1fr 32px !important; gap: 12px !important; }
@@ -234,10 +249,9 @@
   <a href="#top" aria-label="Malaya — back to top" style="display: block; flex-shrink: 0;">
     <img src="assets/malaya-mark-light-clear.png" alt="Malaya" style="display: block; height: 34px; width: auto; filter: drop-shadow(0 2px 6px rgba(14,23,18,0.5));">
   </a>
-  <nav style="display: flex; align-items: center; gap: clamp(30px, 3.6vw, 58px);">
+  <nav style="display: flex; align-items: center; gap: clamp(34px, 4vw, 60px);">
     <a href="#treatments" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">TREATMENTS</a>
-    <a href="#about" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">ABOUT</a>
-    <a href="#team" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">TEAM</a>
+    <a href="#team" style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(245,243,236,0.92); white-space: nowrap; padding: 12px 4px; margin: -12px -4px;">OUR STORY</a>
   </nav>
   <div data-bar-right style="width: 72px; flex-shrink: 0; display: flex; justify-content: flex-end;">
     <a data-bar-wa href="https://wa.me/96170816041?text=Hello!%20I%20would%20like%20to%20book%20an%20appointment%20at%20Malaya." target="_blank" rel="noopener" onClick="{{ ctaTap }}" aria-label="Message Malaya on WhatsApp" style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; border: 1px solid rgba(245,243,236,0.28); background: rgba(245,243,236,0.06); color: #F5F3EC;">
@@ -250,6 +264,14 @@
   <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M2 6.5 L5 3.5 L8 6.5"></path></svg>
   {{ activeCatLabel }}
 </button>
+
+<a data-cart-bar data-show="{{ cartShow }}" href="{{ cartHref }}" target="_blank" rel="noopener" onClick="{{ ctaTap }}" aria-label="Book selected treatments on WhatsApp">
+  <span data-cart-count>{{ cartCount }}</span>
+  <span>SELECTED</span>
+  <span data-cart-sep aria-hidden="true"></span>
+  <span>BOOK ON WHATSAPP</span>
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+</a>
 
 <section data-screen-label="Hero" style="position: relative; width: 100%; min-height: 100vh; overflow: hidden; background: #2A2620; font-family: 'Jost', sans-serif;">
 
@@ -430,7 +452,7 @@
                       <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(42,38,32,0.55); white-space: nowrap;">{{ r.duration }}</span>
                       <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #2A2620; white-space: nowrap; text-align: right;">{{ r.price }}</span>
                       <span aria-hidden="true" style="font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1; color: rgba(42,38,32,0.55); transform: {{ r.plusRot }}; transition: transform 340ms cubic-bezier(0.22,1,0.36,1); text-align: center;">+</span>
-                      <a href="{{ r.waHref }}" target="_blank" rel="noopener" onClick="{{ r.book }}" aria-label="{{ r.ariaLabel }}" style="display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(47,73,56,0.4); background: rgba(47,73,56,0.06); color: #2F4938; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #2F4938; color: #F5F3EC; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47,73,56,0.25);" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">BOOK</a>
+                      <button type="button" onClick="{{ r.book }}" aria-pressed="{{ r.added }}" aria-label="{{ r.ariaLabel }}" style="display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 8px 16px; margin: 0; border-radius: 999px; border: 1px solid {{ r.bookBc }}; background: {{ r.bookBg }}; color: {{ r.bookFg }}; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; white-space: nowrap; cursor: pointer; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), border-color 300ms cubic-bezier(0.22,1,0.36,1), transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1);" style-hover="transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47,73,56,0.25);" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">{{ r.bookLabel }}</button>
                     </div>
                     <div id="det-{{ r.id }}" style="display: grid; grid-template-rows: {{ r.det }}; opacity: {{ r.detOp }}; transition: grid-template-rows 420ms cubic-bezier(0.22,1,0.36,1), opacity 420ms cubic-bezier(0.22,1,0.36,1);">
                       <div style="overflow: hidden;">
@@ -551,8 +573,26 @@
   </div>
 </section>
 
-<section data-screen-label="Founders letter" ref="{{ letterRef }}" style="position: relative; width: 100%; background: #1A2620; padding: clamp(40px, 6vh, 80px) clamp(24px, 4vw, 56px) clamp(120px, 16vh, 200px); font-family: 'Jost', sans-serif;">
-  <div style="width: 100%; max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(28px, 4vh, 44px);">
+<section data-screen-label="Founders letter" ref="{{ letterRef }}" style="position: relative; width: 100%; overflow: hidden; background: #1A2620; padding: clamp(40px, 6vh, 80px) clamp(24px, 4vw, 56px) clamp(120px, 16vh, 200px); font-family: 'Jost', sans-serif;">
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(70% 60% at 24% 14%, rgba(223,180,155,0.12) 0%, rgba(223,180,155,0) 62%); pointer-events: none;"></div>
+  <svg aria-hidden="true" viewBox="0 0 480 760" fill="none" style="position: absolute; right: -80px; bottom: -110px; width: clamp(300px, 32vw, 500px); height: auto; opacity: 0.06; pointer-events: none; transform: rotate(14deg);">
+    <g stroke="#DFB49B" stroke-width="1.1" stroke-linecap="round" fill="none">
+      <path d="M 236 748 C 230 640 240 540 244 452 C 248 356 260 250 292 118 C 300 84 310 56 322 28"></path>
+      <path d="M 240 640 Q 192 646 158 610 Q 200 596 240 640"></path>
+      <path d="M 238 600 Q 288 604 322 566 Q 278 554 238 600"></path>
+      <path d="M 242 530 Q 190 534 154 494 Q 202 482 242 530"></path>
+      <path d="M 246 488 Q 298 490 330 450 Q 284 440 246 488"></path>
+      <path d="M 248 420 Q 196 420 162 378 Q 212 370 248 420"></path>
+      <path d="M 254 372 Q 306 372 340 330 Q 292 322 254 372"></path>
+      <path d="M 262 300 Q 210 296 180 254 Q 230 250 262 300"></path>
+      <path d="M 272 252 Q 322 248 354 208 Q 306 202 272 252"></path>
+      <path d="M 286 180 Q 238 172 212 130 Q 258 128 286 180"></path>
+      <path d="M 296 140 Q 344 134 372 96 Q 326 90 296 140"></path>
+      <path d="M 314 56 Q 336 18 368 2 Q 330 0 314 56"></path>
+    </g>
+  </svg>
+  <div style="position: relative; width: 100%; max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(28px, 4vh, 44px);">
+    <span data-rv="1" aria-hidden="true" style="display: block; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(88px, 11vw, 150px); line-height: 0.55; color: #DFB49B; opacity: 0; transform: translateY(16px); transition: opacity 900ms cubic-bezier(0.22,0.61,0.36,1), transform 900ms cubic-bezier(0.22,0.61,0.36,1);">“</span>
     <div data-rv="1" style="display: flex; align-items: center; gap: 16px; opacity: 0; transform: translateY(16px); transition: opacity 800ms cubic-bezier(0.22,0.61,0.36,1), transform 800ms cubic-bezier(0.22,0.61,0.36,1);">
       <span style="width: 46px; height: 1px; background: rgba(152,163,149,0.75);"></span>
       <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: rgba(245,243,236,0.72);">A LETTER FROM THE FOUNDERS</span>
@@ -803,7 +843,7 @@
         <div data-rv="3" style="opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
           <div data-rv-line="3" style="height: 1px; background: rgba(245,243,236,0.16); margin-bottom: 16px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
           <div style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: rgba(245,243,236,0.5);">PHONE</div>
-          <a href="tel:+96170816041" style="display: inline-block; margin-top: 10px; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(21px, 1.8vw, 26px); line-height: 1.3; color: #F5F3EC; transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">70 816 041</a>
+          <a href="tel:+96170816041" style="display: inline-block; margin-top: 10px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: clamp(18px, 1.5vw, 22px); letter-spacing: 0.05em; line-height: 1.4; color: #F5F3EC; transition: color 250ms cubic-bezier(0.22,1,0.36,1);" style-hover="color: #B88A6A;">70 816 041</a>
         </div>
         <div data-rv="4" style="opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
           <div data-rv-line="4" style="height: 1px; background: rgba(245,243,236,0.16); margin-bottom: 16px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
@@ -813,7 +853,7 @@
         <div data-rv="5" style="opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
           <div data-rv-line="5" style="height: 1px; background: rgba(245,243,236,0.16); margin-bottom: 16px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
           <div style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: rgba(245,243,236,0.5);">HOURS</div>
-          <div style="margin-top: 10px; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.4; color: #F5F3EC;">Monday – Saturday<br>10:00 AM – 7:00 PM</div>
+          <div style="margin-top: 10px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: clamp(16px, 1.3vw, 19px); letter-spacing: 0.03em; line-height: 1.55; color: #F5F3EC;">Monday – Saturday<br>10:00 AM – 7:00 PM</div>
         </div>
         <div data-rv="6" style="opacity: 0; transform: translateY(18px); transition: opacity 900ms cubic-bezier(0.22,1,0.36,1), transform 900ms cubic-bezier(0.22,1,0.36,1);">
           <div data-rv-line="6" style="height: 1px; background: rgba(245,243,236,0.16); margin-bottom: 16px; transform: scaleX(0); transform-origin: left center; transition: transform 900ms cubic-bezier(0.33,0.8,0.4,1);"></div>
@@ -868,7 +908,13 @@
 </footer></x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;videoPosition&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;50% center&quot;,&quot;62% center&quot;,&quot;75% center&quot;,&quot;100% center&quot;],&quot;default&quot;:&quot;62% center&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Background&quot;},&quot;veilOpacity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0.4,&quot;max&quot;:1,&quot;step&quot;:0.05,&quot;default&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Background&quot;}}">
 class Component extends DCLogic {
-  state = { cat: "biologique", sub: {}, expanded: null, hoveredRow: null, anim: 0, faqOpen: 0, faqHover: null };
+  state = { cat: "biologique", sub: {}, expanded: null, hoveredRow: null, anim: 0, faqOpen: 0, faqHover: null, cart: [] };
+  toggleCart(id, name) {
+    const cart = this.state.cart.slice();
+    const i = cart.findIndex((c) => c.id === id);
+    if (i >= 0) cart.splice(i, 1); else cart.push({ id: id, n: name });
+    this.setState({ cart: cart });
+  }
   faqData = [
     { q: "What services does Malaya offer?", a: "Malaya brings together advanced aesthetic medicine, facial treatments, laser technologies, massage therapies, physiotherapy, beauty services, hair care, nails, waxing, threading and wellness experiences—all under one roof, with every treatment tailored to your individual needs." },
     { q: "How do I know which treatment is right for me?", a: "Every visit begins with a personalized consultation. Our specialists assess your skin, lifestyle and goals before recommending the treatment—or combination of treatments—that will deliver the best results." },
@@ -938,10 +984,10 @@ class Component extends DCLogic {
     const R = (a, b) => this.stRamp(p, a, b);
     const E = this.stEase;
     const red = this.reduced;
-    const s1o = R(0.02, 0.07) * (1 - R(0.13, 0.17));
+    const s1o = R(0.0, 0.045) * (1 - R(0.13, 0.17));
     q.s1.style.opacity = s1o.toFixed(3);
-    q.s1.style.transform = red ? "none" : "translateY(" + ((1 - E(R(0.02, 0.07))) * 24 - E(R(0.13, 0.17)) * 18).toFixed(1) + "px)";
-    q.eyebrow.style.opacity = R(0.02, 0.06).toFixed(3);
+    q.s1.style.transform = red ? "none" : "translateY(" + ((1 - E(R(0.0, 0.045))) * 24 - E(R(0.13, 0.17)) * 18).toFixed(1) + "px)";
+    q.eyebrow.style.opacity = R(0.0, 0.04).toFixed(3);
     const rv = E(R(0.15, 0.3));
     const grandDim = E(R(0.84, 0.92));
     q.clip.style.opacity = rv.toFixed(3);
@@ -985,7 +1031,7 @@ class Component extends DCLogic {
       const sl = q["slice" + i];
       sl.style.filter = h === -1 ? "brightness(1)" : (h === i ? "brightness(1.07)" : "brightness(0.78)");
       if (this.narrow && hold) {
-        sl.style.filter = capIn > 0.5 ? "brightness(1.06)" : "brightness(0.85)";
+        sl.style.filter = capIn > 0.5 ? "brightness(1.18)" : "brightness(0.55)";
       }
     }
     if (this.narrow) {
@@ -1396,6 +1442,7 @@ class Component extends DCLogic {
       const rows = (g.items || []).map((it, ii) => {
         const id = cat.id + "-" + (activeSub ? activeSub.id + "-" : "") + gi + "-" + ii;
         const open = this.state.expanded === id;
+        const added = this.state.cart.some((c) => c.id === id);
         const i = ri++;
         const hasDetails = !!(it.d || (it.opts && it.opts.length) || it.note);
         const toggle = () => { if (hasDetails) this.setState({ expanded: open ? null : id }); };
@@ -1417,13 +1464,17 @@ class Component extends DCLogic {
           key: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } },
           enter: () => this.setState({ hoveredRow: id }),
           leave: () => this.setState({ hoveredRow: null }),
-          book: (e) => e.stopPropagation(),
-          waHref: "https://wa.me/96170816041?text=" + encodeURIComponent('Hello Malaya! I would like to book "' + it.n + '". Could you share the next available time?'),
+          book: (e) => { e.stopPropagation(); this.toggleCart(id, it.n); },
+          added: added,
+          bookLabel: added ? "ADDED" : "BOOK",
+          bookBg: added ? "#2F4938" : "rgba(47,73,56,0.06)",
+          bookFg: added ? "#F5F3EC" : "#2F4938",
+          bookBc: added ? "#2F4938" : "rgba(47,73,56,0.4)",
           hasDesc: !!it.d, desc: it.d || "",
           hasOpts: !!(it.opts && it.opts.length),
           opts: (it.opts || []).map((o) => ({ k: o[0], v: o[1] })),
           hasNote: !!it.note, note: it.note || "",
-          ariaLabel: "Book " + it.n
+          ariaLabel: (added ? "Remove from booking: " : "Add to booking: ") + it.n
         };
       });
       return {
@@ -1498,6 +1549,9 @@ class Component extends DCLogic {
       chipRef: (el) => { this.catChipEl = el; },
       chipTap: () => { const t = this.tabsEl; if (t) window.scrollTo({ top: window.scrollY + t.getBoundingClientRect().top - 80, behavior: this.reduced ? "auto" : "smooth" }); },
       activeCatLabel: cat.label,
+      cartShow: this.state.cart.length ? "1" : "0",
+      cartCount: String(this.state.cart.length),
+      cartHref: "https://wa.me/96170816041?text=" + encodeURIComponent("Hello Malaya! I would like to book the following treatments:\n" + this.state.cart.map((c) => "- " + c.n).join("\n") + "\nCould you share the next available time?"),
       ctaTap: () => { if (navigator.vibrate) navigator.vibrate(8); },
       evRef: (el) => { this.observeReveal(el); },
       storyRef: this.initStory,
