@@ -48,7 +48,7 @@
   #treatments [role="button"][aria-controls^="det-"] > a:active { transform: scale(0.94) !important; }
 
   /* CH.03: menu rows awaken one by one as they enter the viewport */
-  #treatments [data-row-el] { opacity: 0; transform: translateY(18px); transition: opacity 620ms cubic-bezier(0.22,0.61,0.36,1), transform 620ms cubic-bezier(0.22,0.61,0.36,1); }
+  #treatments [data-row-el] { opacity: 0; transform: translateY(18px); border-bottom-color: rgba(184,138,106,0.28) !important; transition: opacity 620ms cubic-bezier(0.22,0.61,0.36,1), transform 620ms cubic-bezier(0.22,0.61,0.36,1); }
   #treatments [data-row-el][data-row-in="1"] { opacity: 1; transform: translateY(0); }
   /* CH.03: headline words sharpen as they rise */
   section[data-screen-label="Treatments"][data-revealed="1"] h2 span[data-rv] { filter: blur(0) !important; }
@@ -68,6 +68,15 @@
   #treatments[data-revealed="1"] > svg path:nth-child(10) { transition-delay: 1460ms; }
   #treatments[data-revealed="1"] > svg path:nth-child(11) { transition-delay: 1580ms; }
   #treatments[data-revealed="1"] > svg path:nth-child(12) { transition-delay: 1700ms; }
+
+  /* CH.03: botanical menu dividers between treatment groups and at the end */
+  #treatments [data-list] > div + div::before,
+  #treatments [data-list]::after {
+    content: ""; display: block; width: 120px; height: 22px; margin: 4px auto 42px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 22'%3E%3Cg stroke='%23B88A6A' fill='none' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M8 11 H44'/%3E%3Cpath d='M76 11 H112'/%3E%3Cpath d='M60 18 Q52 11 60 4 Q68 11 60 18 Z'/%3E%3Ccircle cx='50' cy='11' r='1.2' fill='%23B88A6A' stroke='none'/%3E%3Ccircle cx='70' cy='11' r='1.2' fill='%23B88A6A' stroke='none'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+    opacity: 0.55;
+  }
+  #treatments [data-list]::after { margin: 36px auto 0; }
 
   /* CH.03: floating category chip — appears when the pills scroll away */
   [data-cat-chip] { position: fixed; top: calc(62px + env(safe-area-inset-top, 0px)); left: 50%; transform: translate(-50%, -10px); z-index: 49; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; margin: 0; border-radius: 999px; border: 1px solid rgba(245,243,236,0.16); background: rgba(20,31,24,0.78); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); color: #F5F3EC; font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; white-space: nowrap; opacity: 0; pointer-events: none; cursor: pointer; transition: opacity 320ms ease, transform 320ms cubic-bezier(0.22,1,0.36,1); }
@@ -390,13 +399,13 @@
         </div>
       </sc-if>
 
-      <div ref="{{ listRef }}">
+      <div data-list ref="{{ listRef }}">
         <sc-for list="{{ groups }}" as="g" hint-placeholder-count="1">
           <div style="margin-bottom: 46px;">
 
             <sc-if value="{{ g.hasHead }}" hint-placeholder-val="{{ false }}">
               <div style="display: flex; flex-direction: column; gap: 7px; margin: 10px 0 18px;">
-                <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: #2F4938;">{{ g.title }}</span>
+                <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: #B88A6A;">{{ g.title }}</span>
                 <sc-if value="{{ g.hasSubT }}" hint-placeholder-val="{{ false }}">
                   <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: 19px; color: rgba(42,38,32,0.85);">{{ g.subtitle }}</span>
                 </sc-if>
@@ -407,11 +416,11 @@
             </sc-if>
 
             <sc-if value="{{ g.hasRows }}" hint-placeholder-val="{{ true }}">
-              <div style="border-top: 1px solid rgba(42,38,32,0.16);">
+              <div style="border-top: 1px solid rgba(184,138,106,0.4);">
                 <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="6">
                   <div data-row-el style="border-bottom: 1px solid rgba(42,38,32,0.12);">
                     <div role="button" tabindex="0" aria-expanded="{{ r.open }}" aria-controls="det-{{ r.id }}" onClick="{{ r.toggle }}" onKeyDown="{{ r.key }}" onMouseEnter="{{ r.enter }}" onMouseLeave="{{ r.leave }}" style="display: grid; grid-template-columns: 34px minmax(0, 1fr) auto auto 18px auto; gap: clamp(10px, 2vw, 26px); align-items: center; min-height: 44px; padding: 17px 8px; cursor: pointer; background: {{ r.bg }}; transition: background 260ms ease;" style-hover="background: rgba(42,38,32,0.035);" style-focus="outline: 2px solid #2F4938; outline-offset: -2px;">
-                      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(42,38,32,0.5);">{{ r.num }}</span>
+                      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(184,138,106,0.95);">{{ r.num }}</span>
                       <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0; transform: {{ r.shift }}; transition: transform 320ms cubic-bezier(0.22,1,0.36,1);">
                         <span style="font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(18px, 1.6vw, 23px); line-height: 1.15; color: #2A2620; text-wrap: pretty;">{{ r.name }}</span>
                         <sc-if value="{{ r.hasSub }}" hint-placeholder-val="{{ false }}">
@@ -421,7 +430,7 @@
                       <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(42,38,32,0.55); white-space: nowrap;">{{ r.duration }}</span>
                       <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #2A2620; white-space: nowrap; text-align: right;">{{ r.price }}</span>
                       <span aria-hidden="true" style="font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; line-height: 1; color: rgba(42,38,32,0.55); transform: {{ r.plusRot }}; transition: transform 340ms cubic-bezier(0.22,1,0.36,1); text-align: center;">+</span>
-                      <a href="{{ r.waHref }}" target="_blank" rel="noopener" onClick="{{ r.book }}" aria-label="{{ r.ariaLabel }}" style="display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(47,73,56,0.45); color: #2F4938; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #2F4938; color: #F5F3EC; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47,73,56,0.25);" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">BOOK</a>
+                      <a href="{{ r.waHref }}" target="_blank" rel="noopener" onClick="{{ r.book }}" aria-label="{{ r.ariaLabel }}" style="display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(47,73,56,0.4); background: rgba(47,73,56,0.06); color: #2F4938; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; white-space: nowrap; transition: background 300ms cubic-bezier(0.22,1,0.36,1), color 300ms cubic-bezier(0.22,1,0.36,1), transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1);" style-hover="background: #2F4938; color: #F5F3EC; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47,73,56,0.25);" style-focus="outline: 2px solid #2F4938; outline-offset: 2px;">BOOK</a>
                     </div>
                     <div id="det-{{ r.id }}" style="display: grid; grid-template-rows: {{ r.det }}; opacity: {{ r.detOp }}; transition: grid-template-rows 420ms cubic-bezier(0.22,1,0.36,1), opacity 420ms cubic-bezier(0.22,1,0.36,1);">
                       <div style="overflow: hidden;">
