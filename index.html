@@ -219,6 +219,7 @@
        photo's lower gradient zone — never over the founders' faces.
        Beat-based crossfades from JS keep scrolling butter-smooth. */
     #team { height: 300vh !important; height: 300svh !important; }
+    #words { height: 300vh !important; height: 300svh !important; }
     [data-st="slicerow"] { width: auto !important; height: min(calc(100vh - 127px - env(safe-area-inset-top, 0px)), 150vw); height: min(calc(100svh - 127px - env(safe-area-inset-top, 0px)), 150vw); }
     [data-st="band"] { position: absolute !important; inset: 0 !important; height: auto !important; max-width: none !important; pointer-events: none !important; }
     [data-st="trio"] { justify-content: flex-end !important; gap: 8px !important; padding: 0 26px calc(44px + env(safe-area-inset-bottom, 0px)); }
@@ -1262,9 +1263,93 @@ class Component extends DCLogic {
     this.lastWordsP = p;
     this.applyWords(p);
   };
+  prepWordsM() {
+    if (this.wMPrep) return;
+    this.wMPrep = true;
+    this.wBeat = null;
+    const q = this.wq;
+    const fade = "opacity 620ms cubic-bezier(0.33,0,0.2,1), transform 720ms cubic-bezier(0.22,1,0.36,1)";
+    const T = (el, t) => { if (el) el.style.transition = t; };
+    T(q.introch, "opacity 600ms ease");
+    T(q.introtitle, fade);
+    T(q.eyebrow, "opacity 800ms ease");
+    q.stories.forEach((s) => {
+      T(s.layer, "opacity 640ms cubic-bezier(0.33,0,0.2,1), transform 760ms cubic-bezier(0.22,1,0.36,1)");
+      s.clip.style.clipPath = "inset(0% round 20px)";
+      s.clip.style.transform = "none";
+      T(s.qm, fade);
+      s.lines.forEach((ln) => T(ln, fade));
+      T(s.name, fade);
+      T(s.loc, "opacity 620ms cubic-bezier(0.33,0,0.2,1)");
+      T(s.treat, "opacity 620ms cubic-bezier(0.33,0,0.2,1)");
+    });
+  }
+  unprepWordsM() {
+    if (!this.wMPrep) return;
+    this.wMPrep = false;
+    this.wBeat = null;
+    const q = this.wq;
+    const C = (el) => { if (el) { el.style.transition = ""; el.style.transitionDelay = ""; } };
+    C(q.introch); C(q.introtitle); C(q.eyebrow);
+    q.stories.forEach((s) => {
+      C(s.layer); C(s.qm); C(s.name); C(s.loc); C(s.treat);
+      s.lines.forEach(C);
+    });
+  }
+  applyWordsM(p) {
+    const q = this.wq;
+    this.prepWordsM();
+    const b = p < 0.1 ? -1 : Math.min(3, Math.floor((p - 0.1) / 0.225));
+    if (b === this.wBeat) return;
+    this.wBeat = b;
+    const red = this.reduced;
+    const D = (el, ms) => { if (el) el.style.transitionDelay = ms + "ms"; };
+    const O = (el, v) => { if (el) el.style.opacity = v; };
+    q.eyebrow.style.opacity = "1";
+    const intro = b === -1;
+    D(q.introch, intro ? 80 : 0);
+    D(q.introtitle, intro ? 180 : 0);
+    O(q.introch, intro ? "1" : "0");
+    O(q.introtitle, intro ? "1" : "0");
+    q.introtitle.style.transform = red ? "none" : (intro ? "translateY(0px)" : "translateY(-14px)");
+    this.wordsIdx = Math.max(0, b);
+    for (let i = 0; i < 4; i++) {
+      const s = q.stories[i];
+      const on = b === i;
+      D(s.layer, on ? 60 : 0);
+      s.layer.style.opacity = on ? "1" : "0";
+      s.layer.style.transform = red ? "none" : (on ? "translateX(0%)" : (i < Math.max(0, b) ? "translateX(-5%)" : "translateX(5%)"));
+      s.layer.setAttribute("aria-hidden", on ? "false" : "true");
+      D(s.qm, on ? 260 : 0);
+      O(s.qm, on ? "1" : "0");
+      s.lines.forEach((ln, j) => {
+        D(ln, on ? 320 + j * 130 : 0);
+        O(ln, on ? "1" : "0");
+        ln.style.transform = red ? "none" : (on ? "translateY(0px)" : "translateY(14px)");
+      });
+      const nd = 320 + s.lines.length * 130;
+      D(s.name, on ? nd : 0);
+      O(s.name, on ? "1" : "0");
+      s.name.style.transform = red ? "none" : (on ? "translateY(0px)" : "translateY(10px)");
+      D(s.loc, on ? nd + 90 : 0);
+      O(s.loc, on ? "1" : "0");
+      D(s.treat, on ? nd + 160 : 0);
+      O(s.treat, on ? "1" : "0");
+    }
+    q.count.textContent = "0" + (this.wordsIdx + 1);
+    q.dots.forEach((d, i) => {
+      if (!d) return;
+      const on = i === this.wordsIdx;
+      d.style.width = on ? "26px" : "8px";
+      d.style.background = on ? "#2F4938" : "rgba(42,38,32,0.25)";
+      d.setAttribute("aria-current", on ? "true" : "false");
+    });
+  }
   applyWords(p) {
     const q = this.wq;
     if (!q) return;
+    if (this.narrow) { this.applyWordsM(p); return; }
+    this.unprepWordsM();
     const R = (v, a, b) => Math.max(0, Math.min(1, (v - a) / (b - a)));
     const E = this.stEase;
     const red = this.reduced;
