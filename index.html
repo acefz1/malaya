@@ -214,16 +214,16 @@
     #about h2 { font-size: 30px !important; line-height: 1.18 !important; }
     #about [data-count] { font-size: 20px !important; }
 
-    /* Our story: the portrait fills the stage (aspect-true, never stretched)
-       and the trio lines + founder names play ON the photo — beat-based
-       crossfades from JS, so scrolling stays butter-smooth. Pinned chapter
-       labels move to top centre so they never sit over the photos. */
-    [data-st="slicerow"] { width: auto !important; height: min(64vh, 146vw); height: min(68svh, 146vw); }
+    /* Our story: a short two-flick chapter on phones. The portrait fills
+       the stage (aspect-true, never stretched) and all words live in the
+       photo's lower gradient zone — never over the founders' faces.
+       Beat-based crossfades from JS keep scrolling butter-smooth. */
+    #team { height: 300vh !important; height: 300svh !important; }
+    [data-st="slicerow"] { width: auto !important; height: min(calc(100vh - 127px - env(safe-area-inset-top, 0px)), 150vw); height: min(calc(100svh - 127px - env(safe-area-inset-top, 0px)), 150vw); }
     [data-st="band"] { position: absolute !important; inset: 0 !important; height: auto !important; max-width: none !important; pointer-events: none !important; }
-    [data-st="trio"] { justify-content: center !important; gap: 10px !important; padding: 0 26px; }
-    [data-st="trio"] p { font-size: 27px !important; text-shadow: 0 2px 24px rgba(13,21,17,0.9), 0 1px 8px rgba(13,21,17,0.65); }
+    [data-st="trio"] { justify-content: flex-end !important; gap: 8px !important; padding: 0 26px calc(44px + env(safe-area-inset-bottom, 0px)); }
+    [data-st="trio"] p { font-size: 25px !important; text-shadow: 0 2px 24px rgba(13,21,17,0.9), 0 1px 8px rgba(13,21,17,0.65); }
     [data-st="caps"] { grid-template-columns: 1fr !important; align-content: end !important; justify-items: center !important; padding: 0 30px calc(26px + env(safe-area-inset-bottom, 0px)) !important; }
-    [data-st="caps"]::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%; background: linear-gradient(to top, rgba(13,21,17,0.94) 0%, rgba(13,21,17,0.6) 50%, rgba(13,21,17,0) 100%); pointer-events: none; }
     [data-st="caps"] [data-founder] { max-width: 340px; }
     [data-st="caps"] [data-founder] > div:nth-of-type(2) { font-size: 27px !important; }
     [data-st="caps"] [data-founder] > div:nth-of-type(3) { font-size: 11px !important; margin-top: 8px !important; }
@@ -232,7 +232,7 @@
     [data-st="eyebrow"], [data-w="eyebrow"] { top: calc(74px + env(safe-area-inset-top, 0px)) !important; left: 50% !important; transform: translateX(-50%); width: max-content; }
     [data-st="eyebrow"] span, [data-w="eyebrow"] span { font-size: 10px !important; }
     [data-w="story0"], [data-w="story1"], [data-w="story2"], [data-w="story3"] { padding-top: calc(150px + env(safe-area-inset-top, 0px)) !important; }
-    [data-st="stage"] { padding-top: calc(118px + env(safe-area-inset-top, 0px)) !important; }
+    [data-st="stage"] { padding-top: calc(103px + env(safe-area-inset-top, 0px)) !important; padding-bottom: 24px !important; }
     [data-w="stage"] { padding-top: calc(114px + env(safe-area-inset-top, 0px)) !important; }
 
     /* Pinned scenes: drop the costliest decorative layers on phones */
@@ -250,10 +250,10 @@
     #contact div[data-rv="5"] > div:last-child { font-size: 17px !important; }
   }
 
-  /* Short phones: slightly smaller story portrait so the scene never clips */
+  /* Short phones: slightly tighter top band so the scene never clips */
   @media (max-width: 759px) and (max-height: 720px) {
-    [data-st="stage"] { padding-top: calc(106px + env(safe-area-inset-top, 0px)) !important; }
-    [data-st="slicerow"] { height: min(60vh, 138vw); height: min(63svh, 138vw); }
+    [data-st="stage"] { padding-top: calc(96px + env(safe-area-inset-top, 0px)) !important; padding-bottom: 22px !important; }
+    [data-st="slicerow"] { height: min(calc(100vh - 118px - env(safe-area-inset-top, 0px)), 150vw); height: min(calc(100svh - 118px - env(safe-area-inset-top, 0px)), 150vw); }
   }
 
   /* Very small phones: tighter bar nav */
@@ -552,6 +552,7 @@
             <div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; border-radius: 20px; pointer-events: none;">
               <div data-st="sweep" style="position: absolute; top: 0; bottom: 0; left: 0; width: 62%; background: linear-gradient(100deg, rgba(223,180,155,0) 0%, rgba(223,180,155,0.12) 45%, rgba(245,243,236,0.16) 52%, rgba(223,180,155,0) 100%); animation: malayaSweep 9s ease-in-out infinite;"></div>
             </div>
+            <div data-st="pgrad" aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; height: 44%; background: linear-gradient(to top, rgba(13,21,17,0.88) 0%, rgba(13,21,17,0.5) 55%, rgba(13,21,17,0) 100%); opacity: 0; pointer-events: none;"></div>
           </div>
         </div>
       </div>
@@ -956,7 +957,7 @@ class Component extends DCLogic {
     if (!root) return false;
     if (this.stq && this.stq.stage && this.stq.stage.isConnected) return true;
     const q = {};
-    ["stage","eyebrow","dust","s1","imgwrap","breathe","clip","slicerow","slice0","slice1","slice2","shade0","shade1","shade2","sweep","trio0","trio1","trio2","caps","cap0","cap1","cap2","capline0","capline1","capline2","scrim","g1","g2"].forEach((k) => { q[k] = root.querySelector('[data-st="' + k + '"]'); });
+    ["stage","eyebrow","dust","s1","imgwrap","breathe","clip","slicerow","slice0","slice1","slice2","shade0","shade1","shade2","pgrad","sweep","trio0","trio1","trio2","caps","cap0","cap1","cap2","capline0","capline1","capline2","scrim","g1","g2"].forEach((k) => { q[k] = root.querySelector('[data-st="' + k + '"]'); });
     if (!q.stage || !q.clip || !q.caps) return false;
     this.stq = q;
     [q.slice0, q.slice1, q.slice2].forEach((s) => { if (s) s.style.transition = "border-radius 360ms ease, filter 500ms ease"; });
@@ -1029,6 +1030,7 @@ class Component extends DCLogic {
     }
     q.caps.style.gridTemplateColumns = "1fr";
     T(q.caps, "opacity 640ms ease");
+    T(q.pgrad, "opacity 700ms cubic-bezier(0.33,0,0.2,1)");
     T(q.scrim, "opacity 950ms cubic-bezier(0.33,0,0.2,1)");
     T(q.g1, fade);
     T(q.g2, fade);
@@ -1043,6 +1045,7 @@ class Component extends DCLogic {
       const el = q[k];
       if (el) { el.style.transition = ""; el.style.transitionDelay = ""; }
     });
+    if (q.pgrad) { q.pgrad.style.transition = ""; q.pgrad.style.opacity = "0"; }
     for (let i = 0; i < 3; i++) {
       const sh = q["shade" + i];
       if (sh) { sh.style.transition = ""; sh.style.transitionDelay = ""; sh.style.opacity = "0"; }
@@ -1054,7 +1057,7 @@ class Component extends DCLogic {
   applyStoryM(p) {
     const q = this.stq;
     this.prepStoryM();
-    const b = p < 0.14 ? 0 : p < 0.36 ? 1 : p < 0.53 ? 2 : p < 0.7 ? 3 : p < 0.84 ? 4 : 5;
+    const b = p < 0.12 ? 0 : p < 0.3 ? 1 : p < 0.48 ? 2 : p < 0.66 ? 3 : p < 0.84 ? 4 : 5;
     if (b === this.stBeat) return;
     this.stBeat = b;
     const red = this.reduced;
@@ -1068,6 +1071,7 @@ class Component extends DCLogic {
     D(q.clip, b === 1 ? 80 : 0);
     O(q.clip, img ? "1" : "0");
     q.clip.style.transform = red ? "none" : (img ? "scale(1)" : "scale(1.05)");
+    O(q.pgrad, img ? (b === 5 ? "0.6" : "1") : "0");
     q.slicerow.style.transform = red ? "none" :
       (b === 2 ? "scale(1.08) translateX(5.5%)" :
        b === 3 ? "scale(1.08)" :
